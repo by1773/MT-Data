@@ -1,8 +1,8 @@
 {
-  "name": "Taro_dva_Typescript",
+  "name": "MT-Data",
   "version": "1.0.0",
   "private": true,
-  "description": "Taro_dva_Typescript架构项目",
+  "description": "MT Data",
   "templateInfo": {
     "name": "default",
     "typescript": true,

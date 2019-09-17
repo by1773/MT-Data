@@ -1,8 +1,17 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: by1773
+ * @Date: 2019-09-17 13:54:16
+ * @LastEditors: by1773
+ * @LastEditTime: 2019-09-17 13:59:21
+ */
 /**
- * pages页面快速生成脚本 
- * 
- * 用法：npm run com `文件名`
- * 
+ * @name: by1773
+ * @test: test font
+ * @msg: npm run com `文件名`
+ * @param {type} 
+ * @return: 
  */
 
 const fs = require('fs');
@@ -15,7 +24,13 @@ if (!dirName) {
   process.exit(0);
 }
 
-//页面模板
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: 页面模板
+ * @param {type} 
+ * @return: 
+ */
 const indexTep = `import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { ${capPirName}Props, ${capPirName}State } from './${dirName}.interface'
@@ -43,7 +58,13 @@ class ${capPirName} extends Component<${capPirName}Props,${capPirName}State > {
 export default ${capPirName}
 `
 
-// scss文件模版
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: scss文件模版
+ * @param {type} 
+ * @return: 
+ */
 const scssTep = `@import "../../assets/scss/variables";
 
 .#{$prefix} {

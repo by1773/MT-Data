@@ -1,15 +1,17 @@
-/** 
- * 这里为了方便测试使用 Easy Mock 模拟接口数据
- * 
- * https://www.easy-mock.com/mock/5d38269ffb233553ab0d10ad/getlist
-*/
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: by1773
+ * @Date: 2019-09-17 13:54:16
+ * @LastEditors: by1773
+ * @LastEditTime: 2019-09-17 16:06:25
+ */
+export const ONLINEHOST = 'https://api.apiopen.top';
 
-export const ONLINEHOST = 'https://www.easy-mock.com/mock/5d38269ffb233553ab0d10ad';
-
 /** 
- * mock 接口
+ * mock 接口p
  * */ 
-export const MOCKHOST = 'https://www.easy-mock.com/mock/5d38269ffb233553ab0d10ad';
+export const MOCKHOST = 'https://api.apiopen.top';
 
 /** 
  * 是否mock

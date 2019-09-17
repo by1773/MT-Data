@@ -1,8 +1,18 @@
-/** 
- *  pages 页面快速生成脚本
- *  
- *  npm run tem '文件名‘
-*/
+/*
+ * @Descripttion: page 命令生成器
+ * @version: 
+ * @Author: by1773
+ * @Date: 2019-09-17 13:54:16
+ * @LastEditors: by1773
+ * @LastEditTime: 2019-09-17 14:00:39
+ */
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: npm run tem '文件名‘
+ * @param {type} 
+ * @return: 
+ */
 
 const fs = require('fs')
 const dirName = process.argv[2]
@@ -14,7 +24,13 @@ if (!dirName) {
     process.exit(0);
 }
 
-// 页面模板构建
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: 页面模板构建
+ * @param {type} 
+ * @return: 
+ */
 
 const indexTep = `
     import Taro, { Component, Config } from '@tarojs/taro'
@@ -54,7 +70,13 @@ const indexTep = `
     export default ${capPirName}
 `
 
-// scss 文件模板
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: scss 文件模板
+ * @param {type} 
+ * @return: 
+ */
 
 const scssTep = `
     @import "../../assets/scss/variables";
@@ -66,7 +88,13 @@ const scssTep = `
     }
 `
 
-// config 接口地址配置模板
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: config 接口地址配置模板
+ * @param {type} 
+ * @return: 
+ */
 
 const configTep =`
     export default {
@@ -74,7 +102,13 @@ const configTep =`
     }
 `
 
-// 接口请求模板
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: // 接口请求模板
+ * @param {type} 
+ * @return: 
+ */
 
 const serviceTep =`
     import Api from '../../utils/request'

@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: by1773
+ * @Date: 2019-09-17 13:54:16
+ * @LastEditors: by1773
+ * @LastEditTime: 2019-09-17 13:54:16
+ */
 // import Taro from '@tarojs/taro';
 import * as indexApi from './service';
 
@@ -19,7 +27,7 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            data:result.data
+            data:result
           },
         })
       }

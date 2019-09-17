@@ -2,7 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 // import Api from '../../utils/request'
-// import Tips from '../../utils/tips'
+import Tips from '../../utils/tips'
 import { IndexProps, IndexState } from './index.interface'
 import './index.scss'
 // import {  } from '../../components'
@@ -10,17 +10,25 @@ import './index.scss'
 import { F2Canvas } from 'taro-f2'
 import F2 from '@antv/f2'
 
+
+export interface Data {
+  genres:string;
+  sold:number;
+  value?:number
+}
 @connect(({ index }) => ({
     ...index,
 }))
 
 class Index extends Component<IndexProps,IndexState > {
   config:Config = {
-    navigationBarTitleText: 'taro_dva_typescript'
+    navigationBarTitleText: 'MT Data'
   }
   constructor(props: IndexProps) {
     super(props)
-    this.state = {}
+    this.state = {
+      RenderData:[]
+    }
   }
 
   async getList() {
@@ -30,8 +38,24 @@ class Index extends Component<IndexProps,IndexState > {
     })
   }
 
+  componentWillMount(){
+    Tips.loding()
+  }
+
   componentDidMount() {
     this.getList()
+    let arr:Array<any>=[]
+    let result = this.props.data
+    result && result.map((e,i)=>{
+      const obj = {
+        genre:e.name,
+        sold:Math.random() * 100
+      }
+      arr.push(obj)
+    })
+    this.setState({
+      RenderData:arr
+    })
   }
 
   drawRadar(canvas, width, height){
@@ -112,26 +136,16 @@ class Index extends Component<IndexProps,IndexState > {
   drawRadar2(canvas, width, height){
     // 柱状图
     // F2 对数据源格式的要求，仅仅是 JSON 数组，数组的每个元素是一个标准 JSON 对象。
-    const data = [
-      { genre: '语文', sold: 78 },
-      { genre: '数学', sold: 88 },
-      { genre: '外语', sold: 99 },
-      { genre: '物理', sold: 60 },
-      { genre: '化学', sold: 87 },
-      { genre: '生物', sold: 89 },
-      { genre: '地理', sold: 77 },
-      { genre: '历史', sold: 67 },
-      { genre: '政治', sold: 97 },
-    ];
+    let data= this.state.RenderData
 
     // Step 1: 创建 Chart 对象
-
+  console.log(data)
     const chart = new F2.Chart({
       el: canvas,
       width,
       height
     });
-
+  if(!data) return
     // Step 2: 载入数据源
     chart.source(data,{
       sales: {
@@ -182,26 +196,40 @@ class Index extends Component<IndexProps,IndexState > {
 
   render() {
     const { data } = this.props
-    console.log('this.props===>>',data);
+    console.log(this.props);
     
     return (
       <View className='fx-index-wrap'>
-         
-          <View className='index-topbar'>New资讯</View>
-          <View className='index-data'>
-            {
-              data && data.map((item,index) => {
-                return (
-                  <View className='index-list' key={index}>
-                    <View className='index-title'>{item.title}</View>
-                    <View className='index-img' style={`background-image: url(${item.thumbnail_pic_s})`}></View>
-                  </View>
-                )
-              })
-            }
-          </View>
-          <View className='index-topbar'>F2 图表组件</View>
-         {/* <View style='width:100%;height:500px'><F2Canvas onCanvasInit={this.drawRadar.bind(this)}></F2Canvas></View> */}
+        <View className='index-data'>
+         <View className='index-topbar'>Mock列表</View>
+         {
+           data && data.map((e,i)=>{
+              return (
+                <View key={`mock${i}`}>
+                  <View className='index-topbar'>{e.name}</View>
+                  <View style={{
+                    textAlign:"left",
+                    textIndent:'30px',
+                    fontSize:"12px",
+                    color:'#666'
+                  }}>{e.comment}</View>
+                  {
+                    e.content && e.content.map((c_e,c_i)=>{
+                      return (
+                        <View className='index-list' key={c_i}>
+                          <View className='index-title'>{c_e.title}</View>
+                          <View className='index-img' style={`background-image: url(${c_e.pic_big})`}></View>
+                        </View>
+                      )
+                    })
+                  }
+                </View>
+              )  
+           })
+         }
+         </View>
+          <View className='index-topbar'>统计图表</View>
+         <View style='width:100%;height:500px'><F2Canvas onCanvasInit={this.drawRadar.bind(this)}></F2Canvas></View>
          <View style='width:100%;height:300px'><F2Canvas onCanvasInit={this.drawRadar2.bind(this)}></F2Canvas></View>
       </View>
     )

@@ -1,6 +1,14 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: by1773
+ * @Date: 2019-09-17 13:54:16
+ * @LastEditors: by1773
+ * @LastEditTime: 2019-09-17 13:55:49
+ */
 const config = {
-  projectName: 'Taro_dva_Typescript',
-  date: '2019-7-24',
+  projectName: 'MT-Data',
+  date: '2019-9-16',
   designWidth: 750,
   deviceRatio: {
     '640': 2.34 / 2,
