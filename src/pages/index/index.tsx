@@ -1,14 +1,14 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text} from '@tarojs/components'
+import {View, Text, Input, Button,Image  } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 // import Api from '../../utils/request'
 import Tips from '../../utils/tips'
 import { IndexProps, IndexState } from './index.interface'
-import './index.scss'
+import './index.scss';
+import AddChart from "../../components/AddChart";
 // import {  } from '../../components'
 
-import { F2Canvas } from 'taro-f2'
-import F2 from '@antv/f2'
+
 
 
 export interface Data {
@@ -24,10 +24,16 @@ class Index extends Component<IndexProps,IndexState > {
   config:Config = {
     navigationBarTitleText: 'MT Data'
   }
+  addChart
   constructor(props: IndexProps) {
     super(props)
     this.state = {
-      RenderData:[]
+      RenderData:[],
+      bottom: [
+        { id: 'Move', name: '可滑动的图表'},
+        { id: 'More', name: '一个页面多个图表'},
+        { id: 'Add', name: '多图表结合在一起' }
+      ]
     }
   }
 
@@ -39,10 +45,10 @@ class Index extends Component<IndexProps,IndexState > {
   }
 
   componentWillMount(){
-    Tips.loding()
+    Tips.loding('加载中')
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getList()
     let arr:Array<any>=[]
     let result = this.props.data
@@ -56,184 +62,194 @@ class Index extends Component<IndexProps,IndexState > {
     this.setState({
       RenderData:arr
     })
+
+    const chartData = {
+      barData: [709,1917,2455,2610,1719,1433,1544,3285,5208,3372,2484,4078],
+      lineData: [1036,3693,2962,3810, 2519,1915,1748, 4675, 6209,4323,2865,4298]
+    };
+    // this.addChart.refresh(chartData);
+    let res = await Taro.login();
+    console.log(res)
+    Tips.loaded()
   }
 
-  drawRadar(canvas, width, height){
-    //  雷达图
-    // ⚠️ 别忘了这行
-    // 为了兼容微信与支付宝的小程序，你需要通过这个命令为F2打补丁
-    // F2Canvas.fixF2(F2);
 
-    const data = [
-      { name: '超大盘能力', value: 6.5 },
-      { name: '抗跌能力', value: 9.5 },
-      { name: '稳定能力', value: 9 },
-      { name: '绝对收益能力', value: 6 },
-      { name: '选证择时能力', value: 6 },
-      { name: '风险回报能力', value: 8 }
-    ];
-    const chart = new F2.Chart({
-      el: canvas,
-      width,
-      height
-    });
-    chart.source(data, {
-      value: {
-        min: 0,
-        max: 10
-      }
-    });
-    chart.coord('polar');
-    chart.axis('value', {
-      grid: {
-        lineDash: null
-      },
-      label: null,
-      line: null
-    });
-    chart.axis('name', {
-      grid: {
-        lineDash: null
-      }
-    });
-    chart.area()
-      .position('name*value')
-      .color('#FE5C5B')
-      .style({
-        fillOpacity: 0.2
-      })
-      .animate({
-        appear: {
-          animation: 'groupWaveIn'
-        }
-      });
-    chart.line()
-      .position('name*value')
-      .color('#FE5C5B')
-      .size(1)
-      .animate({
-        appear: {
-          animation: 'groupWaveIn'
-        }
-      });
-    chart.point().position('name*value').color('#FE5C5B').animate({
-      appear: {
-        delay: 300
-      }
-    });
-    chart.guide().text({
-      position: ['50%', '50%'],
-      content: '73',
-      style: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        fill: '#FE5C5B'
-      }
-    });
-    chart.render();
+  tobegin = (userInfo) => {
+
+    console.log(userInfo);
+
+
+  };
+  refAddChart = (node) => this.addChart = node
+  onShareAppMessage () {
+    return {
+      title: '各种图表在Taro中的使用',
+      path:  'pages/index/index',
+      imageUrl: 'http://img12.360buyimg.com/devfe/jfs/t1/20633/16/5554/7231/5c3f0272E1a342ec4/4ce472e34ad9a4cd.png'
+    }
   }
-
-  drawRadar2(canvas, width, height){
-    // 柱状图
-    // F2 对数据源格式的要求，仅仅是 JSON 数组，数组的每个元素是一个标准 JSON 对象。
-    let data= this.state.RenderData
-
-    // Step 1: 创建 Chart 对象
-  console.log(data)
-    const chart = new F2.Chart({
-      el: canvas,
-      width,
-      height
-    });
-  if(!data) return
-    // Step 2: 载入数据源
-    chart.source(data,{
-      sales: {
-        tickCount: 1 // 刻度
-      }
-    });
-
-    // chart.point().shape('type'); // 指定形状
-
-    chart.tooltip({
-      showTitle: true, // 是否展示标题，默认不展示
-      showCrosshairs: true, // 是否显示辅助线，点图、路径图、线图、面积图默认展示
-      showTooltipMarker: true, // 是否显示 tooltipMarker
-      showItemMarker: false,
-      background: {
-        radius: 2,
-        fill: '#1890FF',
-        padding: [3, 5]
-      },
-      tooltipMarkerStyle: {
-        fill: '#1890FF',
-        fillOpacity: 0.1
-      },
-      
-    })
-
-    // Step 3：创建图形语法，绘制柱状图，由 genre 和 sold 两个属性决定图形位置，genre 映射至 x 轴，sold 映射至 y 轴
-    chart.interval().position('genre*sold').color('sold', '#FFFFFF-#1890FF');
-    // chart.interval().position('genre*sold');
-
-
-    // 柱状图添加文本
-  data.map(function(obj) {
-    chart.guide().text({
-      position: [obj.genre, obj.sold],
-      content: obj.sold,
-      style: {
-        textAlign: 'center',
-        textBaseline: 'bottom'
-      },
-      offsetY: -4
-    });
-  });
-
-    // Step 4: 渲染图表
-    chart.render();
+  gotoEcharts(type) {
+    Taro.navigateTo({ url: `/pages/${type}/${type}` });
   }
-
   render() {
-    const { data } = this.props
     console.log(this.props);
     
     return (
-      <View className='fx-index-wrap'>
-        <View className='index-data'>
-         <View className='index-topbar'>Mock列表</View>
-         {
-           data && data.map((e,i)=>{
-              return (
-                <View key={`mock${i}`}>
-                  <View className='index-topbar'>{e.name}</View>
-                  <View style={{
-                    textAlign:"left",
-                    textIndent:'30px',
-                    fontSize:"12px",
-                    color:'#666'
-                  }}>{e.comment}</View>
-                  {
-                    e.content && e.content.map((c_e,c_i)=>{
-                      return (
-                        <View className='index-list' key={c_i}>
-                          <View className='index-title'>{c_e.title}</View>
-                          <View className='index-img' style={`background-image: url(${c_e.pic_big})`}></View>
-                        </View>
-                      )
-                    })
-                  }
-                </View>
-              )  
-           })
-         }
+        <View className="Wrap">
+         
+         <View className="Title-Item">
+              <Text>
+              普通茅台飞天53°（500ml）
+              </Text>
          </View>
-          <View className='index-topbar'>统计图表</View>
-         <View style='width:100%;height:500px'><F2Canvas onCanvasInit={this.drawRadar.bind(this)}></F2Canvas></View>
-         <View style='width:100%;height:300px'><F2Canvas onCanvasInit={this.drawRadar2.bind(this)}></F2Canvas></View>
-      </View>
+
+         <View className="Title-Item">
+              <Text>
+                今日市场价格
+                <Text>(贵州地区)</Text>
+              </Text>
+         </View>
+
+         <View className="Today-Price">
+             <View className="Today-Top">
+                  <Image className="Today-Icon" style='width: 35px;height: 35px;' src="../../assets/images/price.png"/>
+                  <Text className="Today-Num">2620.00</Text>
+             </View>
+             <View className="Today-Bottom">
+                   <Text>-135.00（0.5%）</Text>
+                   <View className="Today-Bottom-Icon" >
+                    <Image className="Today-Icon" style='width: 35px;height: 35px;' src="../../assets/images/low.png"/>
+                    <Text className="Today-Num">比昨日零售价</Text>
+                   </View>
+             </View>
+         </View>
+         <View>
+           <Text>*该价格指数由  <Text>123</Text> 位 </Text>
+           <Text>茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
+         </View>
+          {/* 昨日价格 */}
+          <View>
+              <Text>昨日市场零售价<Text>(贵州市场)</Text></Text>
+             <View>
+               {/* 上 */}
+               <View>
+                    <View>
+                        <Text>6:00am</Text>
+                        {/* <Image></Image> */}
+                        <Text>11:59am</Text>
+                    </View>
+                    <View>
+                          <View>
+                            <Text>早市价 </Text>
+                            <Text>17/9</Text>
+                          </View>
+                          <View>
+                            <Text>2580.20</Text>
+                          </View>
+                    </View>
+               </View>
+                {/* 下 */}
+                <View>
+                    <View>
+                        <Text>12:00am</Text>
+                        {/* <Image></Image> */}
+                        <Text>18:00am</Text>
+                    </View>
+                    <View>
+                          <View>
+                            <Text>晚市价 </Text>
+                            <Text>17/9</Text>
+                          </View>
+                          <View>
+                            <Text>2560.30</Text>
+                          </View>
+                    </View>
+               </View>
+             </View>
+         </View>
+
+          <View className="Submit-Container">
+            <View className="Submit-Item">
+              {/* 进货价 */}
+              <View className="Item-Fix">
+                    <Text className="top desc">进货价</Text>
+                    <Text className="bottom desc">BUYING PRICE</Text>
+              </View>
+              <View className="Input-Container">
+              <Input
+                type="number"
+                name="mobile"
+                maxLength={11}
+                placeholder="*请填写您知道的售价 可查询今日相关信息"
+                // value={this.props.mobile}
+                // onInput={this.getMobile}
+              />
+              </View>
+            </View>
+            <View className="Submit-Item">
+              {/* 出货价 */}
+              <View className="Item-Fix">
+                    <Text className="top desc">出货价</Text>
+                    <Text className="bottom desc">SELLING PRICE</Text>
+              </View>
+              <View className="Input-Container">
+              <Input
+                type="number"
+                name="mobile"
+                maxLength={11}
+                placeholder="*请填写您知道的售价 可查询今日相关信息"
+                // value={this.props.mobile}
+                // onInput={this.getMobile}
+              />
+              </View>
+            </View>
+            <View className="Submit-Item">
+              {/* 团购出货价 */}
+              <View className="Item-Fix">
+                    <Text className="top desc">团购价</Text>
+                    <Text className="bottom desc">GROUP BUYING</Text>
+              </View>
+              <View className="Input-Container">
+              <Input
+                type="number"
+                name="mobile"
+                maxLength={11}
+                placeholder="*请填写您知道的售价 可查询今日相关信息"
+                // value={this.props.mobile}
+                // onInput={this.getMobile}
+              />
+              </View>
+            </View> 
+
+            <Button className="button" 
+            onClick={this.handleClickToDetail}
+            >
+              提交<br/>SUBMIT
+            </Button>
+          </View>
+
+
+          {/* <View className="worldCloud-chart">
+              <AddChart ref={this.refAddChart} />
+            </View> */}
+        </View>
     )
   }
+/**
+ * @name: by1773
+ * @test: test font
+ * @msg: 点击进入详情的方法
+ * @param {type} 
+ * @return: 
+ */  
+handleClickToDetail():void  {
+  Taro.navigateTo({
+    url:'/pages/detail/index'
+  })
+
 }
+}
+
+
 
 export default Index

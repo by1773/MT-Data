@@ -1,47 +1,312 @@
-@import "../../assets/scss/variables";
+// 宽度
+@mixin wd($width){
+	width:$width;
+}
+// 高度
+@mixin h($height:18px){
+	height:$height
+}
+ // 字体
+@mixin FontSize($height:18px){
+	height:$height
+}
+// 颜色
+@mixin FontColor($height:18px){
+	height:$height
+}
+$BACKGROUNG:#11131f;
+$BACK_FFF:#fff;
+$BACK_000:#000;
+$FS_29:14pt;
+$FS_9:9pt;
+$FC_DE:#DEDEDE;
+$FC_DEFAULT:#fff;
+$PADING_PAGE:17px;
+$FC_DB:#26DDB1;
 
-.#{$prefix} {
+.Wrap{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: $BACKGROUNG;
+  padding: 0 $PADING_PAGE;
+    .Title-Item{
+      height: 79px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: $FC_DEFAULT;
+      font-size: 12pt;
+    }
+    .Today-Price
+    {
+      // background-image: url("../../assets/images/bg_1.png");
+      height: 227px;
+    }
+   .Submit-Container{
+     display: flex;
+     flex-direction: column;
+     .Submit-Item{
+       display: flex;
+       flex-direction: row;
+       .Item-Fix{
+         display: flex;
+         flex-direction: column;
+         .top{
+           color: $FC_DEFAULT;
+           font-size: $FS_29
+         }
+         .bottom{
+           color: $FC_DE;
+           font-size: $FS_9;
+           
+         }
+       }
+       .Input-Container{
+         flex: 1;
+         input{
+           height: 58;
+         }
+       }
+     }
+     .button {
+      width: 180px;
+      height: 78px;
+      background: #f7f7f7;
+      text-align: center;
+      line-height: 86px;
+      border-radius: 36px;
+      margin-bottom: 20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+   }
+}
 
-  &-index-wrap {
-    width: 100%;
-    min-height: 100vh;
-    .index {
-      &-topbar {
-        padding: 10rpx 50rpx;
-        text-align: center;
-        font-weight: bold;
-        color: #333;
-        font-size: 30rpx;
-      }
-  
-      &-data {
-        padding: 0 15px;
-      }
-       
-      &-title {
-        font-size: 28rpx;
-        color: #666;
-        width: 100%;
-        font-weight: bold;
-      }
-      &-list{
-        border-bottom: 1rpx solid #eee;
-        padding-bottom: 20rpx;
-        margin: 20rpx 24rpx;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center
-      }
-  
-      &-img {
-        width: 70%;
-        height: 200rpx;
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: right center;
-      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------
+
+.panel {
+  display: block;
+  margin-top: 20px;
+}
+
+.panel .chart-with-img {
+  display: inline-block;
+  width: 25%;
+  margin: 10px 4%;
+  text-align: center;
+}
+
+.chart-with-img image {
+  box-sizing: border-box;
+  width: 100%;
+  height: 200px;
+  padding: 40px;
+  background-color: #f3f3f3;
+  border: 1px solid #eee;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.chart-without-img {
+  display: block;
+  width: 92%;
+  margin: 20px 4%;
+  border: none;
+  border-radius: 0;
+}
+
+.chart-without-img button {
+  text-align: left;
+}
+
+
+
+.login-page {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  font-family: 'PingFangSC-Light', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  background: #fff;
+  a {
+    text-decoration: none;
+    display: block;
+  }
+  a:active {
+    text-decoration: none;
+    display: block;
+  }
+  a:visited {
+    text-decoration: none;
+    display: block;
+  }
+  .top-space {
+    height: 20px;
+  }
+  .title {
+    margin-top: 80px;
+    text-align: left;
+    font-weight: 600;
+    line-height: 60px;
+    padding-left: 40px;
+    font-size: 48px;
+  }
+  .title-des {
+    font-size: 24px;
+    padding-left: 40px;
+    line-height: 48px;
+  }
+  .see-des {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 200;
+    padding-top: 20px;
+    span {
+      font-weight: 600;
     }
   }
- 
+  .button {
+    height: 80px;
+    line-height: 80px;
+    padding: 0;
+    margin: 0 auto;
+    font-size: 32px;
+    color: #fff;
+    background: #333;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 40px;
+  }
+
+  input::-webkit-input-placeholder {
+    color: #999;
+    font-size: 28px;
+  }
+  input:-ms-input-placeholder {
+    // IE10+
+    color: #999;
+    font-size: 28px;
+  }
+  input:-moz-placeholder {
+    // Firefox4-18
+    color: #999;
+    font-size: 28px;
+  }
+  input::-moz-placeholder {
+    // Firefox19+
+    color: #999;
+    font-size: 28px;
+  }
+  .bgtopWrap {
+    width: 750px;
+    background: #ffffff;
+    background-size: 100%;
+    overflow: hidden;
+    margin-top: 180px;
+  }
+  .loginWrap {
+    margin: 0px auto 0 auto;
+    border-radius: 10px;
+    padding: 30px 40px 30px 40px;
+    overflow: hidden;
+    position: relative;
+  }
+  .inpuWrapMpblie {
+    height: 80px;
+    margin: 20px auto 0px auto;
+    overflow: hidden;
+    border-bottom: 1px solid #f8f8f8;
+    input {
+      border: 0;
+      height: 80px;
+      font-size: 28px;
+      width: 100%;
+      outline: 0;
+      background-color: transparent;
+      -webkit-appearance: none;
+      overflow: hidden;
+      padding: 0 0 0 20px;
+      margin: 0;
+      text-align: left;
+      color: #333;
+    }
+  }
+
+  .inpuWrapNumber {
+    height: 80px;
+    margin: 20px 0 0px 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #f8f8f8;
+    input {
+      width: 275px;
+      height: 80px;
+      font-size: 28px;
+      outline: 0;
+      background-color: transparent;
+      -webkit-appearance: none;
+      overflow: hidden;
+      padding: 0 0 0 20px;
+      margin: 0;
+      border: 0;
+      float: left;
+      text-align: left;
+      color: #333;
+    }
+  }
+
+  .numberWrap {
+    width: 198px;
+    height: 74px;
+    border: 1px solid #ffffff;
+    font-size: 28px;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 74px;
+    float: right;
+    margin-left: 20px;
+    background: #fff;
+    color: #d64761;
+  }
+
+  .erroMessage {
+    position: absolute;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+    top: 220px;
+    right: 120px;
+    height: 24px;
+  }
+  .am-toast .am-toast-notice-content .am-toast-text {
+    padding: 15px;
+    font-size: 18px !important;
+    border-radius: 10px !important;
+  }
+  .copyright {
+    text-align: center;
+    font-size: 16px;
+    line-height: 40px;
+    padding: 50px 10px 40px 10px;
+  }
 }
