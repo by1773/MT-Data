@@ -1,23 +1,27 @@
 @import "../../assets/scss/variables";
-
-
+.Padding-H {
+ padding: 0 $PADING_PAGE;
+}
+.Border-Right{
+  border-right: 1pt solid #B5B5B5;
+}
 .Wrap{
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
   background: $BACKGROUNG;
-  padding: 0 $PADING_PAGE;
+  
     .Title-Item{
-      height: 79px;
+      height: 50Px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      // justify-content: center;
       color: $FC_DEFAULT;
       font-size: 12pt;
     }
     .Today-Price {
-      // background-image: url("../../assets/images/bg_1.png");
+      background-image: url("../../assets/images/logo.png");
       height: 227px;
      display:flex;
      flex-direction: column;
@@ -70,6 +74,7 @@
           text-align: left;
           font-size: $FS_12;
           color: $FC_DEFAULT;
+          margin: 10px 0;
         .To-Price-Active{
             font-size: $FS_9;
             color: $FC_DEFAULT;
@@ -82,7 +87,7 @@
           display: flex;
           flex: 1;
           flex-direction: row;
-          padding: 10px 0;
+          padding: 10px 15px;
           .Price-AP-L{
             display: flex;
             flex-direction: column;
@@ -93,6 +98,7 @@
             image{
               width: 9pt;
               height: 115pt;
+              margin: 5px 0px;
             }
           }
 
@@ -101,6 +107,7 @@
             flex: 1;
             flex-direction: column;
             .Price-AP-R-T{
+              padding: 0 5Px;
               display: flex;
               flex-direction: row;
               justify-content: space-between;
@@ -110,12 +117,20 @@
             }
 
             .Price-AP-R-B{
-              display: flex;
-              flex-direction: column;
-              justify-content: flex-start;
-              text-align: left;
-              color: $FC_DEFAULT;
-              font-size: $FS_16;
+               flex: 1;
+               display: flex;
+               flex-direction: row;
+               justify-content: center;
+               align-items: center;
+              .Price-AP-R-B-C{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                text-align: left;
+                color: $FC_DEFAULT;
+                font-size: $FS_16;
+
+              }
             }
           }
         }
@@ -125,10 +140,12 @@
      display: flex;
      flex-direction: column;
      margin: 10Px 0;
+     padding: 0 50px;
      .Submit-Item{
        display: flex;
        flex-direction: row;
        .Item-Fix{
+          width: 95Px;
          display: flex;
          flex-direction: column;
          .desc{
@@ -148,10 +165,15 @@
        }
        .Input-Container{
          flex: 1;
+         display: flex;
+         align-items: center;
+         margin: 8px 0;
+         overflow: hidden;
          input{
-           height: 58;
+           height: 38Px;
            width: 465Px;
-           background: red;
+           background: #171a24;
+           border-radius: 10px;
          }
          .input-p{
            color: $FC_5C5B5B;
@@ -160,16 +182,17 @@
        }
      }
      .button {
-      width: 180px;
-      height: 78px;
-      background: #f7f7f7;
-      text-align: center;
-      line-height: 86px;
-      border-radius: 36px;
-      margin-bottom: 20px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        margin: 20px 0;
+        image{
+          width: 100%;
+          height: 50Px;
+        }
+      }
    }
 }
 

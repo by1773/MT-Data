@@ -1,12 +1,13 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Button, Image } from '@tarojs/components'
+import { View, Button, Image,Text } from '@tarojs/components'
 // import TaroCanvasDrawer from '../../component/taro-plugin-canvas'; // 拷贝文件到component的引入方式
 import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
 import './index.scss'
 import { AtIcon } from 'taro-ui'
+import * as appImg  from '../../assets/images/index'
 export default class Detail extends Component {
   config = {
-    navigationBarTitleText: '详情'
+    navigationBarTitleText: '价格指数'
   }
   constructor(props) {
     super(props);
@@ -19,42 +20,25 @@ export default class Detail extends Component {
       canvasStatus: false,
       rssConfig: {
         width: 750,
-        height: 850,
+        height: 1334,
         backgroundColor: '#fff',
         debug: false,
-        blocks: [
+        images:[
           {
-            x: 0,
-            y: 0,
-            width: 750,
-            height: 850,
-            paddingLeft: 0,
-            paddingRight: 0,
-            borderWidth: 0,
-            // borderColor: '#ccc',
-            backgroundColor: '#EFF3F5',
-            borderRadius: 0,
-          },
-          {
-            x: 40,
-            y: 40,
-            width: 670,
-            height: 770,
-            paddingLeft: 0,
-            paddingRight: 0,
-            borderWidth: 0,
-            // borderColor: '#ccc',
-            backgroundColor: '#fff',
-            borderRadius: 12,
+            x:0
+            y:0,
+            url:'../../assets/images/price.png',
+            width:199,
+            height:54
           }
         ],
         texts: [
           {
             x: 80,
-            y: 420,
+            y: 300,
             text: '该数据来自于128人统计，仅供参考！',
             fontSize: 32,
-            color: '#000',
+            color: '#9e9e9e',
             opacity: 1,
             baseLine: 'middle',
             lineHeight: 48,
@@ -62,107 +46,6 @@ export default class Detail extends Component {
             textAlign: 'left',
             width: 580,
             zIndex: 999,
-          },
-          {
-            x: 80,
-            y: 490,
-            text: '平均进货价:  RMB 2233元/瓶',
-            fontSize: 32,
-            color: '#000',
-            opacity: 1,
-            baseLine: 'middle',
-            lineHeight: 48,
-            lineNum: 2,
-            textAlign: 'left',
-            width: 580,
-            zIndex: 999,
-          },
-          {
-            x: 80,
-            y: 560,
-            text: '平均出货价:  RMB 2533元/瓶',
-            fontSize: 32,
-            color: '#000',
-            opacity: 1,
-            baseLine: 'middle',
-            lineHeight: 48,
-            lineNum: 2,
-            textAlign: 'left',
-            width: 580,
-            zIndex: 999,
-          },
-          {
-            x: 80,
-            y: 630,
-            text: '平均团购进货价:   RMB 2033元/瓶',
-            fontSize: 32,
-            color: '#000',
-            opacity: 1,
-            baseLine: 'middle',
-            lineHeight: 48,
-            lineNum: 2,
-            textAlign: 'left',
-            width: 580,
-            zIndex: 999,
-          },
-          {
-            x: 80,
-            y: 700,
-            text: '长按扫描二维码阅读完整内容',
-            fontSize: 24,
-            color: '#666',
-            opacity: 1,
-            baseLine: 'middle',
-            textAlign: 'left',
-            lineHeight: 36,
-            lineNum: 1,
-            zIndex: 999,
-          },
-          {
-            x: 80,
-            y: 740,
-            text: '分享来自 「 微信名 」',
-            fontSize: 24,
-            color: '#666',
-            opacity: 1,
-            baseLine: 'middle',
-            textAlign: 'left',
-            lineHeight: 36,
-            lineNum: 1,
-            zIndex: 999,
-          }
-        ],
-        images: [
-          {
-            url: 'http://pic.juncao.cc/rssfeed/images/demo.png',
-            width: 670,
-            height: 320,
-            y: 40,
-            x: 40,
-            borderRadius: 12,
-            zIndex: 10,
-            // borderWidth: 10,
-            // borderColor: 'red',
-          },
-          {
-            url: 'https://pic.juncao.cc/cms/images/minapp.jpg',
-            width: 110,
-            height: 110,
-            y: 680,
-            x: 560,
-            borderRadius: 100,
-            borderWidth: 0,
-            zIndex: 10,
-          },
-        ],
-        lines: [
-          {
-            startY: 540,
-            startX: 80,
-            endX: 670,
-            endY: 541,
-            width: 1,
-            color: '#eee',
           }
         ]
       },
@@ -170,7 +53,7 @@ export default class Detail extends Component {
   }
   componentDidMount(){
     // this.canvasDrawFunc.bind(this, this.state.rssConfig)
-    this.canvasDrawFunc()
+    //this.canvasDrawFunc()
   }
   // 调用绘画 => canvasStatus 置为true、同时设置config
   canvasDrawFunc = (config = this.state.rssConfig) => {
@@ -238,7 +121,7 @@ export default class Detail extends Component {
   render() {
     return (
       <View className='index'>
-        <View className='shareImage-cont'>
+        {/*<View className='shareImage-cont'>
           <Image
             className='shareImage'
             src={this.state.shareImage}
@@ -255,10 +138,125 @@ export default class Detail extends Component {
             />
             )
           }
-        </View>
-        <View className="handle-icon">
+        </View>*/}
+        {/*<View className="handle-icon">
           <View className='at-icon at-icon-download' onClick={this.saveToAlbum}></View>
           <View className='at-icon at-icon-share'></View>
+        </View>*/}
+        <View className="detail_topbar">
+          <Image 
+            src={appImg.LOGO}
+            style='width:199rpx;height:54rpx'
+          />
+          <View>
+            <Image 
+              src={appImg.DOWNLOAD}
+              style='width:25rpx;height:26rpx'
+            />
+            <Text className="topbar_down">DOWN</Text>
+          </View>
+          
+        </View>
+        <View className="detail_moutai">
+          <Text style='font-size:24rpx;color:white;'>普通茅台飞天53° (500ml)</Text>
+          <Text style='font-size:24rpx;color:white;'>待定</Text>
+        </View>
+        <View className="detail_moutai_price">
+          <View className="detail_moutai_price_an">
+            <View className="pricePanelTitle">
+              <Image 
+                src='../../assets/images/price.png'
+                style='width:37rpx;height:35rpx;'
+              />
+              <Text style='font-size:18rpx;color:#F0F0F1'>贵州市场均价</Text>
+            </View>
+            <View className="pricePanelTime">
+              2019/09/19
+            </View>
+          </View>
+          <View className="pricePanelContainer">
+            <View className="priceList">
+              <Text style='font-size:24rpx;color:white'>平均进货价：</Text>
+              <Text style='font-size:41rpx;color:white;font-weight:bold'>2550.00</Text>
+              <View className="priceListA">
+                <Text>+¥135.0</Text>
+                <View className="priceListRight">
+                  <Text>0.6%</Text>
+                  <Image
+                    src='../../assets/images/low.png'
+                    style='width:9rpx;height:19rpx;'
+                  />
+                </View>
+              </View>
+            </View>
+            <View className="priceList">
+              <Text style='font-size:24rpx;color:white'>平均进货价：</Text>
+              <Text style='font-size:41rpx;color:white;font-weight:bold'>2550.00</Text>
+              <View className="priceListA">
+                <Text>+¥135.0</Text>
+                <View className="priceListRight">
+                  <Text>0.6%</Text>
+                  <Image
+                     src={appImg.DECLINE}
+                    style='width:9rpx;height:19rpx;'
+                  />
+                </View>
+              </View>
+            </View>
+            <View className="priceList">
+              <Text style='font-size:24rpx;color:white'>平均进货价：</Text>
+              <Text style='font-size:41rpx;color:white;font-weight:bold'>2550.00</Text>
+              <View className="priceListA">
+                <Text>+¥135.0</Text>
+                <View className="priceListRight">
+                  <Text>0.6%</Text>
+                  <Image
+                     src={appImg.DECLINE}
+                    style='width:9rpx;height:19rpx;'
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          <View className="pricePanelBottom">
+            <Text style="margin-top:40rpx;">*该价格指数由<Text style="color:#FF8A00;font-size:24rpx;border-bottom:1rpx solid white;">213</Text>位</Text>
+            <Text style="margin-top:20rpx;">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
+          </View>
+        </View>
+        <View className="detail_charts">
+          <View className="detail_chartsTitle">
+            <Image 
+              src={appImg.SEVENCHART}
+              style='width:39rpx;height:27rpx'
+            />
+            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>7天趋势</Text>
+          </View>
+          <View className="detail_chartsPanel">
+            
+          </View>
+          <View className="detail_chartsMark">
+            <View className="detail_chartsMarkList">
+              <View style="background:#3D2BA4;width:44rpx;height:5rpx;"></View>
+              <View className="detail_chartsMarkListRight">
+                <Text style="font-size:16rpx;color:#FEFFFF">进货价</Text>
+                <Text style="font-size:9rpx;color:#DEDEDE">BUYING PRICE</Text>
+              </View>
+            </View>
+            <View className="detail_chartsMarkList">
+              <View style="background:#26DDB1;width:44rpx;height:5rpx;"></View>
+              <View className="detail_chartsMarkListRight">
+                <Text style="font-size:16rpx;color:#FEFFFF">出货价</Text>
+                <Text style="font-size:9rpx;color:#DEDEDE">SELLING PRICE</Text>
+              </View>
+            </View>
+            <View className="detail_chartsMarkList">
+              <View style="background:#FF8A00;width:44rpx;height:5rpx;"></View>
+              <View className="detail_chartsMarkListRight">
+                <Text style="font-size:16rpx;color:#FEFFFF">进货价</Text>
+                <Text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</Text>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
     )

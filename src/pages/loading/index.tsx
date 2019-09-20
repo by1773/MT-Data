@@ -6,7 +6,7 @@ import Tips from '../../utils/tips'
 import { IndexProps, IndexState } from './index.interface'
 import './index.scss'
 // import {  } from '../../components'
-
+import * as appImg  from '../../assets/images/index'
 import { F2Canvas } from 'taro-f2'
 import F2 from '@antv/f2'
 
@@ -57,11 +57,11 @@ class Loading extends Component<IndexProps,IndexState > {
     return (
       <View className='fx-index-wrap'>
            <View className="index-top">
-              <Image src="../../assets/images/loading/tp_logo.png"/>
-              <Image src="../../assets/images/loading/load_icon.png"/>
+              <Image src={appImg.TPLOGO}/>
+              <Image src={appImg.LOADICON}/>
            </View>
            <View  className="index-bottom">
-               <Image src="../../assets/images/loading/bt_info.png"/>
+               <Image src={appImg.BTINFO}/>
            </View>
       </View>
     )

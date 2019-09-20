@@ -5,12 +5,9 @@ import { connect } from '@tarojs/redux'
 import Tips from '../../utils/tips'
 import { IndexProps, IndexState } from './index.interface'
 import './index.scss';
-import AddChart from "../../components/AddChart";
-// import {  } from '../../components'
 
 
-
-
+import * as appImg  from '../../assets/images/index'
 export interface Data {
   genres:string;
   sold:number;
@@ -45,10 +42,12 @@ class Index extends Component<IndexProps,IndexState > {
   }
 
   componentWillMount(){
+    console.log(appImg)
     Tips.loding('加载中')
   }
 
   async componentDidMount() {
+  
     this.getList()
     let arr:Array<any>=[]
     let result = this.props.data
@@ -97,54 +96,64 @@ class Index extends Component<IndexProps,IndexState > {
     return (
         <View className="Wrap">
          
-         <View className="Title-Item">
-              <Text>
-              普通茅台飞天53°（500ml）
+         <View className="Title-Item" style="justify-content: flex-start;">
+           <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
+              <Text style="flex:1;display:flex;align-items: center;" className="Padding-H">
+                  <Text>普通茅台飞天53°（500ml）</Text>
               </Text>
+            <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
          </View>
 
-         <View className="Title-Item">
+         <View className="Title-Item Padding-H">
+            <Text style="flex:1;display:flex;align-items: center;">
               <Text>
                 今日市场价格
                 <Text>(贵州地区)</Text>
               </Text>
+              </Text>
          </View>
 
-         <View className="Today-Price">
+         <View className="Today-Price Padding-H">
+           {/* <Image src={appImg.PRICEBG}> */}
+             
              <View className="Today-Top">
-                  <Image className="Today-Icon" style='width: 35px;height: 35px;' src="../../assets/images/price.png"/>
+                  <Image className="Today-Icon" style='width: 18Px;height: 18Px;' src={appImg.PRICE}/>
                   <Text className="Today-Num">2620.00</Text>
              </View>
              <View className="Today-Bottom">
                    <Text>-135.00（0.5%）</Text>
-                    <Image className="Today-Icon" style='width: 11px;height: 24px;' src="../../assets/images/low.png"/>
+                    <Image className="Today-Icon" style='width: 11px;height: auto;' src={appImg.DECLINE}/>
                     <Text className="Today-Num">比昨日零售价</Text>
              </View>
+             
+           {/* </Image> */}
          </View>
          {/* 价格说明 */}
-         <View className="Today-Desc">
+         <View className="Today-Desc Padding-H">
            <Text className="Desc-Text">*该价格指数由  <Text className="Text-Num">123</Text> 位 </Text>
            <Text className="Desc-Text">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
          </View>
           {/* 昨日价格 */}
-          <View className="Price-Total">
-              <Text className="To-Price">昨日市场零售价<Text className="To-Price-Active">(贵州市场)</Text></Text>
+          <View className="Price-Total Padding-H">
+             <Text className="To-Price">昨日市场零售价<Text className="To-Price-Active">(贵州市场)</Text></Text>
              <View className="Price-AP-Container">
                {/* 上 */}
                <View className="Price-AP">
                     <View className="Price-AP-L">
                         <Text>6:00am</Text>
-                        <Image src="../../assets/images/pic.png"/>
+                        <Image src={appImg.VERTICALLINE}/>
                         <Text>11:59am</Text>
                     </View>
-                    <View className="Price-AP-R">
+                    <View className="Price-AP-R  Border-Right">
                           <View className="Price-AP-R-T">
                             <Text>早市价 </Text>
                             <Text>17/9</Text>
                           </View>
                           <View className="Price-AP-R-B">
-                          <Image className="Today-Icon" style='width: 19px;height: 19px;' src="../../assets/images/price.png"/>
-                            <Text>2580.20</Text>
+                          <View className="Price-AP-R-B-C">
+                            <Image className="Today-Icon" style='width: 19px;height: 19px;' src={appImg.PRICE}/>
+                              <Text>2580.20</Text>
+                          </View>
                           </View>
                     </View>
                </View>
@@ -152,7 +161,7 @@ class Index extends Component<IndexProps,IndexState > {
                 <View className="Price-AP">
                     <View className="Price-AP-L">
                         <Text>12:00am</Text>
-                        <Image src="../../assets/images/pic.png"/>
+                        <Image src={appImg.VERTICALLINE}/>
                         <Text>18:00am</Text>
                     </View>
                     <View  className="Price-AP-R">
@@ -161,8 +170,10 @@ class Index extends Component<IndexProps,IndexState > {
                             <Text>17/9</Text>
                           </View>
                           <View className="Price-AP-R-B">
-                          <Image className="Today-Icon" style='width: 19px;height: 19px;' src="../../assets/images/price.png"/>
-                            <Text>2560.30</Text>
+                              <View className="Price-AP-R-B-C">
+                                  <Image className="Today-Icon" style='width: 19px;height: 19px;'  src={appImg.PRICE}/>
+                                  <Text>2560.30</Text>
+                              </View>
                           </View>
                     </View>
                </View>
@@ -225,11 +236,14 @@ class Index extends Component<IndexProps,IndexState > {
               </View>
             </View> 
 
-            <Button className="button" 
+            {/* <Button className="button" 
             onClick={this.handleClickToDetail}
             >
               提交<br/>SUBMIT
-            </Button>
+            </Button> */}
+            <View className="button" onClick={this.handleClickToDetail}>
+              <Image  src={appImg.SUBACTIVE}/>
+            </View>
           </View>
 
 
