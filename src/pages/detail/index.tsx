@@ -5,9 +5,10 @@ import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
 import './index.scss'
 import { AtIcon } from 'taro-ui'
 import * as appImg  from '../../assets/images/index'
+import NavBar from 'taro-navigationbar';
 export default class Detail extends Component {
   config = {
-    navigationBarTitleText: '价格指数'
+    // navigationBarTitleText: '价格指数'
   }
   constructor(props) {
     super(props);
@@ -117,10 +118,40 @@ export default class Detail extends Component {
       });
     }
   }
-
+  handlerGobackClick =()=>{
+   Taro.navigateBack()
+  }
   render() {
     return (
       <View className='index'>
+        <NavBar
+          title=''
+          background='#000'
+          color="#fff"
+          // back
+          // onBack={this.handlerGobackClick}
+          renderLeft={
+            <View className='lxy-nav-bar-search' 
+            onClick={()=>{
+              this.handlerGobackClick()
+            }}
+            >
+              <Image 
+                src={appImg.LOGO}
+                style='width:199rpx;height:54rpx'
+              />
+            </View>
+          }
+          renderRight={
+            <View className='lxy-nav-bar-search'>
+                <Image 
+                  src={appImg.DOWNLOAD}
+                  style='width:25rpx;height:26rpx'
+                />
+                <Text className="topbar_down">DOWN</Text>
+            </View>
+          }
+        />
         {/*<View className='shareImage-cont'>
           <Image
             className='shareImage'
@@ -143,7 +174,7 @@ export default class Detail extends Component {
           <View className='at-icon at-icon-download' onClick={this.saveToAlbum}></View>
           <View className='at-icon at-icon-share'></View>
         </View>*/}
-        <View className="detail_topbar">
+        {/* <View className="detail_topbar">
           <Image 
             src={appImg.LOGO}
             style='width:199rpx;height:54rpx'
@@ -156,7 +187,7 @@ export default class Detail extends Component {
             <Text className="topbar_down">DOWN</Text>
           </View>
           
-        </View>
+        </View> */}
         <View className="detail_moutai">
           <Text style='font-size:24rpx;color:white;'>普通茅台飞天53° (500ml)</Text>
           <Text style='font-size:24rpx;color:white;'>待定</Text>
@@ -183,7 +214,7 @@ export default class Detail extends Component {
                 <View className="priceListRight">
                   <Text>0.6%</Text>
                   <Image
-                    src='../../assets/images/low.png'
+                    src={appImg.DECLINE}
                     style='width:9rpx;height:19rpx;'
                   />
                 </View>

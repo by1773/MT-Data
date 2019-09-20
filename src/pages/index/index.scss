@@ -5,6 +5,24 @@
 .Border-Right{
   border-right: 1pt solid #B5B5B5;
 }
+
+.renderRight{
+  display: flex;
+  flex-direction: row;
+  font-size: $FS_7;
+  .renderRight-L{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .renderRight-R{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: $FS_12
+  }
+}
 .Wrap{
   display: flex;
   flex-direction: column;
@@ -21,7 +39,7 @@
       font-size: 12pt;
     }
     .Today-Price {
-      background-image: url("../../assets/images/logo.png");
+      // background-image: url("../../assets/images/logo.png");
       height: 227px;
      display:flex;
      flex-direction: column;

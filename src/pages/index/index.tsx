@@ -6,7 +6,7 @@ import Tips from '../../utils/tips'
 import { IndexProps, IndexState } from './index.interface'
 import './index.scss';
 
-
+import NavBar from 'taro-navigationbar';
 import * as appImg  from '../../assets/images/index'
 export interface Data {
   genres:string;
@@ -19,9 +19,11 @@ export interface Data {
 
 class Index extends Component<IndexProps,IndexState > {
   config:Config = {
-    navigationBarTitleText: 'MT Data'
+    // navigationBarTitleText: 'MT Data',
+    usingComponents: {
+        // 'navbar': NavBar, 
+    },
   }
-  addChart
   constructor(props: IndexProps) {
     super(props)
     this.state = {
@@ -90,11 +92,45 @@ class Index extends Component<IndexProps,IndexState > {
   gotoEcharts(type) {
     Taro.navigateTo({ url: `/pages/${type}/${type}` });
   }
+  handlerGobackClick=()=>{
+
+  }
+  handlerGohomeClick=()=>{
+    
+  }
   render() {
     console.log(this.props);
     
     return (
         <View className="Wrap">
+          <NavBar
+          background='#fff'
+          back={false}
+          home={false}
+          // onBack={this.handlerGobackClick}
+          // onHome={this.handlerGohomeClick}
+          renderLeft={
+            <View className='lxy-nav-bar-search'>
+              <Image 
+                src={appImg.LOGO}
+                style='width:199rpx;height:54rpx'
+              />
+            </View>
+          }
+
+          renderRight={
+            <View className='renderRight'>
+               <View className="renderRight-L">
+                 <Text>17/9</Text>
+                 <Text>星期三</Text>
+               </View>
+               <View className="renderRight-R">
+                 <Text>2019</Text>
+               </View>
+            </View>
+          }
+        />
+
          
          <View className="Title-Item" style="justify-content: flex-start;">
            <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
