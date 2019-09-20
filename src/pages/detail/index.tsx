@@ -5,6 +5,7 @@ import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
 import './index.scss'
 import { AtIcon } from 'taro-ui'
 import * as appImg  from '../../assets/images/index'
+import * as LineChart  from '../../components/LineChart'
 import NavBar from 'taro-navigationbar';
 export default class Detail extends Component {
   config = {
@@ -19,6 +20,9 @@ export default class Detail extends Component {
       shareImage: null,
       // TaroCanvasDrawer 组件状态
       canvasStatus: false,
+      ec: {
+        lazyLoad: true
+      },
       rssConfig: {
         width: 750,
         height: 1334,
@@ -55,7 +59,17 @@ export default class Detail extends Component {
   componentDidMount(){
     // this.canvasDrawFunc.bind(this, this.state.rssConfig)
     //this.canvasDrawFunc()
+    const chartData = {
+      dimensions: {
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      measures: [{
+        data: [10, 52, 200, 334, 390, 330, 220]
+      }]
+    }
+    this.lineChart.refresh(chartData);
   }
+  refLineChart = (node) => this.lineChart = node
   // 调用绘画 => canvasStatus 置为true、同时设置config
   canvasDrawFunc = (config = this.state.rssConfig) => {
     this.setState({
@@ -121,6 +135,18 @@ export default class Detail extends Component {
   handlerGobackClick =()=>{
    Taro.navigateBack()
   }
+  refresh(data) {
+    this.Chart.init((canvas, width, height) => {
+      const chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      });
+      setChartData(chart, data);
+      return chart;
+    });
+  }
+
+  refChart = node => (this.Chart = node);
   render() {
     return (
       <View className='index'>
@@ -263,7 +289,46 @@ export default class Detail extends Component {
             <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>7天趋势</Text>
           </View>
           <View className="detail_chartsPanel">
-            
+            <View className="calc">
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList" style="border:0">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+            </View>
+            <View className="line-chart">
+                <LineChart ref={this.refLineChart} />
+            </View> 
           </View>
           <View className="detail_chartsMark">
             <View className="detail_chartsMarkList">
