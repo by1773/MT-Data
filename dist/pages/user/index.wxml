@@ -1,7 +1,0 @@
-<block wx:if="{{$taroCompReady}}">
-    <view class="fx-index-wrap">
-        <view class="user-login">
-            <button class="btn" open-type="getUserInfo" bindgetuserinfo="tobegin" type="primary">开启微信授权登录</button>
-        </view>
-    </view>
-</block>
