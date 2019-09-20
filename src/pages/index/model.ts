@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-20 19:06:23
+ * @LastEditTime: 2019-09-20 21:42:49
  */
 // import Taro from '@tarojs/taro';
 import * as indexApi from './service';
@@ -20,15 +20,15 @@ export default {
   effects: {
     *addQuot ({ payload },{select, call, put}){
       console.log('payload,payload',payload)
-      const { error, result} = yield call(indexApi.addQuot,{
+      const result = yield call(indexApi.addQuot,{
         ...payload
       })
       console.log('数据接口返回',result);
       
-      if (!error) {
+      // if (!error) {
         return result
-      }
-      return null
+      // }
+      // return null
     },
     *addCode ({ payload },{select, call, put}){
       yield put({

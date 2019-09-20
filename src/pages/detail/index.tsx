@@ -7,6 +7,7 @@ import { AtIcon } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import * as appImg  from '../../assets/images/index'
 import * as LineChart  from '../../components/LineChart'
+import { globalData ,NetTime,toPercent} from '../../utils/common';
 import NavBar from 'taro-navigationbar';
 
 @connect(({ detail }) => ({
@@ -26,40 +27,11 @@ export default class Detail extends Component {
       // TaroCanvasDrawer 组件状态
       canvasStatus: false,
       defaultDays:7,
+      averageData:{},
       ec: {
         lazyLoad: true
       },
-      rssConfig: {
-        width: 750,
-        height: 1334,
-        backgroundColor: '#fff',
-        debug: false,
-        images:[
-          {
-            x:0
-            y:0,
-            url:'../../assets/images/price.png',
-            width:199,
-            height:54
-          }
-        ],
-        texts: [
-          {
-            x: 80,
-            y: 300,
-            text: '该数据来自于128人统计，仅供参考！',
-            fontSize: 32,
-            color: '#9e9e9e',
-            opacity: 1,
-            baseLine: 'middle',
-            lineHeight: 48,
-            lineNum: 2,
-            textAlign: 'left',
-            width: 580,
-            zIndex: 999,
-          }
-        ]
-      },
+   
     }
   }
 
@@ -75,9 +47,13 @@ export default class Detail extends Component {
     this.props.dispatch({
       type: 'detail/getAverage',
       payload: {
+        typeOfWine:'maotaifeitian',
         method:'GET'
       }
     }).then((res)=>{
+      this.setState({
+        averageData:res
+      })
         // if(res.success){
         //    this.setState({
         //     groupPrice:null,
@@ -104,11 +80,13 @@ export default class Detail extends Component {
     const { defaultDays } =this.state
     this.props.dispatch({
       type: 'detail/getStatistics',
-      days:defaultDays,
       payload: {
+        days:defaultDays,
+        typeOfWine:'maotaifeitian',
         method:'POST'
       }
     }).then((res)=>{
+      
         // if(res.success){
         //    this.setState({
         //     groupPrice:null,
@@ -123,7 +101,8 @@ export default class Detail extends Component {
     })
    }
   componentWillMount(){
-
+   this.getAverageData()
+   this.getDaysData()
   }
   componentDidMount(){
     // this.canvasDrawFunc.bind(this, this.state.rssConfig)
@@ -140,15 +119,7 @@ export default class Detail extends Component {
   }
   refLineChart = (node) => this.lineChart = node
   // 调用绘画 => canvasStatus 置为true、同时设置config
-  canvasDrawFunc = (config = this.state.rssConfig) => {
-    this.setState({
-      canvasStatus: true,
-      config: config,
-    })
-    Taro.showLoading({
-      title: '绘制中...'
-    })
-  }
+
 
   // 绘制成功回调函数 （必须实现）=> 接收绘制结果、重置 TaroCanvasDrawer 状态
   onCreateSuccess = (result) => {
@@ -217,6 +188,7 @@ export default class Detail extends Component {
 
   refChart = node => (this.Chart = node);
   render() {
+    const {averageData} = this.state
     return (
       <View className='index'>
         <NavBar
@@ -291,7 +263,7 @@ export default class Detail extends Component {
           <View className="detail_moutai_price_an">
             <View className="pricePanelTitle">
               <Image 
-                src='../../assets/images/price.png'
+                src={appImg.PRICE}
                 style='width:37rpx;height:35rpx;'
               />
               <Text style='font-size:18rpx;color:#F0F0F1'>贵州市场均价</Text>
@@ -303,41 +275,41 @@ export default class Detail extends Component {
           <View className="pricePanelContainer">
             <View className="priceList">
               <Text style='font-size:24rpx;color:white'>平均进货价：</Text>
-              <Text style='font-size:41rpx;color:white;font-weight:bold'>2550.00</Text>
+              <Text style='font-size:41rpx;color:white;font-weight:bold'>{ averageData && averageData.average_prices.purchaseAveragePrice}</Text>
               <View className="priceListA">
-                <Text>+¥135.0</Text>
+                <Text>{ averageData && averageData.amount_of_price_increase.purchaseAveragePrice}</Text>
                 <View className="priceListRight">
-                  <Text>0.6%</Text>
+                  <Text>{ averageData && toPercent(averageData.purchasea_average_price_ratio)}</Text>
                   <Image
-                    src={appImg.DECLINE}
+                   src={ averageData.purchasea_average_price_ratio < 0 ?appImg.DECLINE:appImg.UP}
                     style='width:9rpx;height:19rpx;'
                   />
                 </View>
               </View>
             </View>
             <View className="priceList">
-              <Text style='font-size:24rpx;color:white'>平均进货价：</Text>
-              <Text style='font-size:41rpx;color:white;font-weight:bold'>2550.00</Text>
+              <Text style='font-size:24rpx;color:white'>平均出货价：</Text>
+              <Text style='font-size:41rpx;color:white;font-weight:bold'>{ averageData && averageData.average_prices.sellingAveragePrice}</Text>
               <View className="priceListA">
-                <Text>+¥135.0</Text>
+                <Text>{ averageData && averageData.amount_of_price_increase.sellingAveragePrice}</Text>
                 <View className="priceListRight">
-                  <Text>0.6%</Text>
+                  <Text>{ averageData && toPercent(averageData.sell_average_price_ratio)}</Text>
                   <Image
-                     src={appImg.DECLINE}
+                    src={ averageData.sell_average_price_ratio < 0 ?appImg.DECLINE:appImg.UP}
                     style='width:9rpx;height:19rpx;'
                   />
                 </View>
               </View>
             </View>
             <View className="priceList">
-              <Text style='font-size:24rpx;color:white'>平均进货价：</Text>
-              <Text style='font-size:41rpx;color:white;font-weight:bold'>2550.00</Text>
+              <Text style='font-size:24rpx;color:white'>平均团购价：</Text>
+              <Text style='font-size:41rpx;color:white;font-weight:bold'>{ averageData && averageData.average_prices.groupAveragePrice}</Text>
               <View className="priceListA">
-                <Text>+¥135.0</Text>
+                <Text>{ averageData && averageData.amount_of_price_increase.groupAveragePrice}</Text>
                 <View className="priceListRight">
-                  <Text>0.6%</Text>
+                  <Text>{ averageData && toPercent(averageData.group_purchase_price_ratio)}</Text>
                   <Image
-                     src={appImg.DECLINE}
+                     src={ averageData.group_purchase_price_ratio < 0 ?appImg.DECLINE:appImg.UP}
                     style='width:9rpx;height:19rpx;'
                   />
                 </View>
@@ -345,7 +317,7 @@ export default class Detail extends Component {
             </View>
           </View>
           <View className="pricePanelBottom">
-            <Text style="margin-top:40rpx;">*该价格指数由<Text style="color:#FF8A00;font-size:24rpx;border-bottom:1rpx solid white;">213</Text>位</Text>
+            <Text style="margin-top:40rpx;">*该价格指数由<Text style="color:#FF8A00;font-size:24rpx;border-bottom:1rpx solid white;">{ averageData && averageData.providing_persons_number + 100}</Text>位</Text>
             <Text style="margin-top:20rpx;">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
           </View>
         </View>
@@ -417,7 +389,7 @@ export default class Detail extends Component {
             <View className="detail_chartsMarkList">
               <View style="background:#FF8A00;width:44rpx;height:5rpx;"></View>
               <View className="detail_chartsMarkListRight">
-                <Text style="font-size:16rpx;color:#FEFFFF">进货价</Text>
+                <Text style="font-size:16rpx;color:#FEFFFF">团购价</Text>
                 <Text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</Text>
               </View>
             </View>

@@ -140,9 +140,9 @@ class Index extends Component<IndexProps,IndexState > {
   refAddChart = (node) => this.addChart = node
   onShareAppMessage () {
     return {
-      title: '各种图表在Taro中的使用',
+      title: 'MT Data茅台经销报价工具',
       path:  'pages/index/index',
-      imageUrl: 'http://img12.360buyimg.com/devfe/jfs/t1/20633/16/5554/7231/5c3f0272E1a342ec4/4ce472e34ad9a4cd.png'
+      imageUrl: 'http://139.9.1.139:8090/images/logo.png'
     }
   }
   gotoEcharts(type) {
@@ -376,10 +376,8 @@ class Index extends Component<IndexProps,IndexState > {
  * @return: 
  */  
 handleSubmit():void  {
-  Taro.navigateTo({
-    url:'/pages/detail/index'
-  })
-  return
+  
+  // return
   const { groupPrice,
           purchasePrice ,
           sellingPrice  ,isCheckPass} =this.state

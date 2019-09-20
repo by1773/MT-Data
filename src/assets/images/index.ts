@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-20 11:45:15
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-20 17:15:09
+ * @LastEditTime: 2019-09-20 21:50:10
  */
 const HOST = "http://139.9.1.139:8090/images/"
 
@@ -39,7 +39,7 @@ const TPLOGO =HOST +  'loading/tp_logo.png'
 // import BTINFO from './loading/bt_info.png'
 // import LOADICON from './loading/load_icon.png'
 // import TPLOGO from './loading/tp_logo.png'
-
+import UP from './up.png'
 export  {
     SUBACTIVE,
     SUBNOACTIVE,
@@ -53,5 +53,6 @@ export  {
     LOGO,
     BTINFO,
     LOADICON,
-    TPLOGO
+    TPLOGO,
+    UP
 }
