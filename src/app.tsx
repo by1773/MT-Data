@@ -3,7 +3,7 @@ import "@tarojs/async-await";
 import { Provider } from "@tarojs/redux";
 import dva from './utils/dva';
 import './utils/request';
-import { globalData } from './utils/common';
+import { globalData ,NetTime} from './utils/common';
 import { View, Text,Button} from '@tarojs/components'
 import models from './models'
 import Index from './pages/index'
@@ -88,7 +88,7 @@ class App extends Component {
   }
   
   componentWillMount(){
-  
+    NetTime()
   }
   componentDidShow () {}
 

@@ -4,9 +4,14 @@ import { View, Button, Image,Text } from '@tarojs/components'
 import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
 import './index.scss'
 import { AtIcon } from 'taro-ui'
+import { connect } from '@tarojs/redux'
 import * as appImg  from '../../assets/images/index'
 import * as LineChart  from '../../components/LineChart'
 import NavBar from 'taro-navigationbar';
+
+@connect(({ detail }) => ({
+  ...detail,
+}))
 export default class Detail extends Component {
   config = {
     // navigationBarTitleText: '价格指数'
@@ -20,6 +25,7 @@ export default class Detail extends Component {
       shareImage: null,
       // TaroCanvasDrawer 组件状态
       canvasStatus: false,
+      defaultDays:7,
       ec: {
         lazyLoad: true
       },
@@ -55,6 +61,69 @@ export default class Detail extends Component {
         ]
       },
     }
+  }
+
+  /**
+   * @name: by1773
+   * @test: 拉取平均数据
+   * @msg: 
+   * @param {type} 
+   * @return: 
+   */
+
+   getAverageData =() =>{
+    this.props.dispatch({
+      type: 'detail/getAverage',
+      payload: {
+        method:'GET'
+      }
+    }).then((res)=>{
+        // if(res.success){
+        //    this.setState({
+        //     groupPrice:null,
+        //     purchasePrice:null,
+        //     sellingPrice:null,
+        //     isCheckPass:false
+        //    })
+        //    Taro.navigateTo({
+        //     url:'/pages/detail/index'
+        //   })
+        // }
+    })
+   }
+
+    /**
+   * @name: by1773
+   * @test: 拉取平均数据
+   * @msg: 
+   * @param {type} 
+   * @return: 
+   */
+
+  getDaysData =() =>{
+    const { defaultDays } =this.state
+    this.props.dispatch({
+      type: 'detail/getStatistics',
+      days:defaultDays,
+      payload: {
+        method:'POST'
+      }
+    }).then((res)=>{
+        // if(res.success){
+        //    this.setState({
+        //     groupPrice:null,
+        //     purchasePrice:null,
+        //     sellingPrice:null,
+        //     isCheckPass:false
+        //    })
+        //    Taro.navigateTo({
+        //     url:'/pages/detail/index'
+        //   })
+        // }
+    })
+   }
+  componentWillMount(){
+
   }
   componentDidMount(){
     // this.canvasDrawFunc.bind(this, this.state.rssConfig)

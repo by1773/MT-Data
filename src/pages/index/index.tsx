@@ -36,12 +36,7 @@ class Index extends Component<IndexProps,IndexState > {
     }
   }
 
-  async getList() {
-    await this.props.dispatch({
-      type: 'index/getList',
-      payload: {}
-    })
-  }
+
 
   componentWillMount(){
     console.log(appImg)
@@ -111,7 +106,7 @@ class Index extends Component<IndexProps,IndexState > {
 
   async componentDidMount() {
   
-    this.getList()
+   
     let arr:Array<any>=[]
     let result = this.props.data
     result && result.map((e,i)=>{
@@ -381,7 +376,10 @@ class Index extends Component<IndexProps,IndexState > {
  * @return: 
  */  
 handleSubmit():void  {
-
+  Taro.navigateTo({
+    url:'/pages/detail/index'
+  })
+  return
   const { groupPrice,
           purchasePrice ,
           sellingPrice  ,isCheckPass} =this.state
@@ -407,12 +405,11 @@ handleSubmit():void  {
           sellingPrice:null,
           isCheckPass:false
          })
+         Taro.navigateTo({
+          url:'/pages/detail/index'
+        })
       }
   })
- 
-  // Taro.navigateTo({
-  //   url:'/pages/detail/index'
-  // })
 
 }
 

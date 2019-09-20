@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: by1773
+ * @Date: 2019-09-17 13:54:16
+ * @LastEditors: by1773
+ * @LastEditTime: 2019-09-20 20:28:05
+ */
 /** 
  * 共用函数
 */
@@ -16,3 +24,49 @@ export let globalData: any = {
 export const formatTime = time => {
     `${pad(time.getHours())}:${pad(time.getMinutes())}:${pad(time.getSeconds())}.${pad(time.getMilliseconds(), 3)}`
 }
+
+export const NetTime = ( )=>{
+
+
+    var xhr = new XMLHttpRequest();  
+    // Emulate the XMLHttpRequest() constructor in IE5 and IE6
+    if (window.XMLHttpRequest === undefined) {
+    　　window.XMLHttpRequest = function() {
+   　　 try {
+        　　// Use the latest version of the ActiveX object if available
+        　　return new ActiveXObject("Msxml2.XMLHTTP.6.0");
+   　　 }catch (e1) {
+        　　try {
+            　　　　　　// Otherwise fall back on an older version
+            　　　　　　return new ActiveXObject("Msxml2.XMLHTTP.3.0");
+            　　　　} catch(e2) {
+            　　　　　　// Otherwise, throw an error
+        　　　　 　　throw new Error("XMLHttpRequest is not supported");
+            　　　　}
+            　　}
+            };
+        }
+            xhr.open("HEAD",location.href,true);  
+            xhr.onreadystatechange=function(){  
+        if( xhr.readyState == 4 && xhr.status == 200 ){  
+         console.log(dateTimeFormate(xhr.getResponseHeader("Date")));  
+        }  
+    }  
+         xhr.send(null); 
+}
+
+
+export const  dateTimeFormate=(date)=>{
+    if(!date){
+      return
+    }else{
+      var d = new Date(date);
+      var year = d.getFullYear();
+      var month = ('0' + (d.getMonth() + 1)).slice(-2);
+      var day = ('0' + (d.getDate())).slice(-2);
+      var hour = ('0' + (d.getHours())).slice(-2);
+      var minutes = ('0' + (d.getMinutes())).slice(-2);
+      var seconds = ('0' + (d.getSeconds())).slice(-2);
+      return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
+    }
+  }

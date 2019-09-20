@@ -4,34 +4,41 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-17 13:54:16
+ * @LastEditTime: 2019-09-20 20:13:59
  */
 // import Taro from '@tarojs/taro';
-import * as indexApi from './service';
+import * as detailApi from './service';
 
 export default {
-  namespace: 'index',
+  namespace: 'detail',
   state: {
     data:[],
     v:'1.0',
   },
 
   effects: {
-    *getList({ payload },{select, call, put}){
-      const { error, result} = yield call(indexApi.getList,{
+    *getAverage({ payload },{select, call, put}){
+      const { error, result} = yield call(detailApi.getAverage,{
         ...payload
       })
       console.log('数据接口返回',result);
       
       if (!error) {
-        yield put({
-          type: 'save',
-          payload: {
-            data:result
-          },
-        })
+        return result
+      }
+    },
+
+    *getStatistics({ payload },{select, call, put}){
+      const { error, result} = yield call(detailApi.getStatistics,{
+        ...payload
+      })
+      console.log('数据接口返回',result);
+      
+      if (!error) {
+        return result
       }
     }
+
   },
 
   reducers: {
