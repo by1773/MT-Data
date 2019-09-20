@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: by1773
+ * @Date: 2019-09-17 13:54:16
+ * @LastEditors: by1773
+ * @LastEditTime: 2019-09-20 19:19:39
+ */
 import Taro,{ Component } from "@tarojs/taro";
 import { ISMOCK,MAINHOST } from "../config";
 import { commonParame,requestConfig } from "../config/requestConfig";
@@ -79,7 +87,8 @@ export class Request {
      * 
      * */ 
     static async request(opts: Options) {
-        
+        console.log('-========================================================================')
+        console.log(opts)
         // Taro.request 请求
         const res = await Taro.request(opts);
 
@@ -122,6 +131,7 @@ export class Request {
    */
 
    static getApiList(requestConfig){
+       console.log('requestConfig',requestConfig)
         if (!Object.keys(requestConfig).length) {
             return {}
         }

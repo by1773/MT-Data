@@ -4,14 +4,16 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-17 16:06:25
+ * @LastEditTime: 2019-09-20 16:33:19
  */
-export const ONLINEHOST = 'https://api.apiopen.top';
-
+// export const ONLINEHOST = 'https://api.apiopen.top';
+// http://172.16.2.9:8081/swagger-ui.html
+export const ONLINEHOST = 'http://172.16.2.9:8081/';
 /** 
  * mock 接口p
  * */ 
-export const MOCKHOST = 'https://api.apiopen.top';
+// export const MOCKHOST = 'https://api.apiopen.top';
+export const MOCKHOST = 'http://172.16.2.9:8081/';
 
 /** 
  * 是否mock

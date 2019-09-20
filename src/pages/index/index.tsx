@@ -1,5 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import {View, Text, Input, Button,Image  } from '@tarojs/components'
+import * as indexApi from './service';
 import { connect } from '@tarojs/redux'
 // import Api from '../../utils/request'
 import Tips from '../../utils/tips'
@@ -28,11 +29,10 @@ class Index extends Component<IndexProps,IndexState > {
     super(props)
     this.state = {
       RenderData:[],
-      bottom: [
-        { id: 'Move', name: '可滑动的图表'},
-        { id: 'More', name: '一个页面多个图表'},
-        { id: 'Add', name: '多图表结合在一起' }
-      ]
+      groupPrice:null,
+      purchasePrice:null,
+      sellingPrice:null,
+      isCheckPass:false,
     }
   }
 
@@ -46,6 +46,67 @@ class Index extends Component<IndexProps,IndexState > {
   componentWillMount(){
     console.log(appImg)
     Tips.loding('加载中')
+    Taro.checkSession()
+    .then(res => {
+      console.log(res)
+      return Taro.getStorage({ key: "session3rd" });
+    })
+    .catch(err => {
+      console.log(err)
+      return Taro.login()
+        .then(res => {
+          this.props.dispatch({
+            type: 'index/addCode',
+            payload: {
+              code:res.code
+            }
+          })
+          // return Taro.request({
+          //   url:'',
+          //   data: { code: res.code },
+          //   success: function(res) {
+          //     if (res.statusCode == 200 && res.data.ret == 200) {
+          //       Taro.setStorage({
+          //         key: "session3rd",
+          //         data: res.data.data.session3rd
+          //       });
+          //     } else if (res.statusCode == 500) {
+          //       Taro.showToast({
+          //         title: "发生错误,请重试！",
+          //         icon: "none"
+          //       });
+          //     }
+          //   }
+          // });
+        })
+        .catch(err => {
+          console.log(err);
+          Taro.showToast({
+            title: "发生错误,请重试！",
+            icon: "none"
+          });
+        });
+    });
+    Taro.getSetting()
+      .then(res=>{
+        if(res.authSetting["scope.userInfo"]){
+          return true;
+        }else {
+          throw new Error('没有授权')
+        }
+      })
+      .then(res=>{
+        return Taro.getUserInfo();
+      })
+      .then(res=>{
+        Taro.setStorage({
+          key: 'userInfo',
+          data: res.userInfo
+        })
+      })
+      .catch(err=>{
+        console.log(err)
+      })
   }
 
   async componentDidMount() {
@@ -227,11 +288,18 @@ class Index extends Component<IndexProps,IndexState > {
               <Input
                 type="digit"
                 name="mobile"
-                maxLength={11}
+                maxLength={5}
                 placeholder="*请填写您知道的售价 可查询今日相关信息"
                 placeholderClass="input-p"
-                // value={this.props.mobile}
+                value={this.state.purchasePrice }
                 // onInput={this.getMobile}
+                onChange={(e)=>{
+                    this.setState({
+                      purchasePrice:e.detail.value
+                    },()=>{
+                      this.handleCheckSataus()
+                    })
+                }}
               />
               </View>
             </View>
@@ -245,11 +313,18 @@ class Index extends Component<IndexProps,IndexState > {
               <Input
                 type="digit"
                 name="mobile"
-                maxLength={11}
+                maxLength={5}
                 placeholderClass="input-p"
                 placeholder="*请填写您知道的售价 可查询今日相关信息"
-                // value={this.props.mobile}
+                value={this.state.sellingPrice  }
                 // onInput={this.getMobile}
+                onChange={(e)=>{
+                    this.setState({
+                      sellingPrice:e.detail.value
+                    },()=>{
+                      this.handleCheckSataus()
+                    })
+                }}
               />
               </View>
             </View>
@@ -263,10 +338,19 @@ class Index extends Component<IndexProps,IndexState > {
               <Input
                 type="digit"
                 name="mobile"
-                maxLength={11}
+                maxLength={5}
                 placeholder="*请填写您知道的售价 可查询今日相关信息"
                 placeholderClass="input-p"
-                // value={this.props.mobile}
+                value={this.state.groupPrice  }
+                // bindinput="bindKeyInput"
+                onChange={(e)=>{
+                    this.setState({
+                      groupPrice:e.detail.value
+                    },()=>{
+                      this.handleCheckSataus()
+                    })
+                }}
+               
                 // onInput={this.getMobile}
               />
               </View>
@@ -277,8 +361,8 @@ class Index extends Component<IndexProps,IndexState > {
             >
               提交<br/>SUBMIT
             </Button> */}
-            <View className="button" onClick={this.handleClickToDetail}>
-              <Image  src={appImg.SUBACTIVE}/>
+            <View className="button" onClick={this.handleSubmit}>
+              <Image  src={ this.state.isCheckPass ?appImg.SUBACTIVE:appImg.SUBNOACTIVE}/>
             </View>
           </View>
 
@@ -296,12 +380,66 @@ class Index extends Component<IndexProps,IndexState > {
  * @param {type} 
  * @return: 
  */  
-handleClickToDetail():void  {
-  Taro.navigateTo({
-    url:'/pages/detail/index'
+handleSubmit():void  {
+
+  const { groupPrice,
+          purchasePrice ,
+          sellingPrice  ,isCheckPass} =this.state
+  if(!isCheckPass) return
+  const param = {
+    groupPrice,
+    purchasePrice,
+    sellingPrice,
+    submitUserCode :this.props.code || ''
+  }
+
+ this.props.dispatch({
+    type: 'index/addQuot',
+    payload: {
+     ...param,
+      method:'POST'
+    }
+  }).then((res)=>{
+      if(res.success){
+         this.setState({
+          groupPrice:null,
+          purchasePrice:null,
+          sellingPrice:null,
+          isCheckPass:false
+         })
+      }
   })
+ 
+  // Taro.navigateTo({
+  //   url:'/pages/detail/index'
+  // })
 
 }
+
+
+/**
+ * @name: by1773
+ * @test: 检查输入状态
+ * @msg: 
+ * @param {type} 
+ * @return: 
+ */
+
+ handleCheckSataus=()=>{
+  const { groupPrice,
+    purchasePrice ,
+    sellingPrice  } =this.state
+
+    if(groupPrice && purchasePrice && sellingPrice){
+       this.setState({
+         isCheckPass:true
+       })
+    }else{
+      this.setState({
+        isCheckPass:false
+      })
+    }
+ }
 }
 
 

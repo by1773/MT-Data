@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-19 13:47:00
+ * @LastEditTime: 2019-09-20 19:27:23
  */
 /**
  * index.state 参数类型
@@ -14,6 +14,11 @@ export interface IndexState {
     RenderData?:any,
     charts?:any,
     bottom?:any,
+    code?:any,
+    groupPrice ?:any,
+    purchasePrice ?:any,
+    sellingPrice ?:any,
+    isCheckPass?:boolean,
     RenderData2?:RenderData2Type,
 }
 

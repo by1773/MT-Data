@@ -11,6 +11,7 @@ import Loading from './pages/loading'
 import './app.scss'
 import Tips from './utils/tips'
 import 'taro-ui/dist/style/index.scss'
+
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
@@ -87,61 +88,7 @@ class App extends Component {
   }
   
   componentWillMount(){
-    Taro.checkSession()
-    .then(res => {
-      console.log(res)
-      return Taro.getStorage({ key: "session3rd" });
-    })
-    .catch(err => {
-      console.log(err)
-      return Taro.login()
-        .then(res => {
-          // return Taro.request({
-          //   url:'',
-          //   data: { code: res.code },
-          //   success: function(res) {
-          //     if (res.statusCode == 200 && res.data.ret == 200) {
-          //       Taro.setStorage({
-          //         key: "session3rd",
-          //         data: res.data.data.session3rd
-          //       });
-          //     } else if (res.statusCode == 500) {
-          //       Taro.showToast({
-          //         title: "发生错误,请重试！",
-          //         icon: "none"
-          //       });
-          //     }
-          //   }
-          // });
-        })
-        .catch(err => {
-          console.log(err);
-          Taro.showToast({
-            title: "发生错误,请重试！",
-            icon: "none"
-          });
-        });
-    });
-    Taro.getSetting()
-      .then(res=>{
-        if(res.authSetting["scope.userInfo"]){
-          return true;
-        }else {
-          throw new Error('没有授权')
-        }
-      })
-      .then(res=>{
-        return Taro.getUserInfo();
-      })
-      .then(res=>{
-        Taro.setStorage({
-          key: 'userInfo',
-          data: res.userInfo
-        })
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+  
   }
   componentDidShow () {}
 
