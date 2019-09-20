@@ -7,6 +7,7 @@ import { globalData } from './utils/common';
 import { View, Text,Button} from '@tarojs/components'
 import models from './models'
 import Index from './pages/index'
+import Loading from './pages/loading'
 import './app.scss'
 import Tips from './utils/tips'
 import 'taro-ui/dist/style/index.scss'
@@ -37,8 +38,7 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/detail/index',
-      'pages/user/index',
-
+      'pages/loading/index',
       // 'pages/Move/Move',
       // 'pages/More/More',
       // 'pages/Add/Add',
@@ -202,7 +202,7 @@ class App extends Component {
           // setLoading(false)
         })
     } else {
-      Taro.switchTab({url: '/pages/index/index'})
+      // Taro.switchTab({url: '/pages/index/index'})
     }
   }
 
@@ -211,6 +211,7 @@ class App extends Component {
     return (
       <Provider store={store}>
          <Index />
+         {/* <Loading/> */}
       </Provider>
     )
   }

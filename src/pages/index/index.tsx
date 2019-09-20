@@ -117,50 +117,51 @@ class Index extends Component<IndexProps,IndexState > {
              </View>
              <View className="Today-Bottom">
                    <Text>-135.00（0.5%）</Text>
-                   <View className="Today-Bottom-Icon" >
-                    <Image className="Today-Icon" style='width: 35px;height: 35px;' src="../../assets/images/low.png"/>
+                    <Image className="Today-Icon" style='width: 11px;height: 24px;' src="../../assets/images/low.png"/>
                     <Text className="Today-Num">比昨日零售价</Text>
-                   </View>
              </View>
          </View>
-         <View>
-           <Text>*该价格指数由  <Text>123</Text> 位 </Text>
-           <Text>茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
+         {/* 价格说明 */}
+         <View className="Today-Desc">
+           <Text className="Desc-Text">*该价格指数由  <Text className="Text-Num">123</Text> 位 </Text>
+           <Text className="Desc-Text">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
          </View>
           {/* 昨日价格 */}
-          <View>
-              <Text>昨日市场零售价<Text>(贵州市场)</Text></Text>
-             <View>
+          <View className="Price-Total">
+              <Text className="To-Price">昨日市场零售价<Text className="To-Price-Active">(贵州市场)</Text></Text>
+             <View className="Price-AP-Container">
                {/* 上 */}
-               <View>
-                    <View>
+               <View className="Price-AP">
+                    <View className="Price-AP-L">
                         <Text>6:00am</Text>
-                        {/* <Image></Image> */}
+                        <Image src="../../assets/images/pic.png"/>
                         <Text>11:59am</Text>
                     </View>
-                    <View>
-                          <View>
+                    <View className="Price-AP-R">
+                          <View className="Price-AP-R-T">
                             <Text>早市价 </Text>
                             <Text>17/9</Text>
                           </View>
-                          <View>
+                          <View className="Price-AP-R-B">
+                          <Image className="Today-Icon" style='width: 19px;height: 19px;' src="../../assets/images/price.png"/>
                             <Text>2580.20</Text>
                           </View>
                     </View>
                </View>
                 {/* 下 */}
-                <View>
-                    <View>
+                <View className="Price-AP">
+                    <View className="Price-AP-L">
                         <Text>12:00am</Text>
-                        {/* <Image></Image> */}
+                        <Image src="../../assets/images/pic.png"/>
                         <Text>18:00am</Text>
                     </View>
-                    <View>
-                          <View>
+                    <View  className="Price-AP-R">
+                          <View className="Price-AP-R-T">
                             <Text>晚市价 </Text>
                             <Text>17/9</Text>
                           </View>
-                          <View>
+                          <View className="Price-AP-R-B">
+                          <Image className="Today-Icon" style='width: 19px;height: 19px;' src="../../assets/images/price.png"/>
                             <Text>2560.30</Text>
                           </View>
                     </View>
@@ -177,10 +178,11 @@ class Index extends Component<IndexProps,IndexState > {
               </View>
               <View className="Input-Container">
               <Input
-                type="number"
+                type="digit"
                 name="mobile"
                 maxLength={11}
                 placeholder="*请填写您知道的售价 可查询今日相关信息"
+                placeholderClass="input-p"
                 // value={this.props.mobile}
                 // onInput={this.getMobile}
               />
@@ -194,9 +196,10 @@ class Index extends Component<IndexProps,IndexState > {
               </View>
               <View className="Input-Container">
               <Input
-                type="number"
+                type="digit"
                 name="mobile"
                 maxLength={11}
+                placeholderClass="input-p"
                 placeholder="*请填写您知道的售价 可查询今日相关信息"
                 // value={this.props.mobile}
                 // onInput={this.getMobile}
@@ -211,10 +214,11 @@ class Index extends Component<IndexProps,IndexState > {
               </View>
               <View className="Input-Container">
               <Input
-                type="number"
+                type="digit"
                 name="mobile"
                 maxLength={11}
                 placeholder="*请填写您知道的售价 可查询今日相关信息"
+                placeholderClass="input-p"
                 // value={this.props.mobile}
                 // onInput={this.getMobile}
               />

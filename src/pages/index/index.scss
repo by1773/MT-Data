@@ -1,28 +1,5 @@
-// 宽度
-@mixin wd($width){
-	width:$width;
-}
-// 高度
-@mixin h($height:18px){
-	height:$height
-}
- // 字体
-@mixin FontSize($height:18px){
-	height:$height
-}
-// 颜色
-@mixin FontColor($height:18px){
-	height:$height
-}
-$BACKGROUNG:#11131f;
-$BACK_FFF:#fff;
-$BACK_000:#000;
-$FS_29:14pt;
-$FS_9:9pt;
-$FC_DE:#DEDEDE;
-$FC_DEFAULT:#fff;
-$PADING_PAGE:17px;
-$FC_DB:#26DDB1;
+@import "../../assets/scss/variables";
+
 
 .Wrap{
   display: flex;
@@ -39,20 +16,126 @@ $FC_DB:#26DDB1;
       color: $FC_DEFAULT;
       font-size: 12pt;
     }
-    .Today-Price
-    {
+    .Today-Price {
       // background-image: url("../../assets/images/bg_1.png");
       height: 227px;
+     display:flex;
+     flex-direction: column;
+      .Today-Top{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        .Today-Num{
+          color: $FC_DB;
+          font-size: $FS_16;
+        }
+      }
+      .Today-Bottom{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        color: $FC_90;
+        font-size: $FS_9;
+        .Today-Num{
+          font-size: $FS_7;
+        }
+      }
+    }
+
+    .Today-Desc{
+       width: 100%;
+       display:flex;
+       flex-direction: column;
+       align-items: center;
+       margin: 50px 0;
+       .Desc-Text{
+         width: 100%;
+          display: flex;
+          justify-content: center;
+         color: $FC_DEFAULT;
+         font-size: $FS_9;
+         .Text-Num{
+           color: $FC_FF8A00;
+           font-size: $FS_12;
+           text-decoration: underline;
+         }
+       }
+    }
+
+    .Price-Total{
+      display: flex;
+      flex-direction: column;
+      .To-Price{
+          width: 100%;
+          text-align: left;
+          font-size: $FS_12;
+          color: $FC_DEFAULT;
+        .To-Price-Active{
+            font-size: $FS_9;
+            color: $FC_DEFAULT;
+        }
+      }
+      .Price-AP-Container{
+        display: flex;
+        flex-direction: row;
+        .Price-AP{
+          display: flex;
+          flex: 1;
+          flex-direction: row;
+          padding: 10px 0;
+          .Price-AP-L{
+            display: flex;
+            flex-direction: column;
+            color: $FC_54;
+            font-size: $FS_7;
+            width: 70px;
+            align-items: center;
+            image{
+              width: 9pt;
+              height: 115pt;
+            }
+          }
+
+          .Price-AP-R{
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            .Price-AP-R-T{
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              color: $FC_54;
+              font-size: $FS_7;
+            }
+
+            .Price-AP-R-B{
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+              text-align: left;
+              color: $FC_DEFAULT;
+              font-size: $FS_16;
+            }
+          }
+        }
+      }
     }
    .Submit-Container{
      display: flex;
      flex-direction: column;
+     margin: 10Px 0;
      .Submit-Item{
        display: flex;
        flex-direction: row;
        .Item-Fix{
          display: flex;
          flex-direction: column;
+         .desc{
+          width: 95Px;
+          text-align: justify;
+          text-align: center;
+         }
          .top{
            color: $FC_DEFAULT;
            font-size: $FS_29
@@ -67,6 +150,12 @@ $FC_DB:#26DDB1;
          flex: 1;
          input{
            height: 58;
+           width: 465Px;
+           background: red;
+         }
+         .input-p{
+           color: $FC_5C5B5B;
+           font-size: $FS_7
          }
        }
      }

@@ -5,3 +5,39 @@
 $prefix: 'fx';
 
 $base-z-index: 1500;
+
+
+
+// 宽度
+@mixin wd($width){
+	width:$width;
+}
+// 高度
+@mixin h($height:18px){
+	height:$height
+}
+ // 字体
+@mixin FontSize($height:18px){
+	height:$height
+}
+// 颜色
+@mixin FontColor($height:18px){
+	height:$height
+}
+$BACKGROUNG:#11131f;
+$BACK_FFF:#fff;
+$BACK_000:#000;
+$FS_29:14pt;
+$FS_9:9pt;
+$FS_6:6pt;
+$FS_7:7pt;
+$FS_12:12pt;
+$FS_16:16pt;
+$FC_DE:#DEDEDE;
+$FC_DEFAULT:#fff;
+$PADING_PAGE:17px;
+$FC_DB:#26DDB1;
+$FC_FF8A00:#FF8A00;
+$FC_54:#545454;
+$FC_90:#909090;
+$FC_5C5B5B:#5C5B5B
