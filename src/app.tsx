@@ -35,8 +35,9 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index',
       'pages/detail/index',
+      'pages/index/index',
+      
       'pages/user/index',
 
       // 'pages/Move/Move',

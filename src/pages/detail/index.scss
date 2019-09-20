@@ -1,5 +1,13 @@
 @import "../../assets/scss/variables";
-
+$BACKGROUNG:#11131f;
+$BACK_FFF:#fff;
+$BACK_000:#000;
+$FS_29:14pt;
+$FS_9:9pt;
+$FC_DE:#DEDEDE;
+$FC_DEFAULT:#fff;
+$PADING_PAGE:17px;
+$FC_DB:#26DDB1;
 .shareImage-cont{
   display: flex;
   flex-direction: row;
@@ -16,4 +24,123 @@
       margin-right: 12px;
     }
   }
+}
+.detail_topbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 40rpx;
+  padding-bottom: 40rpx;
+  padding-left: 27rpx;
+  padding-right:27rpx;
+  align-items: center;
+}
+.topbar_down{
+  color: #FEFEFF;
+  font-size: 26rpx;
+}
+.index{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: $BACKGROUNG;
+}
+.detail_moutai{
+  height: 79rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 27rpx;
+  padding-right:27rpx;
+  align-items: center;
+  border-top: 1px solid gray;
+  border-bottom:1px solid gray;
+}
+.detail_moutai_price{
+  padding-top: 16rpx;
+  padding-bottom:16rpx;
+  padding-left: 72rpx;
+  padding-right:72rpx;
+  .pricePanelTitle{
+    color: #F0F0F1;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .pricePanelTime{
+    text-align: right;
+    font-size:24rpx;
+    color: #909090;
+  }
+  .pricePanelContainer{
+    border-radius: 10rpx;
+    background: rgba(29,32,41,0.62);
+    .priceList{
+      padding: 28rpx;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      .priceListA{
+        color: #909090;
+        font-size: 20rpx;
+        .priceListRight{
+          display: flex;
+          flex-direction: row;
+        }
+      }
+    }
+  }
+  .pricePanelBottom{
+    font-size: 18rpx;
+    color: #E7E7E7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+}
+.detail_charts{
+  border-top:5rpx solid gray;
+  border-bottom:5rpx solid gray;
+  margin-bottom: 40rpx;
+  .detail_chartsTitle{
+    padding:19rpx 39rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .detail_chartsPanel{
+    height: 411rpx;
+  }
+  .detail_chartsMark{
+    padding: 0 20rpx;
+    height:71rpx;
+    display: flex;
+    flex-direction:row;
+    justify-content: flex-end; 
+    .detail_chartsMarkList{
+      display: flex;
+      flex-direction: row;
+      margin-left: 55rpx;
+      justify-content: space-between;
+      align-items: center;
+      .detail_chartsMarkListRight{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 4rpx;
+      }
+    }
+  }
+}
+.detail_moutai_price_an{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 20rpx;
+  padding-bottom: 16rpx;
 }

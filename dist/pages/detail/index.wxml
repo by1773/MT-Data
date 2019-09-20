@@ -1,0 +1,68 @@
+<block wx:if="{{$taroCompReady}}">
+    <view class="index">
+        <view class="detail_topbar">
+            <image src="../../assets/images/logo@2x.png" style="width:199rpx;height:54rpx"></image>
+            <view>
+                <image src="../../assets/images/download.png" style="width:25rpx;height:26rpx"></image><text class="topbar_down">DOWN</text>
+            </view>
+        </view>
+        <view class="detail_moutai"><text style="font-size:24rpx;color:white;">普通茅台飞天53° (500ml)</text><text style="font-size:24rpx;color:white;">待定</text>
+        </view>
+        <view class="detail_moutai_price">
+            <view class="detail_moutai_price_an">
+                <view class="pricePanelTitle">
+                    <image src="../../assets/images/price.png" style="width:37rpx;height:35rpx;"></image><text style="font-size:18rpx;color:#F0F0F1">贵州市场均价</text>
+                </view>
+                <view class="pricePanelTime">2019/09/19</view>
+            </view>
+            <view class="pricePanelContainer">
+                <view class="priceList"><text style="font-size:24rpx;color:white">平均进货价：</text><text style="font-size:41rpx;color:white;font-weight:bold">2550.00</text>
+                    <view class="priceListA"><text>+¥135.0</text>
+                        <view class="priceListRight"><text>0.6%</text>
+                            <image src="../../assets/images/low.png" style="width:9rpx;height:19rpx;"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="priceList"><text style="font-size:24rpx;color:white">平均进货价：</text><text style="font-size:41rpx;color:white;font-weight:bold">2550.00</text>
+                    <view class="priceListA"><text>+¥135.0</text>
+                        <view class="priceListRight"><text>0.6%</text>
+                            <image src="../../assets/images/low.png" style="width:9rpx;height:19rpx;"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="priceList"><text style="font-size:24rpx;color:white">平均进货价：</text><text style="font-size:41rpx;color:white;font-weight:bold">2550.00</text>
+                    <view class="priceListA"><text>+¥135.0</text>
+                        <view class="priceListRight"><text>0.6%</text>
+                            <image src="../../assets/images/low.png" style="width:9rpx;height:19rpx;"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="pricePanelBottom"><text style="margin-top:40rpx;">*该价格指数由<text style="color:#FF8A00;font-size:24rpx;border-bottom:1rpx solid white;">213</text>位</text><text style="margin-top:20rpx;">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</text>
+            </view>
+        </view>
+        <view class="detail_charts">
+            <view class="detail_chartsTitle">
+                <image src="../../assets/images/sevenChart.png" style="width:39rpx;height:27rpx"></image><text style="font-size:24rpx;color:#FEFFFF;margin-left:7rpx">7天趋势</text>
+            </view>
+            <view class="detail_chartsPanel"></view>
+            <view class="detail_chartsMark">
+                <view class="detail_chartsMarkList">
+                    <view style="background:#3D2BA4;width:44rpx;height:5rpx;"></view>
+                    <view class="detail_chartsMarkListRight"><text style="font-size:16rpx;color:#FEFFFF">进货价</text><text style="font-size:9rpx;color:#DEDEDE">BUYING PRICE</text>
+                    </view>
+                </view>
+                <view class="detail_chartsMarkList">
+                    <view style="background:#26DDB1;width:44rpx;height:5rpx;"></view>
+                    <view class="detail_chartsMarkListRight"><text style="font-size:16rpx;color:#FEFFFF">出货价</text><text style="font-size:9rpx;color:#DEDEDE">SELLING PRICE</text>
+                    </view>
+                </view>
+                <view class="detail_chartsMarkList">
+                    <view style="background:#FF8A00;width:44rpx;height:5rpx;"></view>
+                    <view class="detail_chartsMarkListRight"><text style="font-size:16rpx;color:#FEFFFF">进货价</text><text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</block>
