@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Image,Text } from '@tarojs/components'
 // import TaroCanvasDrawer from '../../component/taro-plugin-canvas'; // 拷贝文件到component的引入方式
-import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
+// import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
 import './index.scss'
 import { AtIcon } from 'taro-ui'
 import { connect } from '@tarojs/redux'
@@ -304,7 +304,7 @@ export default class Detail extends Component {
               src={appImg.SEVENCHART}
               style='width:39rpx;height:27rpx'
             />
-            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>7天趋势</Text>
+            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前7天价格曲线</Text>
           </View>
           <View className="detail_chartsPanel">
             <View className="calc">

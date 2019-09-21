@@ -39,7 +39,7 @@
       font-size: 12pt;
     }
     .Today-Price {
-      // background-image: url("../../assets/images/logo.png");
+      background-image: url("http://139.9.1.139:8090/images/priceBg.png");
       height: 227px;
      display:flex;
      flex-direction: column;
@@ -216,7 +216,121 @@
    }
 }
 
+.detail_moutai{
+  height: 79rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 27rpx;
+  padding-right:27rpx;
+  align-items: center;
+  border-top: 1px solid gray;
+  border-bottom:1px solid gray;
+}
+.detail_moutai_price{
+  padding-top: 16rpx;
+  padding-bottom:16rpx;
+  padding-left: 72rpx;
+  padding-right:72rpx;
+  .pricePanelTitle{
+    color: #F0F0F1;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .pricePanelTime{
+    text-align: right;
+    font-size:24rpx;
+    color: #909090;
+  }
+  .pricePanelContainer{
+    border-radius: 10rpx;
+    background: rgba(29,32,41,0.62);
+    .priceList{
+      padding: 28rpx;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      .priceListA{
+        color: #909090;
+        font-size: 20rpx;
+        .priceListRight{
+          display: flex;
+          flex-direction: row;
+        }
+      }
+    }
+  }
+  .pricePanelBottom{
+    font-size: 18rpx;
+    color: #E7E7E7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
+  }
+}
+.detail_charts{
+  border-top:5rpx solid gray;
+  border-bottom:5rpx solid gray;
+  .detail_chartsTitle{
+    padding:19rpx 39rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .detail_chartsPanel{
+    //height: 411rpx;
+  }
+}
+.detail_moutai_price_an{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 20rpx;
+  padding-bottom: 16rpx;
+}
+.calc{
+  display: flex;
+  flex-direction: row;
+  border-top: 1rpx solid #A0A0A0;
+  .calcList{
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    color: #FEFFFF;
+    font-size: 16rpx;
+    align-items: center;
+    border-right: 1rpx solid #A0A0A0;
+  }
+}
+.line-chart{
+  width: 100%;
+  height: 411rpx;
+}
+.detail_chartsMark{
+    padding: 0 20rpx;
+    height:71rpx;
+    display: flex;
+    flex-direction:row;
+    justify-content: flex-end; 
+    .detail_chartsMarkList{
+      display: flex;
+      flex-direction: row;
+      margin-left: 55rpx;
+      justify-content: space-between;
+      align-items: center;
+      .detail_chartsMarkListRight{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 4rpx;
+      }
+    }
+  }
 
 
 

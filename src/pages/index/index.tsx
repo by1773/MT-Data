@@ -1,12 +1,11 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import {View, Text, Input, Button,Image  } from '@tarojs/components'
-import * as indexApi from './service';
 import { connect } from '@tarojs/redux'
 // import Api from '../../utils/request'
 import Tips from '../../utils/tips'
 import { IndexProps, IndexState } from './index.interface'
 import './index.scss';
-
+import Chart from 'taro-echarts'
 import NavBar from 'taro-navigationbar';
 import * as appImg  from '../../assets/images/index'
 export interface Data {
@@ -199,7 +198,7 @@ class Index extends Component<IndexProps,IndexState > {
          <View className="Title-Item Padding-H">
             <Text style="flex:1;display:flex;align-items: center;">
               <Text>
-                今日市场价格
+                今日参考市场价格
                 <Text>(贵州地区)</Text>
               </Text>
               </Text>
@@ -365,6 +364,114 @@ class Index extends Component<IndexProps,IndexState > {
           {/* <View className="worldCloud-chart">
               <AddChart ref={this.refAddChart} />
             </View> */}
+
+
+            {/* 曲线走势图 */}
+            {/* <View className="detail_charts">
+          <View className="detail_chartsTitle">
+            <Image 
+              src={appImg.SEVENCHART}
+              style='width:39rpx;height:27rpx'
+            />
+            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前7天价格曲线</Text>
+          </View>
+          <View className="detail_chartsPanel">
+            <View className="calc">
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+              <View className="calcList" style="border:0">
+                <Text>09/13</Text>
+                <Text>星期四</Text>
+                <Text>THU</Text>
+              </View>
+            </View>
+            <View className="line-chart">
+                <Chart
+                  option={{
+                    grid:{
+                      left:0,
+                      right:0,
+                      top:0,
+                      bottom:0
+                    }
+                    xAxis: {
+                      type: 'category',
+                      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    },
+                    yAxis: {
+                      type: 'value',
+                      show:false
+                    },
+                    series: [{
+                      data: [820, 932, 901, 934, 1290, 1330, 1320],
+                      type: 'line'
+                    },
+                    {
+                      data: [500, 342, 400, 382, 1290, 888, 1320],
+                      type: 'line'
+                    },
+                    {
+                      data: [400, 410, 360, 480, 510, 490, 483],
+                      type: 'line',
+                      areaStyle: {}
+                    }
+                    ]
+                  }}
+                />
+            </View> 
+          </View>
+        </View>
+        <View className="detail_chartsMark">
+          <View className="detail_chartsMarkList">
+            <View style="background:#3D2BA4;width:44rpx;height:5rpx;"></View>
+            <View className="detail_chartsMarkListRight">
+              <Text style="font-size:16rpx;color:#FEFFFF">进货价</Text>
+              <Text style="font-size:9rpx;color:#DEDEDE">BUYING PRICE</Text>
+            </View>
+          </View>
+          <View className="detail_chartsMarkList">
+            <View style="background:#26DDB1;width:44rpx;height:5rpx;"></View>
+            <View className="detail_chartsMarkListRight">
+              <Text style="font-size:16rpx;color:#FEFFFF">出货价</Text>
+              <Text style="font-size:9rpx;color:#DEDEDE">SELLING PRICE</Text>
+            </View>
+          </View>
+          <View className="detail_chartsMarkList">
+            <View style="background:#FF8A00;width:44rpx;height:5rpx;"></View>
+            <View className="detail_chartsMarkListRight">
+              <Text style="font-size:16rpx;color:#FEFFFF">团购价</Text>
+              <Text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</Text>
+            </View>
+          </View>
+        </View> */}
         </View>
     )
   }
