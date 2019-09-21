@@ -554,7 +554,10 @@ class Index extends Component<IndexProps,IndexState > {
                              </View>
                              <View className="CK-Price-Item-B">
                                 <Text className="bigX">￥{e.price}</Text>
-                                <Text  className="small date">{e.date}</Text>
+                                <Text  className="small date">
+                                {serverTime.year || '--'}/{serverTime.mouth  || '--' }/{serverTime.toDay  || '--'}
+                                {/* {e.date} */}
+                                </Text>
                              </View>
                         </View>
                       )
