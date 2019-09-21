@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-21 17:12:49
+ * @LastEditTime: 2019-09-17 16:46:38
  */
 /**
  * index.state 参数类型
@@ -12,28 +12,7 @@
  */
 export interface IndexState {
     RenderData?:any,
-    charts?:any,
-    bottom?:any,
-    code?:any,
-    groupPrice ?:any,
-    purchasePrice ?:any,
-    sellingPrice ?:any,
-    isCheckPass?:boolean,
     RenderData2?:RenderData2Type,
-    serverTime:any,
-    dateY:any,
-    buyData:any
-    sellData:any,
-    groupData:any,
-    groupAveragePrice:any,
-    dargStyle:any,
-    downDragStyle:any,
-    upDragStyle:any,
-    downText:string,
-    pullText:string,
-    start_p:any,
-    scrollY:any,
-    dargState:any
 }
 
 /**

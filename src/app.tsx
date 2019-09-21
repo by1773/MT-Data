@@ -3,7 +3,7 @@ import "@tarojs/async-await";
 import { Provider } from "@tarojs/redux";
 import dva from './utils/dva';
 import './utils/request';
-import { globalData ,NetTime,toPercent} from './utils/common';
+import { globalData ,toPercent} from './utils/common';
 import { View, Text,Button} from '@tarojs/components'
 import models from './models'
 import Index from './pages/index'
@@ -42,10 +42,6 @@ class App extends Component {
       'pages/loading/index',
 
       'pages/index/index',
-
-      // 'pages/Move/Move',
-      // 'pages/More/More',
-      // 'pages/Add/Add',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -88,7 +84,6 @@ class App extends Component {
   }
   
   componentWillMount(){
-    NetTime()
   }
   componentDidShow () {}
 

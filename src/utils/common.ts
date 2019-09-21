@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-20 21:45:01
+ * @LastEditTime: 2019-09-21 17:40:12
  */
 /** 
  * 共用函数
@@ -25,57 +25,47 @@ export const formatTime = time => {
     `${pad(time.getHours())}:${pad(time.getMinutes())}:${pad(time.getSeconds())}.${pad(time.getMilliseconds(), 3)}`
 }
 
-export const NetTime = async ( )=>{
-    const res = await Taro.request();
-    console.log(res)
-
-
-    
-    // Emulate the XMLHttpRequest() constructor in IE5 and IE6
-    console.log(window.XMLHttpRequest)
-    if (window.XMLHttpRequest === undefined) {
-    　　window.XMLHttpRequest = function() {
-   　　 try {
-        　　// Use the latest version of the ActiveX object if available
-        　　return new ActiveXObject("Msxml2.XMLHTTP.6.0");
-   　　 }catch (e1) {
-        　　try {
-            　　　　　　// Otherwise fall back on an older version
-            　　　　　　return new ActiveXObject("Msxml2.XMLHTTP.3.0");
-            　　　　} catch(e2) {
-            　　　　　　// Otherwise, throw an error
-        　　　　 　　throw new Error("XMLHttpRequest is not supported");
-            　　　　}
-            　　}
-            };
-        }
-        var xhr = new XMLHttpRequest();  
-            xhr.open("HEAD",location.href,true);  
-            xhr.onreadystatechange=function(){  
-        if( xhr.readyState == 4 && xhr.status == 200 ){  
-         console.log(dateTimeFormate(xhr.getResponseHeader("Date")));  
-        }  
-    }  
-         xhr.send(null); 
-}
-
-
-export const  dateTimeFormate=(date)=>{
-    if(!date){
-      return
-    }else{
-      var d = new Date(date);
-      var year = d.getFullYear();
-      var month = ('0' + (d.getMonth() + 1)).slice(-2);
-      var day = ('0' + (d.getDate())).slice(-2);
-      var hour = ('0' + (d.getHours())).slice(-2);
-      var minutes = ('0' + (d.getMinutes())).slice(-2);
-      var seconds = ('0' + (d.getSeconds())).slice(-2);
-      return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
+export const DateFormat = (date) =>{
+  if(!date) return null
+  let [ week,year,mouth,weekAlias,toDay] = ['', 0, 0,'',0];
+  let dates = new Date(date)
+  const day=dates.getDay();
+  toDay = dates.getDate()
+  year = dates.getFullYear() ;
+  mouth = dates.getMonth() +1;
+    if(day==0){
+      week="星期日";
+      weekAlias='SUN'
     }
-  }
+    else if(day==1){
+      week="星期一";
+      weekAlias='MON'
+    }
+    else if (day == 2) {
+      week = "星期二";
+      weekAlias='TUE'
+    }
+    else if (day == 3) {
+      week = "星期三";
+      weekAlias='WES'
+    }
+    else if (day == 4) {
+      week = "星期四";
+      weekAlias='THU'
+    }
+    else if (day == 5) {
+      week = "星期五";
+      weekAlias='FRI'
+    }
+    else if (day == 6) {
+      week = "星期六";
+      weekAlias='STA'
+    }
 
-
+    return {
+      week,year,mouth,weekAlias,toDay
+    }
+}
 
   /**
    * @name: by1773
@@ -86,6 +76,11 @@ export const  dateTimeFormate=(date)=>{
    */  
   export const   toPercent=(point)=>{
     var str=Number(point*100).toFixed(1);
-    str+="%";
+    if(str){
+      str+="%";
+    }else{
+      str ="-%";
+    }
+   
     return str;
 }

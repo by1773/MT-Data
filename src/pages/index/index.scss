@@ -39,14 +39,29 @@
       font-size: 12pt;
     }
     .Today-Price {
-      background-image: url("http://139.9.1.139:8090/images/priceBg.png");
       height: 227px;
-     display:flex;
-     flex-direction: column;
+      display:flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      .Today-Price-Cover{
+         position: absolute;
+         top: 0;
+         width: 100%;
+         bottom: 0;
+         z-index: 0;
+         image{
+           height: 100%;
+           width: 100%;
+         }
+      }
       .Today-Top{
         display: flex;
         flex-direction: row;
         justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 99;
         .Today-Num{
           color: $FC_DB;
           font-size: $FS_16;
@@ -56,8 +71,13 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+        align-items: center;
         color: $FC_90;
         font-size: $FS_9;
+        position: absolute;
+        bottom: 0;
+        z-index: 99;
+        width: 100%;
         .Today-Num{
           font-size: $FS_7;
         }
@@ -274,7 +294,7 @@
 }
 .detail_charts{
   border-top:5rpx solid gray;
-  border-bottom:5rpx solid gray;
+  // border-bottom:5rpx solid gray;
   .detail_chartsTitle{
     padding:19rpx 39rpx;
     display: flex;
@@ -316,6 +336,7 @@
     display: flex;
     flex-direction:row;
     justify-content: flex-end; 
+    border-bottom:5rpx solid gray;
     .detail_chartsMarkList{
       display: flex;
       flex-direction: row;
@@ -332,9 +353,90 @@
     }
   }
 
+//各地参考价格
+.CK-Price-Container{
+  display: flex;
+  flex-direction: column;
+  color: $FC_DEFAULT;
+  .CK-Price-Title{
+    display: flex;
+    text-align: left;
+    font-size: 12Px;
+    height: 34Px;
+    align-items: center;
+  }
+  .CK-Price-Items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    .CK-Price-Item{
+      flex: 1;
+      background: $BACK_171a24;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 10Px;
+      padding:  10Px 0;
+      &:last-child{
+        margin-right: 0Px;
+      }
+      .big{
+        font-size: 10Px
+      }
+      .bigX{
+        font-size: 12Px;
+        margin: 6Px 0;
+      }
+      .small{
+        font-size: 8Px
+      }
+      .date {
+      color: $FC_90
+      }
+      .CK-Price-Item-T{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      
+      }
+      .CK-Price-Item-B{
+        display: flex;
+        flex-direction: column;
+        align-items: center
+      }
+      
 
+    }
+  }
 
+}
 
-
+// 加载与刷新
+.dragUpdataPage{height: 100%;position: relative;overflow: hidden;
+	.downDragBox{
+	    width: 100%;
+	    top: 0px;
+	    display: flex;
+	    overflow: hidden;
+	    justify-content: center;
+	    align-items: center;
+	    font-size: 30px;
+      position: absolute;
+      z-index: 999;
+	}
+	.upDragBox{
+	    bottom: 0px;
+	    width: 100%;
+	    display: flex;
+	    overflow: hidden;
+	    justify-content: center;
+	    align-items: center;
+	    font-size: 30px;
+	    position: absolute;
+	}
+	.dragUpdata{height: 100%;width: 100%;position: absolute;}
+	.downText{margin-left: 20px;color: #00b388}
+}
 
 

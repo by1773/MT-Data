@@ -6,7 +6,7 @@ import './index.scss'
 import { AtIcon } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import * as appImg  from '../../assets/images/index'
-import { globalData ,NetTime,toPercent} from '../../utils/common';
+import { globalData ,toPercent,DateFormat} from '../../utils/common';
 import NavBar from 'taro-navigationbar';
 import Chart from 'taro-echarts'
 @connect(({ detail }) => ({
@@ -27,6 +27,10 @@ export default class Detail extends Component {
       canvasStatus: false,
       defaultDays:7,
       averageData:{},
+      dateY:[],
+      buyData:[],
+      sellData:[],
+      groupData:[],
       ec: {
         lazyLoad: true
       },
@@ -165,7 +169,7 @@ export default class Detail extends Component {
    Taro.navigateBack()
   }
   render() {
-    const {averageData} = this.state
+    const { averageData,dateY,buyData,sellData,groupData } =this.state
     return (
       <View className='index'>
         <NavBar
@@ -298,52 +302,29 @@ export default class Detail extends Component {
             <Text style="margin-top:20rpx;">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
           </View>
         </View>
-        <View className="detail_charts">
-          <View className="detail_chartsTitle">
-            <Image 
-              src={appImg.SEVENCHART}
-              style='width:39rpx;height:27rpx'
-            />
-            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前7天价格曲线</Text>
-          </View>
-          <View className="detail_chartsPanel">
-            <View className="calc">
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList" style="border:0">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
+        {
+              dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
+        <View className="detail_chartsPanel">
+            <View className="detail_chartsTitle">
+              <Image 
+                src={appImg.SEVENCHART}
+                style='width:39rpx;height:27rpx'
+              />
+              <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前7天价格曲线</Text>
             </View>
+            <View className="calc">
+              {
+                dateY && dateY.length > 0 &&  dateY.map((e,i)=>{
+                 return <View className="calcList" key={`-`+i}>
+                  <Text>{e.toDay}/{e.mouth}</Text>
+                  <Text>{e.week}</Text>
+                  <Text>{e.weekAlias}</Text>
+                </View>
+                })
+              }
+            </View>
+            
+           
             <View className="line-chart">
                 <Chart
                   option={{
@@ -355,31 +336,90 @@ export default class Detail extends Component {
                     }
                     xAxis: {
                       type: 'category',
-                      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                      // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                      data:dateY
                     },
                     yAxis: {
                       type: 'value',
-                      show:false
+                      show:true
                     },
-                    series: [{
-                      data: [820, 932, 901, 934, 1290, 1330, 1320],
-                      type: 'line'
+                    
+                    series: [
+                      {
+                      data: buyData,
+                      type: 'line' ,
+                      itemStyle: {
+                        normal: {
+                          color: '#3D2BA4',
+                          barBorderRadius: 0,
+                          label: {
+                            show: false,
+                            position: "bottom",
+                          }
+                        }
+                      },
+                      label: {
+                        normal: {
+                          show: true,
+                          position: 'top',
+                          color: '#3D2BA4'
+                        }
+                      },
                     },
                     {
-                      data: [500, 342, 400, 382, 1290, 888, 1320],
-                      type: 'line'
-                    },
-                    {
-                      data: [400, 410, 360, 480, 510, 490, 483],
+                      data: sellData,
                       type: 'line',
-                      areaStyle: {}
+                      itemStyle: {
+                        normal: {
+                          color: "#26DDB1",
+                          barBorderRadius: 0,
+                          label: {
+                            show: false,
+                            position: "bottom",
+                          }
+                        }
+                      },
+                      label: {
+                        normal: {
+                          show: true,
+                          position: 'top',
+                          color: '#26DDB1'
+                        }
+                      },
+                    },
+                    {
+                      data: groupData,
+                      type: 'line',
+                      areaStyle: {},
+                      itemStyle: {
+                        normal: {
+                          color: "#FF8A00",
+                          barBorderRadius: 0,
+                          label: {
+                            show: false,
+                            position: "bottom",
+                          }
+                        }
+                      },
+                      label: {
+                        normal: {
+                          show: true,
+                          position: 'top',
+                          color: '#FF8A00'
+                        }
+                      },
                     }
                     ]
                   }}
                 />
-            </View> 
+            </View>
           </View>
-        </View>
+          :
+          <View></View>
+              }
+
+        {
+              dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
         <View className="detail_chartsMark">
           <View className="detail_chartsMarkList">
             <View style="background:#3D2BA4;width:44rpx;height:5rpx;"></View>
@@ -402,8 +442,46 @@ export default class Detail extends Component {
               <Text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</Text>
             </View>
           </View>
-        </View>
+        </View>:
+        <View></View>
+        }
       </View>
     )
   }
+    /**
+  * @name: by1773
+  * @test: 获取图表数据
+  * @msg: 
+  * @param {type} 
+  * @return: 
+  */
+ 
+ handleGetIndexStatistics=()=>{
+  this.props.dispatch({
+    type: 'index/getStatistics',
+    payload: {
+     days:7,
+     typeOfWine:'maotaifeitian',
+      method:'POST'
+    }
+  }).then((res)=>{
+    let dateArr:Array <any>= []
+    if(res.success){
+      let date = res.result[0]
+      console.log(res.result[0])
+      date.map((e,i)=>{
+        dateArr.push(DateFormat(e))
+      })
+      this.setState({
+       dateY:dateArr ,
+       buyData:res.result[1],
+       sellData:res.result[2] ,
+       groupData:res.result[3],
+      })
+
+      console.log(this.state)
+    }
+
+  })
+}
 }

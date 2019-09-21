@@ -1,5 +1,5 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import {View, Text, Input, Button,Image  } from '@tarojs/components'
+import {View, Text, Input, Button,Image,ScrollView   } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 // import Api from '../../utils/request'
 import Tips from '../../utils/tips'
@@ -8,6 +8,10 @@ import './index.scss';
 import Chart from 'taro-echarts'
 import NavBar from 'taro-navigationbar';
 import * as appImg  from '../../assets/images/index'
+import { CityPrice } from './data'
+import { globalData ,toPercent,DateFormat} from '../../utils/common';
+import cityPrice from '../../components/cityPrice/index'  
+import { AtActivityIndicator } from 'taro-ui'
 export interface Data {
   genres:string;
   sold:number;
@@ -32,12 +36,43 @@ class Index extends Component<IndexProps,IndexState > {
       purchasePrice:null,
       sellingPrice:null,
       isCheckPass:false,
+      serverTime:null,
+      dateY:[],
+      buyData:[],
+      sellData:[],
+      groupData:[],
+      groupAveragePrice:{},
+      dargStyle: {//下拉框的样式
+        top: 0 + 'px'
+    },
+    downDragStyle: {//下拉图标的样式
+        height: 0 + 'px'
+    },
+    downText: '下拉刷新',
+    upDragStyle: {//上拉图标样式
+        height: 0 + 'px'
+    },
+    pullText: '上拉加载更多',
+    start_p: {},
+    scrollY:true,
+    dargState: 0//刷新状态 0不做操作 1刷新 -1加载更多
+
+      // ratioOfGroupPurchasePrice: -0.2538
+      // success: true
+      // todayAveragePrice: 
+      // todayGroupAveragePriceIncrease: -510.09
+      // yesterdayAfternoonAveragePrice: 
+      // yesterdayMorningAverageGroupPrice
     }
   }
 
 
 
   componentWillMount(){
+    this.handleGetServerTime()
+    this.handleGetIndexStatistics()
+    this.getIndexGroupAveragePrice()
+    
     console.log(appImg)
     Tips.loding('加载中')
     Taro.checkSession()
@@ -154,8 +189,12 @@ class Index extends Component<IndexProps,IndexState > {
     
   }
   render() {
-    console.log(this.props);
     
+    const { serverTime,dateY,buyData,sellData,groupData ,groupAveragePrice
+      ,dargStyle
+      ,downDragStyle
+      ,upDragStyle
+    } =this.state
     return (
         <View className="Wrap">
           <NavBar
@@ -172,20 +211,35 @@ class Index extends Component<IndexProps,IndexState > {
               />
             </View>
           }
-
           renderRight={
             <View className='renderRight'>
                <View className="renderRight-L">
-                 <Text>17/9</Text>
-                 <Text>星期三</Text>
+                 <Text>{serverTime.toDay || '-'}/{serverTime.mouth  || '-'}</Text>
+                 <Text>{serverTime.week  || '-'}</Text>
                </View>
                <View className="renderRight-R">
-                 <Text>2019</Text>
+                 <Text>{serverTime.year  || '--'}</Text>
                </View>
             </View>
           }
         />
-
+         <View className='dragUpdataPage'>
+                <View className='downDragBox' style={downDragStyle}>
+                    <AtActivityIndicator  color='#00b388' size={32}></AtActivityIndicator>
+                    <Text className='downText'>{this.state.downText}</Text>
+                </View>
+    <ScrollView  
+        style={dargStyle}
+        onTouchMove={this.touchmove}
+        onTouchEnd={this.touchEnd}
+        onTouchStart={this.touchStart}
+        onScrollToUpper={this.ScrollToUpper}
+        onScrollToLower={this.ScrollToLower}
+        className='dragUpdata'
+        scrollY={this.state.scrollY}
+        scrollWithAnimation
+        className='container discovery withtab'
+      >
          
          <View className="Title-Item" style="justify-content: flex-start;">
            <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
@@ -204,16 +258,18 @@ class Index extends Component<IndexProps,IndexState > {
               </Text>
          </View>
 
-         <View className="Today-Price Padding-H">
-           {/* <Image src={appImg.PRICEBG}> */}
-             
-             <View className="Today-Top">
+         <View className="Today-Price">
+              <View className='Today-Price-Cover'>
+                <Image className='img' src={appImg.PRICEBG} />
+              </View>
+              <View className="Today-Top">
                   <Image className="Today-Icon" style='width: 18Px;height: 18Px;' src={appImg.PRICE}/>
-                  <Text className="Today-Num">2620.00</Text>
+                  <Text className="Today-Num">{groupAveragePrice && groupAveragePrice.todayAveragePrice ? groupAveragePrice.todayAveragePrice + 50 :'--'}</Text>
              </View>
              <View className="Today-Bottom">
-                   <Text>-135.00（0.5%）</Text>
-                    <Image className="Today-Icon" style='width: 11px;height: auto;' src={appImg.DECLINE}/>
+                   <Text>{groupAveragePrice && groupAveragePrice.todayGroupAveragePriceIncrease}{`(${toPercent(groupAveragePrice.ratioOfGroupPurchasePrice)})`}</Text>
+                    <Image className="Today-Icon" style='width: 11px;height: 12px;' 
+                    src={groupAveragePrice &&  groupAveragePrice.ratioOfGroupPurchasePrice < 0 ? appImg.DECLINE :appImg.UP}/>
                     <Text className="Today-Num">比昨日零售价</Text>
              </View>
              
@@ -221,7 +277,7 @@ class Index extends Component<IndexProps,IndexState > {
          </View>
          {/* 价格说明 */}
          <View className="Today-Desc Padding-H">
-           <Text className="Desc-Text">*该价格指数由  <Text className="Text-Num">123</Text> 位 </Text>
+           <Text className="Desc-Text">*该价格指数由  <Text className="Text-Num">{groupAveragePrice && groupAveragePrice.submitUserNumber ? groupAveragePrice.submitUserNumber + 100 :'--'}</Text> 位 </Text>
            <Text className="Desc-Text">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
          </View>
           {/* 昨日价格 */}
@@ -242,8 +298,8 @@ class Index extends Component<IndexProps,IndexState > {
                           </View>
                           <View className="Price-AP-R-B">
                           <View className="Price-AP-R-B-C">
-                            <Image className="Today-Icon" style='width: 19px;height: 19px;' src={appImg.PRICE}/>
-                              <Text>2580.20</Text>
+                            <Image className="Today-Icon" style='width: 14px;height: 14px;' src={appImg.PRICE}/>
+                              <Text>{groupAveragePrice && groupAveragePrice.yesterdayMorningAverageGroupPrice ? groupAveragePrice.yesterdayMorningAverageGroupPrice:'--' }</Text>
                           </View>
                           </View>
                     </View>
@@ -262,8 +318,8 @@ class Index extends Component<IndexProps,IndexState > {
                           </View>
                           <View className="Price-AP-R-B">
                               <View className="Price-AP-R-B-C">
-                                  <Image className="Today-Icon" style='width: 19px;height: 19px;'  src={appImg.PRICE}/>
-                                  <Text>2560.30</Text>
+                                  <Image className="Today-Icon" style='width: 14px;height: 14px;'  src={appImg.PRICE}/>
+                                  <Text>{groupAveragePrice && groupAveragePrice.yesterdayAfternoonAveragePrice ? groupAveragePrice.yesterdayAfternoonAveragePrice + 50 : '--'}</Text>
                               </View>
                           </View>
                     </View>
@@ -360,59 +416,33 @@ class Index extends Component<IndexProps,IndexState > {
             </View>
           </View>
 
-
-          {/* <View className="worldCloud-chart">
-              <AddChart ref={this.refAddChart} />
-            </View> */}
-
-
             {/* 曲线走势图 */}
-            {/* <View className="detail_charts">
+            {
+              dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
+            <View className="detail_charts">
           <View className="detail_chartsTitle">
             <Image 
               src={appImg.SEVENCHART}
               style='width:39rpx;height:27rpx'
             />
-            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前7天价格曲线</Text>
+            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前15天价格曲线</Text>
           </View>
+          {/* {
+              groupData && buyData && sellData ? */}
           <View className="detail_chartsPanel">
             <View className="calc">
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
-              <View className="calcList" style="border:0">
-                <Text>09/13</Text>
-                <Text>星期四</Text>
-                <Text>THU</Text>
-              </View>
+              {
+                dateY && dateY.length > 0 &&  dateY.map((e,i)=>{
+                 return <View className="calcList">
+                  <Text>{e.toDay}/{e.mouth}</Text>
+                  <Text>{e.week}</Text>
+                  <Text>{e.weekAlias}</Text>
+                </View>
+                })
+              }
             </View>
+            
+      
             <View className="line-chart">
                 <Chart
                   option={{
@@ -424,31 +454,90 @@ class Index extends Component<IndexProps,IndexState > {
                     }
                     xAxis: {
                       type: 'category',
-                      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                      // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                      data:dateY
                     },
                     yAxis: {
                       type: 'value',
-                      show:false
+                      show:true
                     },
-                    series: [{
-                      data: [820, 932, 901, 934, 1290, 1330, 1320],
-                      type: 'line'
+                    
+                    series: [
+                      {
+                      data: buyData,
+                      type: 'line' ,
+                      itemStyle: {
+                        normal: {
+                          color: '#3D2BA4',
+                          barBorderRadius: 0,
+                          label: {
+                            show: false,
+                            position: "bottom",
+                          }
+                        }
+                      },
+                      label: {
+                        normal: {
+                          show: true,
+                          position: 'top',
+                          color: '#3D2BA4'
+                        }
+                      },
                     },
                     {
-                      data: [500, 342, 400, 382, 1290, 888, 1320],
-                      type: 'line'
-                    },
-                    {
-                      data: [400, 410, 360, 480, 510, 490, 483],
+                      data: sellData,
                       type: 'line',
-                      areaStyle: {}
+                      itemStyle: {
+                        normal: {
+                          color: "#26DDB1",
+                          barBorderRadius: 0,
+                          label: {
+                            show: false,
+                            position: "bottom",
+                          }
+                        }
+                      },
+                      label: {
+                        normal: {
+                          show: true,
+                          position: 'top',
+                          color: '#26DDB1'
+                        }
+                      },
+                    },
+                    {
+                      data: groupData,
+                      type: 'line',
+                      areaStyle: {},
+                      itemStyle: {
+                        normal: {
+                          color: "#FF8A00",
+                          barBorderRadius: 0,
+                          label: {
+                            show: false,
+                            position: "bottom",
+                          }
+                        }
+                      },
+                      label: {
+                        normal: {
+                          show: true,
+                          position: 'top',
+                          color: '#FF8A00'
+                        }
+                      },
                     }
                     ]
                   }}
                 />
-            </View> 
-          </View>
-        </View>
+            </View>
+
+          </View> 
+        </View>:
+            <View></View>
+                }
+        {
+              dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
         <View className="detail_chartsMark">
           <View className="detail_chartsMarkList">
             <View style="background:#3D2BA4;width:44rpx;height:5rpx;"></View>
@@ -471,8 +560,39 @@ class Index extends Component<IndexProps,IndexState > {
               <Text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</Text>
             </View>
           </View>
-        </View> */}
+        </View>:
+        <View></View>
+        }
+         {/* 各地参考价啊 */}
+         <View className="CK-Price-Container">
+              <View className="CK-Price-Title Padding-H ">
+                 <Text className="CK-Price-TitleContent">各地价格参考</Text>
+              </View>
+              <View className="CK-Price-Items">
+                {
+                  CityPrice && CityPrice.length > 0 && CityPrice.map((e,i)=>{
+                      return (
+                        <View className="CK-Price-Item">
+                             <View className="CK-Price-Item-T">
+                                <Text className="big">{e.city}</Text>
+                                <Text className="small">{e.alias}</Text>
+                             </View>
+                             <View className="CK-Price-Item-B">
+                                <Text className="bigX">￥{e.price}</Text>
+                                <Text  className="small date">{e.date}</Text>
+                             </View>
+                        </View>
+                      )
+                  })
+                }
+               
+              </View>
+         </View>
+         </ScrollView>
         </View>
+        </View>
+      
+        
     )
   }
 /**
@@ -542,8 +662,212 @@ handleSubmit():void  {
       })
     }
  }
+ 
+ /**
+ * @name: by1773
+ * @test: 获取系统时间
+ * @msg: 
+ * @param {type} 
+ * @return: 
+ */
+
+handleGetServerTime=()=>{
+    this.props.dispatch({
+      type: 'index/getNowTime',
+      payload: {
+        method:'GET'
+      }
+    }).then((res)=>{
+        if(res.success){
+          this.setState({
+            serverTime:DateFormat(res.currentTime)
+          })
+        }
+    })
+  }
+  /**
+  * @name: by1773
+  * @test: 获取图表数据
+  * @msg: 
+  * @param {type} 
+  * @return: 
+  */
+ 
+ handleGetIndexStatistics=()=>{
+   this.props.dispatch({
+     type: 'index/getIndexStatistics',
+     payload: {
+      days:15,
+      typeOfWine:'maotaifeitian',
+       method:'POST'
+     }
+   }).then((res)=>{
+     let dateArr:Array <any>= []
+     if(res.success){
+       let date = res.result[0]
+       console.log(res.result[0])
+       date.map((e,i)=>{
+         dateArr.push(DateFormat(e))
+       })
+       this.setState({
+        dateY:dateArr ,
+        buyData:res.result[1],
+        sellData:res.result[2] ,
+        groupData:res.result[3],
+       })
+
+       console.log(this.state)
+     }
+
+   })
+ }
+
+
+   /**
+  * @name: by1773
+  * @test: 获平局售价
+  * @msg: 
+  * @param {type} 
+  * @return: 
+  */
+ 
+ getIndexGroupAveragePrice=()=>{
+  this.props.dispatch({
+    type: 'index/getIndexGroupAveragePrice',
+    payload: {
+     typeOfWine:'maotaifeitian',
+     method:'GET'
+    }
+  }).then((res)=>{
+    console.log(res)
+      if(res.success){
+        this.setState({
+          groupAveragePrice:res.result
+        })
+      }
+  })
 }
 
+reduction() {//还原初始设置
+  const time = 0.5;
+  this.setState({
+      upDragStyle: {//上拉图标样式
+          height: 0 + 'px',
+          transition: `all ${time}s`
+      },
+      dargState: 0,
+      dargStyle: {
+          top: 0 + 'px',
+          transition: `all ${time}s`
+      },
+      downDragStyle: {
+          height: 0 + 'px',
+          transition: `all ${time}s`
+      },
+      scrollY:true
+  })
+  setTimeout(() => {
+      this.setState({
+          dargStyle: {
+              top: 0 + 'px',
+          },
+          upDragStyle: {//上拉图标样式
+              height: 0 + 'px'
+          },
+          pullText: '上拉加载更多',
+          downText: '下拉刷新'
+      })
+  }, time * 1000);
+}
+touchStart(e) {
+  this.setState({
+      start_p: e.touches[0]
+  })
+}
+touchmove(e) {
+let that = this
+  let move_p = e.touches[0],//移动时的位置
+      deviationX = 0.30,//左右偏移量(超过这个偏移量不执行下拉操作)
+      deviationY = 70,//拉动长度（低于这个值的时候不执行）
+      maxY = 100;//拉动的最大高度
+
+  let start_x = this.state.start_p.clientX,
+      start_y = this.state.start_p.clientY,
+      move_x = move_p.clientX,
+      move_y = move_p.clientY;
+
+
+  //得到偏移数值
+  let dev = Math.abs(move_x - start_x) / Math.abs(move_y - start_y);
+  if (dev < deviationX) {//当偏移数值大于设置的偏移数值时则不执行操作
+      let pY = Math.abs(move_y - start_y) / 3.5;//拖动倍率（使拖动的时候有粘滞的感觉--试了很多次 这个倍率刚好）
+if (move_y - start_y > 0) {//下拉操作
+  if (pY >= deviationY) {
+    this.setState({ dargState: 1, downText: '释放刷新' })
+  } else {
+    this.setState({ dargState: 0, downText: '下拉刷新' })
+  }
+  if (pY >= maxY) {
+    pY = maxY
+  }
+  this.setState({
+    dargStyle: {
+      top: pY + 'px',
+    },
+    downDragStyle: {
+      height: pY + 'px'
+    },
+    scrollY:false//拖动的时候禁用
+  })
+}
+if (start_y - move_y > 0) {//上拉操作
+  console.log('上拉操作')
+  if (pY >= deviationY) {
+    this.setState({ dargState: -1, pullText: '释放加载更多' })
+  } else {
+    this.setState({ dargState: 0, pullText: '上拉加载更多' })
+  }
+  if (pY >= maxY) {
+    pY = maxY
+  }
+  this.setState({
+    dargStyle: {
+      top: -pY + 'px',
+    },
+    upDragStyle: {
+      height: pY + 'px'
+    },
+    scrollY: false//拖动的时候禁用
+  })
+}
+
+  }
+}
+pull() {//上拉
+console.log('上拉')
+  // this.props.onPull()
+}
+down() {//下拉
+console.log('下拉')
+  // this.props.onDown()
+}
+ScrollToUpper() { //滚动到顶部事件
+console.log('滚动到顶部事件')
+  // this.props.Upper()
+}
+ScrollToLower() { //滚动到底部事件
+console.log('滚动到底部事件')
+  // this.props.Lower()
+}
+touchEnd(e) {
+  if (this.state.dargState === 1) {
+      this.down()
+  } else if (this.state.dargState === -1) {
+      this.pull()
+  }
+  this.reduction()
+}
+}
 
 
 export default Index
