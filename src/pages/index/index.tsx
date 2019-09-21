@@ -151,7 +151,7 @@ class Index extends Component<IndexProps,IndexState > {
     return {
       title: 'MT Data茅台经销报价工具',
       path:  'pages/index/index',
-      imageUrl: 'http://139.9.1.139:8090/images/logo.png'
+      imageUrl: 'http://mt-spirit.com/images/shareImg.jpg'
     }
   }
   gotoEcharts(type) {
@@ -593,10 +593,7 @@ handleSubmit():void  {
     sellingPrice,
     submitUserCode :this.props.code || ''
   }
-  Taro.navigateTo({
-    url:'/pages/detail/index'
-  })
-  return
+
  this.props.dispatch({
     type: 'index/addQuot',
     payload: {
