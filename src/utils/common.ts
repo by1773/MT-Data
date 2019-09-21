@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-21 17:40:12
+ * @LastEditTime: 2019-09-21 20:26:12
  */
 /** 
  * 共用函数
@@ -74,13 +74,11 @@ export const DateFormat = (date) =>{
    * @param {type} 
    * @return: 
    */  
-  export const   toPercent=(point)=>{
+  export const  toPercent=(point)=>{
+    // console.log(point)
+    if(!point) return `--%`
     var str=Number(point*100).toFixed(1);
-    if(str){
-      str+="%";
-    }else{
-      str ="-%";
-    }
+    str+="%";
    
     return str;
 }
