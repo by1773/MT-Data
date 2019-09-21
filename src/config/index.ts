@@ -4,19 +4,19 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-21 20:55:46
+ * @LastEditTime: 2019-09-21 22:20:41
  */
 // export const ONLINEHOST = 'https://api.apiopen.top';
 // http://172.16.2.9:8081/swagger-ui.html
-export const ONLINEHOST = 'http://172.16.2.13:8083/'; 
-// export const ONLINEHOST = 'https://mt-spirit.com:8083/'; 
+// export const ONLINEHOST = 'http://172.16.2.13:8083/'; 
+export const ONLINEHOST = 'https://wxapi.mt-spirit.com/'; 
 /** 
 /** 
  * mock 接口p
  * */ 
 // export const MOCKHOST = 'https://api.apiopen.top';
-export const MOCKHOST = 'http://172.16.2.13:8083/';
-// export const MOCKHOST =  'https://mt-spirit.com:8083/'; 
+// export const MOCKHOST = 'http://172.16.2.13:8083/';
+export const MOCKHOST =  'https://wxapi.mt-spirit.com/'; 
 
 /** 
  * 是否mock
