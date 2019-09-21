@@ -45,6 +45,7 @@ $FC_DB:#26DDB1;
   height: 100%;
   width: 100%;
   background: $BACKGROUNG;
+  position: absolute;
 }
 .detail_moutai{
   height: 79rpx;
@@ -102,9 +103,9 @@ $FC_DB:#26DDB1;
 
   }
 }
-.detail_charts{
+.detail_chartsPanel{
   border-top:5rpx solid gray;
-  border-bottom:5rpx solid gray;
+  border-bottom:2rpx solid gray;
   .detail_chartsTitle{
     padding:19rpx 39rpx;
     display: flex;
@@ -141,11 +142,13 @@ $FC_DB:#26DDB1;
   height: 411rpx;
 }
 .detail_chartsMark{
-    padding: 0 20rpx;
+    // padding: 0 20rpx;
+    padding: 19rpx 39rpx;
     height:71rpx;
     display: flex;
     flex-direction:row;
     justify-content: flex-end; 
+    border-bottom:5rpx solid gray;
     .detail_chartsMarkList{
       display: flex;
       flex-direction: row;

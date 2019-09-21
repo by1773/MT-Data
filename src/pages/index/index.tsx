@@ -11,7 +11,7 @@ import * as appImg  from '../../assets/images/index'
 import { CityPrice } from './data'
 import { globalData ,toPercent,DateFormat} from '../../utils/common';
 import cityPrice from '../../components/cityPrice/index'  
-import { AtActivityIndicator } from 'taro-ui'
+import { AtActivityIndicator,AtIcon } from 'taro-ui'
 export interface Data {
   genres:string;
   sold:number;
@@ -207,7 +207,7 @@ class Index extends Component<IndexProps,IndexState > {
             <View className='lxy-nav-bar-search'>
               <Image 
                 src={appImg.LOGO}
-                style='width:199rpx;height:54rpx'
+                style='width:199rpx;height:54rpx ;margin-left:12Px'
               />
             </View>
           }
@@ -243,9 +243,10 @@ class Index extends Component<IndexProps,IndexState > {
          
          <View className="Title-Item" style="justify-content: flex-start;">
            <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
-              <Text style="flex:1;display:flex;align-items: center;" className="Padding-H">
+              <View style="flex:1;display:flex;align-items: center;justify-content: space-between" className="Padding-H">
                   <Text>普通茅台飞天53°（500ml）</Text>
-              </Text>
+                  <AtIcon value='menu' size='28' color='#white'></AtIcon>
+              </View>
             <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
          </View>
 
@@ -615,7 +616,10 @@ handleSubmit():void  {
     sellingPrice,
     submitUserCode :this.props.code || ''
   }
-
+  Taro.navigateTo({
+    url:'/pages/detail/index'
+  })
+  return
  this.props.dispatch({
     type: 'index/addQuot',
     payload: {

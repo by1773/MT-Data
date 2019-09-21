@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-20 21:39:37
+ * @LastEditTime: 2019-09-21 19:38:40
  */
 // import Taro from '@tarojs/taro';
 import * as detailApi from './service';
@@ -29,14 +29,14 @@ export default {
     },
 
     *getStatistics({ payload },{select, call, put}){
-      const { error, result} = yield call(detailApi.getStatistics,{
+      const data = yield call(detailApi.getStatistics,{
         ...payload
       })
-      console.log('数据接口返回',result);
+      console.log('数据接口返回',data);
       
-      if (!error) {
-        return result
-      }
+      // if (!error) {
+        return data
+      // }
     }
 
   },

@@ -104,6 +104,7 @@ export default class Detail extends Component {
     })
    }
   componentWillMount(){
+    this.handleGetIndexStatistics()
    this.getAverageData()
    this.getDaysData()
   }
@@ -170,6 +171,7 @@ export default class Detail extends Component {
   }
   render() {
     const { averageData,dateY,buyData,sellData,groupData } =this.state
+    // console.log(dateY[dateY.length-1].week)
     return (
       <View className='index'>
         <NavBar
@@ -186,7 +188,7 @@ export default class Detail extends Component {
             >
               <Image 
                 src={appImg.LOGO}
-                style='width:199rpx;height:54rpx'
+                style='width:199rpx;height:54rpx;margin-left:15Px'
               />
             </View>
           }
@@ -238,7 +240,8 @@ export default class Detail extends Component {
         </View> */}
         <View className="detail_moutai">
           <Text style='font-size:24rpx;color:white;'>普通茅台飞天53° (500ml)</Text>
-          <Text style='font-size:24rpx;color:white;'>待定</Text>
+          {/* <Text style='font-size:24rpx;color:white;'>待定</Text> */}
+          <AtIcon value='menu' size='28' color='white'></AtIcon>
         </View>
         <View className="detail_moutai_price">
           <View className="detail_moutai_price_an">
@@ -250,7 +253,7 @@ export default class Detail extends Component {
               <Text style='font-size:18rpx;color:#F0F0F1'>贵州市场均价</Text>
             </View>
             <View className="pricePanelTime">
-              2019/09/19
+              {dateY ? `${dateY[dateY.length-1].year }/${dateY[dateY.length-1].mouth}/${dateY[dateY.length-1].toDay}`:'--'}
             </View>
           </View>
           <View className="pricePanelContainer">
@@ -458,7 +461,7 @@ export default class Detail extends Component {
  
  handleGetIndexStatistics=()=>{
   this.props.dispatch({
-    type: 'index/getStatistics',
+    type: 'detail/getStatistics',
     payload: {
      days:7,
      typeOfWine:'maotaifeitian',
