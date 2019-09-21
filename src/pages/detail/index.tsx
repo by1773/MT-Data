@@ -6,10 +6,9 @@ import './index.scss'
 import { AtIcon } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import * as appImg  from '../../assets/images/index'
-import * as LineChart  from '../../components/LineChart'
 import { globalData ,NetTime,toPercent} from '../../utils/common';
 import NavBar from 'taro-navigationbar';
-
+import Chart from 'taro-echarts'
 @connect(({ detail }) => ({
   ...detail,
 }))
@@ -107,17 +106,7 @@ export default class Detail extends Component {
   componentDidMount(){
     // this.canvasDrawFunc.bind(this, this.state.rssConfig)
     //this.canvasDrawFunc()
-    const chartData = {
-      dimensions: {
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      measures: [{
-        data: [10, 52, 200, 334, 390, 330, 220]
-      }]
-    }
-    this.lineChart.refresh(chartData);
   }
-  refLineChart = (node) => this.lineChart = node
   // 调用绘画 => canvasStatus 置为true、同时设置config
 
 
@@ -175,18 +164,6 @@ export default class Detail extends Component {
   handlerGobackClick =()=>{
    Taro.navigateBack()
   }
-  refresh(data) {
-    this.Chart.init((canvas, width, height) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height
-      });
-      setChartData(chart, data);
-      return chart;
-    });
-  }
-
-  refChart = node => (this.Chart = node);
   render() {
     const {averageData} = this.state
     return (
@@ -368,30 +345,61 @@ export default class Detail extends Component {
               </View>
             </View>
             <View className="line-chart">
-                <LineChart ref={this.refLineChart} />
+                <Chart
+                  option={{
+                    grid:{
+                      left:0,
+                      right:0,
+                      top:0,
+                      bottom:0
+                    }
+                    xAxis: {
+                      type: 'category',
+                      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    },
+                    yAxis: {
+                      type: 'value',
+                      show:false
+                    },
+                    series: [{
+                      data: [820, 932, 901, 934, 1290, 1330, 1320],
+                      type: 'line'
+                    },
+                    {
+                      data: [500, 342, 400, 382, 1290, 888, 1320],
+                      type: 'line'
+                    },
+                    {
+                      data: [400, 410, 360, 480, 510, 490, 483],
+                      type: 'line',
+                      areaStyle: {}
+                    }
+                    ]
+                  }}
+                />
             </View> 
           </View>
-          <View className="detail_chartsMark">
-            <View className="detail_chartsMarkList">
-              <View style="background:#3D2BA4;width:44rpx;height:5rpx;"></View>
-              <View className="detail_chartsMarkListRight">
-                <Text style="font-size:16rpx;color:#FEFFFF">进货价</Text>
-                <Text style="font-size:9rpx;color:#DEDEDE">BUYING PRICE</Text>
-              </View>
+        </View>
+        <View className="detail_chartsMark">
+          <View className="detail_chartsMarkList">
+            <View style="background:#3D2BA4;width:44rpx;height:5rpx;"></View>
+            <View className="detail_chartsMarkListRight">
+              <Text style="font-size:16rpx;color:#FEFFFF">进货价</Text>
+              <Text style="font-size:9rpx;color:#DEDEDE">BUYING PRICE</Text>
             </View>
-            <View className="detail_chartsMarkList">
-              <View style="background:#26DDB1;width:44rpx;height:5rpx;"></View>
-              <View className="detail_chartsMarkListRight">
-                <Text style="font-size:16rpx;color:#FEFFFF">出货价</Text>
-                <Text style="font-size:9rpx;color:#DEDEDE">SELLING PRICE</Text>
-              </View>
+          </View>
+          <View className="detail_chartsMarkList">
+            <View style="background:#26DDB1;width:44rpx;height:5rpx;"></View>
+            <View className="detail_chartsMarkListRight">
+              <Text style="font-size:16rpx;color:#FEFFFF">出货价</Text>
+              <Text style="font-size:9rpx;color:#DEDEDE">SELLING PRICE</Text>
             </View>
-            <View className="detail_chartsMarkList">
-              <View style="background:#FF8A00;width:44rpx;height:5rpx;"></View>
-              <View className="detail_chartsMarkListRight">
-                <Text style="font-size:16rpx;color:#FEFFFF">团购价</Text>
-                <Text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</Text>
-              </View>
+          </View>
+          <View className="detail_chartsMarkList">
+            <View style="background:#FF8A00;width:44rpx;height:5rpx;"></View>
+            <View className="detail_chartsMarkListRight">
+              <Text style="font-size:16rpx;color:#FEFFFF">团购价</Text>
+              <Text style="font-size:9rpx;color:#DEDEDE">GROUP BUYING</Text>
             </View>
           </View>
         </View>
