@@ -269,7 +269,8 @@ class Index extends Component<IndexProps,IndexState > {
                     <View className="Price-AP-R  Border-Right">
                           <View className="Price-AP-R-T">
                             <Text>早市价 </Text>
-                            <Text>17/9</Text>
+                           
+                            <Text> {groupAveragePrice && groupAveragePrice.yDay ? `${DateFormat(groupAveragePrice.yDay).mouth}/${DateFormat(groupAveragePrice.yDay).toDay}`:'--/--'}</Text>
                           </View>
                           <View className="Price-AP-R-B">
                           <View className="Price-AP-R-B-C">
@@ -289,7 +290,7 @@ class Index extends Component<IndexProps,IndexState > {
                     <View  className="Price-AP-R">
                           <View className="Price-AP-R-T">
                             <Text>晚市价 </Text>
-                            <Text>17/9</Text>
+                            <Text> {groupAveragePrice && groupAveragePrice.yDay ? `${DateFormat(groupAveragePrice.yDay).mouth}/${DateFormat(groupAveragePrice.yDay).toDay}`:'--/--'}</Text>
                           </View>
                           <View className="Price-AP-R-B">
                               <View className="Price-AP-R-B-C">

@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-21 20:26:12
+ * @LastEditTime: 2019-09-21 21:04:37
  */
 /** 
  * 共用函数
@@ -27,12 +27,17 @@ export const formatTime = time => {
 
 export const DateFormat = (date) =>{
   if(!date) return null
-  let [ week,year,mouth,weekAlias,toDay] = ['', 0, 0,'',0];
+  let [ week,year,mouth,weekAlias,toDay] = ['', 0, '','',0];
   let dates = new Date(date)
   const day=dates.getDay();
   toDay = dates.getDate()
   year = dates.getFullYear() ;
-  mouth = dates.getMonth() +1;
+  if(dates.getMonth() +1 < 10){
+    mouth = `0${dates.getMonth() +1}`;
+  }else{
+    mouth = `${dates.getMonth() +1}`;
+  }
+  
     if(day==0){
       week="星期日";
       weekAlias='SUN'
