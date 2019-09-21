@@ -72,8 +72,6 @@ class Index extends Component<IndexProps,IndexState > {
     this.handleGetServerTime()
     this.handleGetIndexStatistics()
     this.getIndexGroupAveragePrice()
-    
-    console.log(appImg)
     Tips.loding('加载中')
     Taro.checkSession()
     .then(res => {
@@ -138,29 +136,7 @@ class Index extends Component<IndexProps,IndexState > {
       })
   }
 
-  async componentDidMount() {
-  
-   
-    let arr:Array<any>=[]
-    let result = this.props.data
-    result && result.map((e,i)=>{
-      const obj = {
-        genre:e.name,
-        sold:Math.random() * 100
-      }
-      arr.push(obj)
-    })
-    this.setState({
-      RenderData:arr
-    })
-
-    const chartData = {
-      barData: [709,1917,2455,2610,1719,1433,1544,3285,5208,3372,2484,4078],
-      lineData: [1036,3693,2962,3810, 2519,1915,1748, 4675, 6209,4323,2865,4298]
-    };
-    // this.addChart.refresh(chartData);
-    let res = await Taro.login();
-    console.log(res)
+ componentDidMount() {
     Tips.loaded()
   }
 
@@ -171,7 +147,6 @@ class Index extends Component<IndexProps,IndexState > {
 
 
   };
-  refAddChart = (node) => this.addChart = node
   onShareAppMessage () {
     return {
       title: 'MT Data茅台经销报价工具',
@@ -193,7 +168,6 @@ class Index extends Component<IndexProps,IndexState > {
     const { serverTime,dateY,buyData,sellData,groupData ,groupAveragePrice
       ,dargStyle
       ,downDragStyle
-      ,upDragStyle
     } =this.state
     return (
         <View className="Wrap">
@@ -852,8 +826,11 @@ console.log('上拉')
   // this.props.onPull()
 }
 down() {//下拉
-console.log('下拉')
+// console.log('下拉')
   // this.props.onDown()
+    this.handleGetServerTime()
+    this.handleGetIndexStatistics()
+    this.getIndexGroupAveragePrice()
 }
 ScrollToUpper() { //滚动到顶部事件
 console.log('滚动到顶部事件')
