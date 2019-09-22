@@ -37,11 +37,9 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/detail/index',
-
       'pages/loading/index',
-
       'pages/index/index',
+      'pages/detail/index',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -95,9 +93,9 @@ class App extends Component {
 
    tobegin = (res) => {
     if(res.detail.userInfo){ // 返回的信息中包含用户信息则证明用户允许获取信息授权
-      console.log('授权成功')
+      // console.log('授权成功')
       // 保存用户信息微信登录
-      Taro.setStorageSync('userInfo', res.detail.userInfo)
+      // Taro.setStorageSync('userInfo', res.detail.userInfo)
 
       // Tips.loding()
       Taro.login()
@@ -137,8 +135,8 @@ class App extends Component {
   render () {
     return (
       <Provider store={store}>
-         <Index />
-         {/* <Loading/> */}
+         {/* <Index /> */}
+         <Loading/>
       </Provider>
     )
   }

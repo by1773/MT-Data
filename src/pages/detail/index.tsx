@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Image,Text } from '@tarojs/components'
 // import TaroCanvasDrawer from '../../component/taro-plugin-canvas'; // 拷贝文件到component的引入方式
-// import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
+import { TaroCanvasDrawer  } from 'taro-plugin-canvas'; // npm 引入方式
 import './index.scss'
 import { AtIcon } from 'taro-ui'
 import { connect } from '@tarojs/redux'
@@ -19,12 +19,6 @@ export default class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // 绘图配置文件
-      config: null,
-      // 绘制的图片
-      shareImage: null,
-      // TaroCanvasDrawer 组件状态
-      canvasStatus: false,
       defaultDays:7,
       averageData:{},
       dateY:[],
@@ -34,7 +28,72 @@ export default class Detail extends Component {
       ec: {
         lazyLoad: true
       },
-   
+    //  -------------
+    // 绘图配置文件
+    config: null,
+    // 绘制的图片
+    shareImage: null,
+    // TaroCanvasDrawer 组件状态
+    canvasStatus: false,
+    rssConfig: {
+      width: 750,
+      height: 200,
+      backgroundColor: '#fff',
+      debug: false,
+      texts: [
+        {
+          x: 80,
+          y: 80,
+          text: '平均进货价:',
+          fontSize: 32,
+          color: '#000',
+          opacity: 1,
+          baseLine: 'middle',
+          lineHeight: 50,
+          lineNum: 2,
+          textAlign: 'left',
+          width: 580,
+          zIndex: 999,
+        },
+        {
+          x: 80,
+          y: 120,
+          text: '平均出货价:',
+          fontSize: 32,
+          color: '#000',
+          opacity: 1,
+          baseLine: 'middle',
+          textAlign: 'left',
+          lineHeight: 50,
+          lineNum: 1,
+          zIndex: 999,
+        },
+        {
+          x: 80,
+          y: 160,
+          text: '平均团购价:',
+          fontSize: 32,
+          color: '#000',
+          opacity: 1,
+          baseLine: 'middle',
+          textAlign: 'left',
+          lineHeight: 50,
+          lineNum: 1,
+          zIndex: 999,
+        }
+      ],
+      lines: [
+        {
+          startY: 540,
+          startX: 80,
+          endX: 670,
+          endY: 541,
+          width: 1,
+          color: '#eee',
+        }
+      ]
+    },
+  
     }
   }
 
@@ -56,6 +115,17 @@ export default class Detail extends Component {
     }).then((res)=>{
       this.setState({
         averageData:res
+      },()=>{
+        let a = JSON.parse(JSON.stringify(this.state.rssConfig))
+        a.texts[0].text = `平均进货价：${res.average_prices.purchaseAveragePrice}`
+        a.texts[1].text = `平均出货价：${res.average_prices.sellingAveragePrice}`
+        a.texts[2].text = `平均团购价：${res.average_prices.groupAveragePrice}`
+        this.setState({
+          rssConfig:a
+        },()=>{
+          this.canvasDrawFunc()
+        })
+       
       })
         // if(res.success){
         //    this.setState({
@@ -110,62 +180,14 @@ export default class Detail extends Component {
   }
   componentDidMount(){
     // this.canvasDrawFunc.bind(this, this.state.rssConfig)
-    //this.canvasDrawFunc()
+    
   }
   // 调用绘画 => canvasStatus 置为true、同时设置config
 
 
-  // 绘制成功回调函数 （必须实现）=> 接收绘制结果、重置 TaroCanvasDrawer 状态
-  onCreateSuccess = (result) => {
-    const { tempFilePath, errMsg } = result;
-    Taro.hideLoading();
-    if (errMsg === 'canvasToTempFilePath:ok') {
-      this.setState({
-        shareImage: tempFilePath,
-        // 重置 TaroCanvasDrawer 状态，方便下一次调用
-        canvasStatus: false,
-        config: null
-      })
-    } else {
-      // 重置 TaroCanvasDrawer 状态，方便下一次调用
-      this.setState({
-        canvasStatus: false,
-        config: null
-      })
-      Taro.showToast({ icon: 'none', title: errMsg || '出现错误' });
-      console.log(errMsg);
-    }
-    // 预览
-    // Taro.previewImage({
-    //   current: tempFilePath,
-    //   urls: [tempFilePath]
-    // })
-  }
 
-  // 绘制失败回调函数 （必须实现）=> 接收绘制错误信息、重置 TaroCanvasDrawer 状态
-  onCreateFail = (error) => {
-    Taro.hideLoading();
-    // 重置 TaroCanvasDrawer 状态，方便下一次调用
-    this.setState({
-      canvasStatus: false,
-      config: null
-    })
-    console.log(error);
-  }
 
-   // 保存图片至本地
-  saveToAlbum = () => {
-    const res = Taro.saveImageToPhotosAlbum({
-      filePath: this.state.shareImage,
-    });
-    if (res.errMsg === 'saveImageToPhotosAlbum:ok') {
-      Taro.showToast({
-        title: '保存图片成功',
-        icon: 'success',
-        duration: 2000,
-      });
-    }
-  }
+
   handlerGobackClick =()=>{
    Taro.navigateBack()
   }
@@ -193,7 +215,7 @@ export default class Detail extends Component {
             </View>
           }
           renderRight={
-            <View className='lxy-nav-bar-search'>
+            <View className='lxy-nav-bar-search' onClick={this.saveToAlbum}>
                 <Image 
                   src={appImg.DOWNLOAD}
                   style='width:25rpx;height:26rpx'
@@ -202,13 +224,7 @@ export default class Detail extends Component {
             </View>
           }
         />
-        {/*<View className='shareImage-cont'>
-          <Image
-            className='shareImage'
-            src={this.state.shareImage}
-            mode='widthFix'
-            lazy-load
-          />
+        
           {
             // 由于部分限制，目前组件通过状态的方式来动态加载
             this.state.canvasStatus &&
@@ -219,11 +235,6 @@ export default class Detail extends Component {
             />
             )
           }
-        </View>*/}
-        {/*<View className="handle-icon">
-          <View className='at-icon at-icon-download' onClick={this.saveToAlbum}></View>
-          <View className='at-icon at-icon-share'></View>
-        </View>*/}
         {/* <View className="detail_topbar">
           <Image 
             src={appImg.LOGO}
@@ -241,7 +252,7 @@ export default class Detail extends Component {
         <View className="detail_moutai">
           <Text style='font-size:24rpx;color:white;'>普通茅台飞天53° (500ml)</Text>
           {/* <Text style='font-size:24rpx;color:white;'>待定</Text> */}
-          <AtIcon value='menu' size='28' color='white'></AtIcon>
+          <AtIcon value='menu' size='25' color='white'></AtIcon>
         </View>
         <View className="detail_moutai_price">
           <View className="detail_moutai_price_an">
@@ -253,7 +264,7 @@ export default class Detail extends Component {
               <Text style='font-size:18rpx;color:#F0F0F1'>贵州市场均价</Text>
             </View>
             <View className="pricePanelTime">
-              {dateY ? `${dateY[dateY.length-1].year }/${dateY[dateY.length-1].mouth}/${dateY[dateY.length-1].toDay}`:'--'}
+              {dateY  && dateY[dateY.length-1].year? `${dateY[dateY.length-1].year }/${dateY[dateY.length-1].mouth}/${dateY[dateY.length-1].toDay}`:'--/--/--'}
             </View>
           </View>
           <View className="pricePanelContainer">
@@ -265,7 +276,7 @@ export default class Detail extends Component {
                 <View className="priceListRight">
                   <Text>{ averageData && toPercent(averageData.purchasea_average_price_ratio)}</Text>
                   <Image
-                   src={ averageData.purchasea_average_price_ratio < 0 ?appImg.DECLINE:appImg.UP}
+                   src={ averageData.purchasea_average_price_ratio < 0 && averageData.purchasea_average_price_ratio != 0 ?appImg.DECLINE:appImg.UP}
                     style='width:9rpx;height:19rpx;'
                   />
                 </View>
@@ -279,7 +290,7 @@ export default class Detail extends Component {
                 <View className="priceListRight">
                   <Text>{ averageData && toPercent(averageData.sell_average_price_ratio)}</Text>
                   <Image
-                    src={ averageData.sell_average_price_ratio < 0 ?appImg.DECLINE:appImg.UP}
+                    src={ averageData.sell_average_price_ratio < 0 && averageData.sell_average_price_ratio != 0 ?appImg.DECLINE:appImg.UP}
                     style='width:9rpx;height:19rpx;'
                   />
                 </View>
@@ -293,7 +304,7 @@ export default class Detail extends Component {
                 <View className="priceListRight">
                   <Text>{ averageData && toPercent(averageData.group_purchase_price_ratio)}</Text>
                   <Image
-                     src={ averageData.group_purchase_price_ratio < 0 ?appImg.DECLINE:appImg.UP}
+                     src={ averageData.group_purchase_price_ratio < 0 && averageData.group_purchase_price_ratio  != 0 ?appImg.DECLINE:appImg.UP}
                     style='width:9rpx;height:19rpx;'
                   />
                 </View>
@@ -301,12 +312,13 @@ export default class Detail extends Component {
             </View>
           </View>
           <View className="pricePanelBottom">
-            <Text style="margin-top:40rpx;">*该价格指数由<Text style="color:#FF8A00;font-size:24rpx;border-bottom:1rpx solid white;">{ averageData && averageData.providing_persons_number + 100}</Text>位</Text>
+            <Text style="margin-top:40rpx;">*该价格指数由<Text style="color:#FF8A00;font-size:24rpx;border-bottom:1rpx solid white;">
+            { averageData && averageData.providing_persons_number ?averageData.providing_persons_number + 100:'--'}</Text>位</Text>
             <Text style="margin-top:20rpx;">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
           </View>
         </View>
         {
-              dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
+              dateY && sellData &&  buyData &&  groupData &&  sellData.length >0  && buyData.length >0 &&   groupData.length >0 ?
         <View className="detail_chartsPanel">
             <View className="detail_chartsTitle">
               <Image 
@@ -318,7 +330,7 @@ export default class Detail extends Component {
             <View className="calc">
               {
                 dateY && dateY.length > 0 &&  dateY.map((e,i)=>{
-                 return <View className="calcList" key={`-`+i}>
+                 return <View className="calcList" key={`-oii`+i}>
                   <Text>{e.toDay}/{e.mouth}</Text>
                   <Text>{e.week}</Text>
                   <Text>{e.weekAlias}</Text>
@@ -334,7 +346,7 @@ export default class Detail extends Component {
                     grid:{
                       left:0,
                       right:0,
-                      top:0,
+                      top:20,
                       bottom:0
                     }
                     xAxis: {
@@ -344,7 +356,8 @@ export default class Detail extends Component {
                     },
                     yAxis: {
                       type: 'value',
-                      show:true
+                      show:true,
+                      max : Math.floor(Math.max(...buyData,...sellData,...groupData)+ 1000) ,
                     },
                     
                     series: [
@@ -407,8 +420,10 @@ export default class Detail extends Component {
                       label: {
                         normal: {
                           show: true,
-                          position: 'top',
-                          color: '#FF8A00'
+                          // position: 'top',
+                          position:'bottom',
+                          // color: '#FF8A00'
+                          color:'#fff'
                         }
                       },
                     }
@@ -471,7 +486,6 @@ export default class Detail extends Component {
     let dateArr:Array <any>= []
     if(res.success){
       let date = res.result[0]
-      console.log(res.result[0])
       date.map((e,i)=>{
         dateArr.push(DateFormat(e))
       })
@@ -482,9 +496,73 @@ export default class Detail extends Component {
        groupData:res.result[3],
       })
 
-      console.log(this.state)
     }
 
   })
 }
+//################################################################################################################################
+  // 调用绘画 => canvasStatus 置为true、同时设置config
+  canvasDrawFunc = (config = this.state.rssConfig) => {
+    this.setState({
+      canvasStatus: true,
+      config: config,
+    })
+   
+  }
+
+  // 绘制成功回调函数 （必须实现）=> 接收绘制结果、重置 TaroCanvasDrawer 状态
+  onCreateSuccess = (result) => {
+    const { tempFilePath, errMsg } = result;
+    if (errMsg === 'canvasToTempFilePath:ok') {
+      this.setState({
+        shareImage: tempFilePath,
+        // 重置 TaroCanvasDrawer 状态，方便下一次调用
+        canvasStatus: false,
+        config: null
+      })
+    } else {
+      // 重置 TaroCanvasDrawer 状态，方便下一次调用
+      this.setState({
+        canvasStatus: false,
+        config: null
+      })
+      Taro.showToast({ icon: 'none', title: errMsg || '出现错误' });
+      console.log(errMsg);
+    }
+    // 预览
+    // Taro.previewImage({
+    //   current: tempFilePath,
+    //   urls: [tempFilePath]
+    // })
+  }
+
+  // 绘制失败回调函数 （必须实现）=> 接收绘制错误信息、重置 TaroCanvasDrawer 状态
+  onCreateFail = (error) => {
+    Taro.hideLoading();
+    // 重置 TaroCanvasDrawer 状态，方便下一次调用
+    this.setState({
+      canvasStatus: false,
+      config: null
+    })
+    console.log(error);
+  }
+
+   // 保存图片至本地
+  saveToAlbum = () => {
+    Taro.showLoading({
+      title: '保存中...'
+    })
+    const res = Taro.saveImageToPhotosAlbum({
+      filePath: this.state.shareImage,
+    });
+    if (res.errMsg === 'saveImageToPhotosAlbum:ok') {
+      Taro.hideLoading();
+      Taro.showToast({
+        title: '保存图片成功',
+        icon: 'success',
+        duration: 2000,
+      });
+    }
+    Taro.hideLoading();
+  }
 }

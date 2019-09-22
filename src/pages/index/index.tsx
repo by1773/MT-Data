@@ -31,16 +31,17 @@ class Index extends Component<IndexProps,IndexState > {
   constructor(props: IndexProps) {
     super(props)
     this.state = {
+      isRender:false,
       RenderData:[],
       groupPrice:null,
       purchasePrice:null,
       sellingPrice:null,
       isCheckPass:false,
-      serverTime:null,
-      dateY:[],
-      buyData:[],
-      sellData:[],
-      groupData:[],
+      serverTime:undefined,
+      dateY:null,
+      buyData:null,
+      sellData:null,
+      groupData:null,
       groupAveragePrice:{},
       dargStyle: {//下拉框的样式
         top: 0 + 'px'
@@ -69,8 +70,8 @@ class Index extends Component<IndexProps,IndexState > {
 
 
   componentWillMount(){
-    this.handleGetServerTime()
     this.handleGetIndexStatistics()
+    this.handleGetServerTime()
     this.getIndexGroupAveragePrice()
     Tips.loding('加载中')
     Taro.checkSession()
@@ -114,29 +115,30 @@ class Index extends Component<IndexProps,IndexState > {
           });
         });
     });
-    Taro.getSetting()
-      .then(res=>{
-        if(res.authSetting["scope.userInfo"]){
-          return true;
-        }else {
-          throw new Error('没有授权')
-        }
-      })
-      .then(res=>{
-        return Taro.getUserInfo();
-      })
-      .then(res=>{
-        Taro.setStorage({
-          key: 'userInfo',
-          data: res.userInfo
-        })
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+    // Taro.getSetting()
+    //   .then(res=>{
+    //     if(res.authSetting["scope.userInfo"]){
+    //       return true;
+    //     }else {
+    //       throw new Error('没有授权')
+    //     }
+    //   })
+    //   .then(res=>{
+    //     return Taro.getUserInfo();
+    //   })
+    //   .then(res=>{
+    //     Taro.setStorage({
+    //       key: 'userInfo',
+    //       data: res.userInfo
+    //     })
+    //   })
+    //   .catch(err=>{
+    //     console.log(err)
+    //   })
   }
 
  componentDidMount() {
+  this.handleGetServerTime()
     Tips.loaded()
   }
 
@@ -167,7 +169,8 @@ class Index extends Component<IndexProps,IndexState > {
     
     const { serverTime,dateY,buyData,sellData,groupData ,groupAveragePrice
       ,dargStyle
-      ,downDragStyle
+      ,downDragStyle,
+      isRender
     } =this.state
     return (
         <View className="Wrap">
@@ -188,11 +191,11 @@ class Index extends Component<IndexProps,IndexState > {
           renderRight={
             <View className='renderRight'>
                <View className="renderRight-L">
-                 <Text>{serverTime.toDay || '-'}/{serverTime.mouth  || '-'}</Text>
-                 <Text>{serverTime.week  || '-'}</Text>
+                 <Text>{ serverTime ? `${serverTime.mouth}/${serverTime.toDay} ` : '--/--'}</Text>
+                 <Text>{ serverTime ? serverTime.week : '-'}</Text>
                </View>
                <View className="renderRight-R">
-                 <Text>{serverTime.year  || '--'}</Text>
+                 <Text>{ serverTime ? serverTime.year  : '--'}</Text>
                </View>
             </View>
           }
@@ -214,12 +217,11 @@ class Index extends Component<IndexProps,IndexState > {
         scrollWithAnimation
         className='container discovery withtab'
       >
-         
          <View className="Title-Item" style="justify-content: flex-start;">
            <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
               <View style="flex:1;display:flex;align-items: center;justify-content: space-between" className="Padding-H">
                   <Text>普通茅台飞天53°（500ml）</Text>
-                  <AtIcon value='menu' size='28' color='#white'></AtIcon>
+                  <AtIcon value='menu' size='25' color='white'></AtIcon>
               </View>
             <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
          </View>
@@ -228,7 +230,7 @@ class Index extends Component<IndexProps,IndexState > {
             <Text style="flex:1;display:flex;align-items: center;">
               <Text>
                 今日参考市场价格
-                <Text>(贵州地区)</Text>
+                <Text style="font-size:20rpx">（贵州地区）</Text>
               </Text>
               </Text>
          </View>
@@ -243,8 +245,8 @@ class Index extends Component<IndexProps,IndexState > {
              </View>
              <View className="Today-Bottom">
                    <Text>{groupAveragePrice && groupAveragePrice.todayGroupAveragePriceIncrease}{`(${toPercent(groupAveragePrice.ratioOfGroupPurchasePrice)})`}</Text>
-                    <Image className="Today-Icon" style='width: 11px;height: 12px;' 
-                    src={groupAveragePrice &&  groupAveragePrice.ratioOfGroupPurchasePrice < 0 ? appImg.DECLINE :appImg.UP}/>
+                    <Image className="Today-Icon" style='width: 11rpx;height: 23rpx;' 
+                    src={groupAveragePrice &&  groupAveragePrice.ratioOfGroupPurchasePrice < 0 && groupAveragePrice.ratioOfGroupPurchasePrice != 0 ? appImg.DECLINE :appImg.UP}/>
                     <Text className="Today-Num">比昨日零售价</Text>
              </View>
              
@@ -252,12 +254,12 @@ class Index extends Component<IndexProps,IndexState > {
          </View>
          {/* 价格说明 */}
          <View className="Today-Desc Padding-H">
-           <Text className="Desc-Text">*该价格指数由  <Text className="Text-Num">{groupAveragePrice && groupAveragePrice.submitUserNumber ? groupAveragePrice.submitUserNumber + 100 :'--'}</Text> 位 </Text>
+           <Text className="Desc-Text" style="margin-bottom:10rpx">*该价格指数由  <Text className="Text-Num">{groupAveragePrice && groupAveragePrice.submitUserNumber ? groupAveragePrice.submitUserNumber + 100 :'--'}</Text> 位 </Text>
            <Text className="Desc-Text">茅台酒专业销售人士所提供数据统计分析而得，仅供参考。</Text>
          </View>
           {/* 昨日价格 */}
           <View className="Price-Total Padding-H">
-             <Text className="To-Price">昨日市场零售价<Text className="To-Price-Active">(贵州市场)</Text></Text>
+             <Text className="To-Price">昨日市场零售价<Text className="To-Price-Active">（贵州市场）</Text></Text>
              <View className="Price-AP-Container">
                {/* 上 */}
                <View className="Price-AP">
@@ -304,18 +306,21 @@ class Index extends Component<IndexProps,IndexState > {
          </View>
 
           <View className="Submit-Container">
+            <View className="Submit-Info">
+              <Text className="Submit-Info-Content">提交当日价格数据，可查询实时平均价</Text>
+            </View>
             <View className="Submit-Item">
               {/* 进货价 */}
               <View className="Item-Fix">
                     <Text className="top desc">进货价</Text>
-                    <Text className="bottom desc">BUYING PRICE</Text>
+                    {/* <Text className="bottom desc">BUYING PRICE</Text> */}
               </View>
               <View className="Input-Container">
               <Input
                 type="digit"
                 name="mobile"
                 maxLength={5}
-                placeholder="*请填写您知道的售价 可查询今日相关信息"
+                placeholder="*请点击填写"
                 placeholderClass="input-p"
                 value={this.state.purchasePrice }
                 // onInput={this.getMobile}
@@ -333,7 +338,7 @@ class Index extends Component<IndexProps,IndexState > {
               {/* 出货价 */}
               <View className="Item-Fix">
                     <Text className="top desc">出货价</Text>
-                    <Text className="bottom desc">SELLING PRICE</Text>
+                    {/* <Text className="bottom desc">SELLING PRICE</Text> */}
               </View>
               <View className="Input-Container">
               <Input
@@ -341,7 +346,7 @@ class Index extends Component<IndexProps,IndexState > {
                 name="mobile"
                 maxLength={5}
                 placeholderClass="input-p"
-                placeholder="*请填写您知道的售价 可查询今日相关信息"
+                placeholder="*请点击填写"
                 value={this.state.sellingPrice  }
                 // onInput={this.getMobile}
                 onChange={(e)=>{
@@ -358,14 +363,14 @@ class Index extends Component<IndexProps,IndexState > {
               {/* 团购出货价 */}
               <View className="Item-Fix">
                     <Text className="top desc">团购价</Text>
-                    <Text className="bottom desc">GROUP BUYING</Text>
+                    {/* <Text className="bottom desc">GROUP BUYING</Text> */}
               </View>
               <View className="Input-Container">
               <Input
                 type="digit"
                 name="mobile"
                 maxLength={5}
-                placeholder="*请填写您知道的售价 可查询今日相关信息"
+                placeholder="*请点击填写"
                 placeholderClass="input-p"
                 value={this.state.groupPrice  }
                 // bindinput="bindKeyInput"
@@ -394,22 +399,19 @@ class Index extends Component<IndexProps,IndexState > {
 
             {/* 曲线走势图 */}
             {
-              dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
-            <View className="detail_charts">
-          <View className="detail_chartsTitle">
-            <Image 
-              src={appImg.SEVENCHART}
-              style='width:39rpx;height:27rpx'
-            />
-            <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前15天价格曲线</Text>
-          </View>
-          {/* {
-              groupData && buyData && sellData ? */}
-          <View className="detail_chartsPanel">
+              dateY && sellData &&  buyData &&  groupData &&  sellData.length >0  && buyData.length >0 &&   groupData.length >0 ?
+        <View className="detail_chartsPanel detail_charts">
+            <View className="detail_chartsTitle">
+              <Image 
+                src={appImg.SEVENCHART}
+                style='width:39rpx;height:27rpx'
+              />
+              <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前15天价格曲线</Text>
+            </View>
             <View className="calc">
               {
                 dateY && dateY.length > 0 &&  dateY.map((e,i)=>{
-                 return <View className="calcList">
+                 return <View className="calcList" key={`-oii`+i}>
                   <Text>{e.toDay}/{e.mouth}</Text>
                   <Text>{e.week}</Text>
                   <Text>{e.weekAlias}</Text>
@@ -418,24 +420,32 @@ class Index extends Component<IndexProps,IndexState > {
               }
             </View>
             
-      
+           
             <View className="line-chart">
                 <Chart
                   option={{
                     grid:{
                       left:0,
                       right:0,
-                      top:0,
-                      bottom:0
+                      top:20,
+                      bottom:0,
+                      // left : '3%',
+                      // right : '4%',
+                      // bottom : '0%',
+                      // containLabel : true
+          
                     }
                     xAxis: {
                       type: 'category',
                       // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                      data:dateY
+                      data:dateY,
+                      show:true,
                     },
                     yAxis: {
                       type: 'value',
-                      show:true
+                      // show:true,
+                      // min : 1000,
+                      max : Math.floor(Math.max(...buyData,...sellData,...groupData)+ 1000) ,
                     },
                     
                     series: [
@@ -498,8 +508,10 @@ class Index extends Component<IndexProps,IndexState > {
                       label: {
                         normal: {
                           show: true,
-                          position: 'top',
-                          color: '#FF8A00'
+                          // position: 'top',
+                          position:'bottom',
+                          // color: '#FF8A00'
+                          color:'#fff'
                         }
                       },
                     }
@@ -507,13 +519,13 @@ class Index extends Component<IndexProps,IndexState > {
                   }}
                 />
             </View>
+          </View>
+          :
+          <View></View>
+              }
 
-          </View> 
-        </View>:
-            <View></View>
-                }
         {
-              dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
+            isRender&&   dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
         <View className="detail_chartsMark">
           <View className="detail_chartsMarkList">
             <View style="background:#3D2BA4;width:44rpx;height:5rpx;"></View>
@@ -548,7 +560,7 @@ class Index extends Component<IndexProps,IndexState > {
                 {
                   CityPrice && CityPrice.length > 0 && CityPrice.map((e,i)=>{
                       return (
-                        <View className="CK-Price-Item">
+                        <View className="CK-Price-Item" key={`jij${i}`}>
                              <View className="CK-Price-Item-T">
                                 <Text className="big">{e.city}</Text>
                                 <Text className="small">{e.alias}</Text>
@@ -556,7 +568,7 @@ class Index extends Component<IndexProps,IndexState > {
                              <View className="CK-Price-Item-B">
                                 <Text className="bigX">￥{e.price}</Text>
                                 <Text  className="small date">
-                                {serverTime.year || '--'}/{serverTime.mouth  || '--' }/{serverTime.toDay  || '--'}
+                                { serverTime ? `${serverTime.year}/${serverTime.mouth}/${serverTime.toDay} `:'--/--/--'}
                                 {/* {e.date} */}
                                 </Text>
                              </View>
@@ -569,9 +581,7 @@ class Index extends Component<IndexProps,IndexState > {
          </View>
          </ScrollView>
         </View>
-        </View>
-      
-        
+        </View>  
     )
   }
 /**
@@ -658,8 +668,11 @@ handleGetServerTime=()=>{
       }
     }).then((res)=>{
         if(res.success){
+          const time =DateFormat(res.currentTime) || undefined
+          console.log('####################################################')
+          console.log(time)
           this.setState({
-            serverTime:DateFormat(res.currentTime)
+            serverTime:time
           })
         }
     })
@@ -681,21 +694,29 @@ handleGetServerTime=()=>{
        method:'POST'
      }
    }).then((res)=>{
-     let dateArr:Array <any>= []
+     let dateArr:any = []
      if(res.success){
-       let date = res.result[0]
-       console.log(res.result[0])
+       let date = JSON.parse(JSON.stringify(res.result[0]))
+       let a = JSON.parse(JSON.stringify(res.result[1]))
+       let b = JSON.parse(JSON.stringify(res.result[2]))
+       let c = JSON.parse(JSON.stringify(res.result[3]))
+      
        date.map((e,i)=>{
          dateArr.push(DateFormat(e))
        })
+       console.log('###################################################################################')
+       console.log(a,b,c)
+       console.log(res)
        this.setState({
-        dateY:dateArr ,
-        buyData:res.result[1],
-        sellData:res.result[2] ,
-        groupData:res.result[3],
+        dateY:dateArr,
+        buyData:a,
+        sellData:b ,
+        groupData:c,
+       },()=>{
+         this.setState({
+           isRender:true
+         })
        })
-
-       console.log(this.state)
      }
 
    })
@@ -799,31 +820,31 @@ if (move_y - start_y > 0) {//下拉操作
     scrollY:false//拖动的时候禁用
   })
 }
-if (start_y - move_y > 0) {//上拉操作
-  console.log('上拉操作')
-  if (pY >= deviationY) {
-    this.setState({ dargState: -1, pullText: '释放加载更多' })
-  } else {
-    this.setState({ dargState: 0, pullText: '上拉加载更多' })
-  }
-  if (pY >= maxY) {
-    pY = maxY
-  }
-  this.setState({
-    dargStyle: {
-      top: -pY + 'px',
-    },
-    upDragStyle: {
-      height: pY + 'px'
-    },
-    scrollY: false//拖动的时候禁用
-  })
-}
+// if (start_y - move_y > 0) {//上拉操作
+//   console.log('上拉操作')
+//   if (pY >= deviationY) {
+//     this.setState({ dargState: -1, pullText: '释放加载更多' })
+//   } else {
+//     this.setState({ dargState: 0, pullText: '上拉加载更多' })
+//   }
+//   if (pY >= maxY) {
+//     pY = maxY
+//   }
+//   this.setState({
+//     dargStyle: {
+//       top: -pY + 'px',
+//     },
+//     upDragStyle: {
+//       height: pY + 'px'
+//     },
+//     scrollY: false//拖动的时候禁用
+//   })
+// }
 
   }
 }
 pull() {//上拉
-console.log('上拉')
+// console.log('上拉')
   // this.props.onPull()
 }
 down() {//下拉

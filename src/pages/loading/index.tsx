@@ -1,14 +1,9 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text,Button,Image} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-// import Api from '../../utils/request'
-import Tips from '../../utils/tips'
 import { IndexProps, IndexState } from './index.interface'
 import './index.scss'
-// import {  } from '../../components'
 import * as appImg  from '../../assets/images/index'
-import { F2Canvas } from 'taro-f2'
-import F2 from '@antv/f2'
 
 
 export interface Data {
@@ -37,10 +32,16 @@ class Loading extends Component<IndexProps,IndexState > {
   }
 
    async componentDidMount() {
-   
+    
 
     let res = await Taro.login();
-    console.log(res)
+    if(res){
+     setTimeout(()=>{
+      Taro.navigateTo({
+        url:'/pages/index/index'
+      })
+     },1000)
+    }
   }
 
 
@@ -57,11 +58,12 @@ class Loading extends Component<IndexProps,IndexState > {
     return (
       <View className='fx-index-wrap'>
            <View className="index-top">
-              <Image src={appImg.TPLOGO}/>
-              <Image src={appImg.LOADICON}/>
+              <Image className="logo" src={appImg.TPLOGO}/>
+              <Image   className="load" src={appImg.LOADICON}/>
+              <Text className="loadtxt">Loading...</Text>
            </View>
            <View  className="index-bottom">
-               <Image src={appImg.BTINFO}/>
+               <Image   className="info" src={appImg.BTINFO}/>
            </View>
       </View>
     )

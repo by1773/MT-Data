@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-21 21:04:37
+ * @LastEditTime: 2019-09-22 19:56:45
  */
 /** 
  * 共用函数
@@ -28,7 +28,8 @@ export const formatTime = time => {
 export const DateFormat = (date) =>{
   if(!date) return null
   let [ week,year,mouth,weekAlias,toDay] = ['', 0, '','',0];
-  let dates = new Date(date)
+
+  let dates = new Date(date.replace(/-/g, "/"))
   const day=dates.getDay();
   toDay = dates.getDate()
   year = dates.getFullYear() ;

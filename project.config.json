@@ -29,12 +29,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
-					"id": -1,
+					"id": 0,
 					"name": "pages/index/index",
 					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/detail/index",
+					"pathName": "pages/detail/index",
+					"query": "",
 					"scene": null
 				}
 			]

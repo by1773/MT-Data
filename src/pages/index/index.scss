@@ -9,7 +9,7 @@
 .renderRight{
   display: flex;
   flex-direction: row;
-  font-size: $FS_7;
+  font-size: $FS_RPC_18;
   .renderRight-L{
     display: flex;
     flex-direction: column;
@@ -19,6 +19,9 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    font-size: 14Pt;
+    line-height: 24Px;
+    margin-left: 1Px;
     align-items: center;
     color: $FS_12
   }
@@ -36,7 +39,7 @@
       flex-direction: column;
       // justify-content: center;
       color: $FC_DEFAULT;
-      font-size: 12pt;
+      font-size:$FS_RPC_24;
     }
     .Today-Price {
       height: 227px;
@@ -64,7 +67,7 @@
         z-index: 99;
         .Today-Num{
           color: $FC_DB;
-          font-size: $FS_16;
+          font-size: 55rpx;
         }
       }
       .Today-Bottom{
@@ -73,13 +76,13 @@
         justify-content: center;
         align-items: center;
         color: $FC_90;
-        font-size: $FS_9;
+        font-size: 29rpx;
         position: absolute;
         bottom: 0;
         z-index: 99;
         width: 100%;
         .Today-Num{
-          font-size: $FS_7;
+          font-size: 16rpx;
         }
       }
     }
@@ -92,13 +95,13 @@
        margin: 50px 0;
        .Desc-Text{
          width: 100%;
-          display: flex;
+        display: flex;
           justify-content: center;
          color: $FC_DEFAULT;
-         font-size: $FS_9;
+         font-size: $FS_RPC_20;
          .Text-Num{
            color: $FC_FF8A00;
-           font-size: $FS_12;
+           font-size: $FS_RPC_24;
            text-decoration: underline;
          }
        }
@@ -110,11 +113,11 @@
       .To-Price{
           width: 100%;
           text-align: left;
-          font-size: $FS_12;
+          font-size: $FS_RPC_24;
           color: $FC_DEFAULT;
           margin: 10px 0;
         .To-Price-Active{
-            font-size: $FS_9;
+            font-size: $FS_RPC_20;
             color: $FC_DEFAULT;
         }
       }
@@ -130,7 +133,7 @@
             display: flex;
             flex-direction: column;
             color: $FC_54;
-            font-size: $FS_7;
+            font-size: $FS_RPC_16;
             width: 70px;
             align-items: center;
             image{
@@ -151,7 +154,7 @@
               justify-content: space-between;
               align-items: center;
               color: $FC_54;
-              font-size: $FS_7;
+              font-size:$FS_RPC_16;
             }
 
             .Price-AP-R-B{
@@ -166,7 +169,7 @@
                 justify-content: flex-start;
                 text-align: left;
                 color: $FC_DEFAULT;
-                font-size: $FS_16;
+                font-size: 47rpx;
 
               }
             }
@@ -179,21 +182,36 @@
      flex-direction: column;
      margin: 10Px 0;
      padding: 0 50px;
+     border-top: 5rpx solid gray;
+    //  border-bottom: 1px solid gray;
+    .Submit-Info{
+      padding: 10Px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $FC_DEFAULT;
+      font-size: $FS_RPC_24;
+    }
      .Submit-Item{
        display: flex;
        flex-direction: row;
        .Item-Fix{
-          width: 95Px;
+         width: 95Px;
          display: flex;
-         flex-direction: column;
+        //  flex-direction: column;
+         justify-content: center;
+         align-items: center;
          .desc{
-          width: 95Px;
-          text-align: justify;
+          width: 95rpx;
+          display: flex;
+          // text-align: justify;
+          justify-content: center;
+          align-items: center;
           text-align: center;
          }
          .top{
            color: $FC_DEFAULT;
-           font-size: $FS_29
+           font-size:$FS_RPC_29
          }
          .bottom{
            color: $FC_DE;
@@ -208,8 +226,8 @@
          margin: 8px 0;
          overflow: hidden;
          input{
-           height: 38Px;
-           width: 465Px;
+           height: 58rpx;
+           width: 465rpx;
            background: #171a24;
            border-radius: 10px;
            padding: 0 10px;
@@ -217,7 +235,7 @@
          }
          .input-p{
            color: $FC_5C5B5B;
-           font-size: $FS_7
+           font-size: $FS_RPC_16
          }
        }
      }
@@ -261,7 +279,7 @@
   }
   .pricePanelTime{
     text-align: right;
-    font-size:24rpx;
+    font-size:$FS_RPC_24;
     color: #909090;
   }
   .pricePanelContainer{
@@ -362,7 +380,7 @@
   .CK-Price-Title{
     display: flex;
     text-align: left;
-    font-size: 12Px;
+    font-size: $FS_RPC_24;
     height: 34Px;
     align-items: center;
   }
@@ -383,14 +401,14 @@
         margin-right: 0Px;
       }
       .big{
-        font-size: 10Px
+        font-size: $FS_RPC_18
       }
       .bigX{
-        font-size: 12Px;
+        font-size: $FS_RPC_24;
         margin: 6Px 0;
       }
       .small{
-        font-size: 8Px
+        font-size: $FS_RPC_16
       }
       .date {
       color: $FC_90
