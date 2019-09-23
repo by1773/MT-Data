@@ -386,12 +386,6 @@ class Index extends Component<IndexProps,IndexState > {
               />
               </View>
             </View> 
-
-            {/* <Button className="button" 
-            onClick={this.handleClickToDetail}
-            >
-              提交<br/>SUBMIT
-            </Button> */}
             <View className="button" onClick={this.handleSubmit}>
               <Image  src={ this.state.isCheckPass ?appImg.SUBACTIVE:appImg.SUBNOACTIVE}/>
             </View>
@@ -403,7 +397,7 @@ class Index extends Component<IndexProps,IndexState > {
         <View className="detail_chartsPanel detail_charts">
             <View className="detail_chartsTitle">
               <Image 
-                src={appImg.SEVENCHART}
+                src={appImg.FIFTEENCHART}
                 style='width:39rpx;height:27rpx'
               />
               <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前15天价格曲线</Text>
@@ -419,8 +413,6 @@ class Index extends Component<IndexProps,IndexState > {
                 })
               }
             </View>
-            
-           
             <View className="line-chart">
                 <Chart
                   option={{
@@ -522,7 +514,7 @@ class Index extends Component<IndexProps,IndexState > {
           </View>
           :
           <View></View>
-              }
+        }
 
         {
             isRender&&   dateY && dateY.length >0 &&  buyData && buyData.length >0 &&  groupData && groupData.length >0 ?
@@ -669,8 +661,6 @@ handleGetServerTime=()=>{
     }).then((res)=>{
         if(res.success){
           const time =DateFormat(res.currentTime) || undefined
-          console.log('####################################################')
-          console.log(time)
           this.setState({
             serverTime:time
           })

@@ -503,16 +503,21 @@ export default class Detail extends Component {
 //################################################################################################################################
   // 调用绘画 => canvasStatus 置为true、同时设置config
   canvasDrawFunc = (config = this.state.rssConfig) => {
+    Taro.hideLoading();
     this.setState({
       canvasStatus: true,
       config: config,
     })
-   
+    // Taro.showLoading({
+    //   title: '绘制中...'
+    // })
+    Taro.hideLoading();
   }
 
   // 绘制成功回调函数 （必须实现）=> 接收绘制结果、重置 TaroCanvasDrawer 状态
   onCreateSuccess = (result) => {
     const { tempFilePath, errMsg } = result;
+    Taro.hideLoading();
     if (errMsg === 'canvasToTempFilePath:ok') {
       this.setState({
         shareImage: tempFilePath,
@@ -549,7 +554,7 @@ export default class Detail extends Component {
 
    // 保存图片至本地
   saveToAlbum = () => {
-    Taro.showLoading({
+     Taro.showLoading({
       title: '保存中...'
     })
     const res = Taro.saveImageToPhotosAlbum({

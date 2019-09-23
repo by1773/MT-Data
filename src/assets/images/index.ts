@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-20 11:45:15
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-21 10:15:40
+ * @LastEditTime: 2019-09-23 11:23:24
  */
 const HOST = "http://139.9.1.139:8090/images/"
 
@@ -13,6 +13,7 @@ const SUBNOACTIVE = HOST +  'activeNoActive.png'
 const DECLINE = HOST +  'decline.png'  
 const PRICE = HOST + 'price.png'  
 const SEVENCHART = HOST + 'sevenChart.png'  
+
 
 const VERTICALLINE = HOST + 'verticalLine.png'
 const HORIZONTALLINE = HOST + 'horizontalLine.png'
@@ -40,12 +41,14 @@ const TPLOGO =HOST +  'loading/tp_logo.png'
 // import LOADICON from './loading/load_icon.png'
 // import TPLOGO from './loading/tp_logo.png'
 import UP from './up.png'
+import FIFTEENCHART from  './fifteenChart.png'
 export  {
     SUBACTIVE,
     SUBNOACTIVE,
     DECLINE,
     PRICE,
     SEVENCHART,
+    FIFTEENCHART,
     VERTICALLINE,
     HORIZONTALLINE,
     PRICEBG,
