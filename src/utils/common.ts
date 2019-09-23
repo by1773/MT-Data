@@ -53,7 +53,7 @@ export const DateFormat = (date) =>{
     }
     else if (day == 3) {
       week = "星期三";
-      weekAlias='WES'
+      weekAlias='WED'
     }
     else if (day == 4) {
       week = "星期四";

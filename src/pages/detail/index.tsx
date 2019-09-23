@@ -356,8 +356,8 @@ export default class Detail extends Component {
                     },
                     yAxis: {
                       type: 'value',
-                      show:true,
-                      max : Math.floor(Math.max(...buyData,...sellData,...groupData)+ 1000) ,
+                      max : Math.floor(Math.max(...buyData,...sellData,...groupData)) ,
+                      min : Math.floor(Math.min(...buyData,...sellData,...groupData))
                     },
                     
                     series: [
@@ -406,7 +406,6 @@ export default class Detail extends Component {
                     {
                       data: groupData,
                       type: 'line',
-                      areaStyle: {},
                       itemStyle: {
                         normal: {
                           color: "#FF8A00",
@@ -512,6 +511,7 @@ export default class Detail extends Component {
 
   // 绘制成功回调函数 （必须实现）=> 接收绘制结果、重置 TaroCanvasDrawer 状态
   onCreateSuccess = (result) => {
+    Taro.hideLoading();
     const { tempFilePath, errMsg } = result;
     if (errMsg === 'canvasToTempFilePath:ok') {
       this.setState({

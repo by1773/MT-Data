@@ -184,7 +184,7 @@ class Index extends Component<IndexProps,IndexState > {
             <View className='lxy-nav-bar-search'>
               <Image 
                 src={appImg.LOGO}
-                style='width:199rpx;height:54rpx ;margin-left:12Px'
+                style='width:199rpx;height:54rpx;margin-left:12rpx'
               />
             </View>
           }
@@ -217,10 +217,10 @@ class Index extends Component<IndexProps,IndexState > {
         scrollWithAnimation
         className='container discovery withtab'
       >
-         <View className="Title-Item" style="justify-content: flex-start;">
+         <View className="Title-Item">
            <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
               <View style="flex:1;display:flex;align-items: center;justify-content: space-between" className="Padding-H">
-                  <Text>普通茅台飞天53°（500ml）</Text>
+                  <Text style="font-size:24rpx;">普通茅台飞天53°（500ml）</Text>
                   <AtIcon value='menu' size='25' color='white'></AtIcon>
               </View>
             <Image src={appImg.HORIZONTALLINE} style="height:1pt;width:100%"/>
@@ -228,11 +228,11 @@ class Index extends Component<IndexProps,IndexState > {
 
          <View className="Title-Item Padding-H">
             <Text style="flex:1;display:flex;align-items: center;">
-              <Text>
-                今日参考市场价格
-                <Text style="font-size:20rpx">（贵州地区）</Text>
+              <Text style="font-size:24rpx">
+                今日市场终端参考零售价
+                <Text style="font-size:20rpx">（贵州）</Text>
               </Text>
-              </Text>
+            </Text>
          </View>
 
          <View className="Today-Price">
@@ -240,7 +240,7 @@ class Index extends Component<IndexProps,IndexState > {
                 <Image className='img' src={appImg.PRICEBG} />
               </View>
               <View className="Today-Top">
-                  <Image className="Today-Icon" style='width: 18Px;height: 18Px;' src={appImg.PRICE}/>
+                  <Image className="Today-Icon" style='width: 20rpx;height: 19rpx;' src={appImg.PRICE}/>
                   <Text className="Today-Num">{groupAveragePrice && groupAveragePrice.todayAveragePrice ? groupAveragePrice.todayAveragePrice + 50 :'--'}</Text>
              </View>
              <View className="Today-Bottom">
@@ -249,8 +249,6 @@ class Index extends Component<IndexProps,IndexState > {
                     src={groupAveragePrice &&  groupAveragePrice.ratioOfGroupPurchasePrice < 0 && groupAveragePrice.ratioOfGroupPurchasePrice != 0 ? appImg.DECLINE :appImg.UP}/>
                     <Text className="Today-Num">比昨日零售价</Text>
              </View>
-             
-           {/* </Image> */}
          </View>
          {/* 价格说明 */}
          <View className="Today-Desc Padding-H">
@@ -259,7 +257,7 @@ class Index extends Component<IndexProps,IndexState > {
          </View>
           {/* 昨日价格 */}
           <View className="Price-Total Padding-H">
-             <Text className="To-Price">昨日市场零售价<Text className="To-Price-Active">（贵州市场）</Text></Text>
+             <Text className="To-Price">昨日市场终端参考团购价<Text className="To-Price-Active">（贵州）</Text></Text>
              <View className="Price-AP-Container">
                {/* 上 */}
                <View className="Price-AP">
@@ -392,8 +390,9 @@ class Index extends Component<IndexProps,IndexState > {
             >
               提交<br/>SUBMIT
             </Button> */}
-            <View className="button" onClick={this.handleSubmit}>
-              <Image  src={ this.state.isCheckPass ?appImg.SUBACTIVE:appImg.SUBNOACTIVE}/>
+            <View className={this.state.isCheckPass?"active button":"button"} onClick={this.handleSubmit}>
+              {/*<Image  src={ this.state.isCheckPass ?appImg.SUBACTIVE:appImg.SUBNOACTIVE}/>*/}
+              <Text>提交 SUBMIT</Text>
             </View>
           </View>
 
@@ -406,7 +405,7 @@ class Index extends Component<IndexProps,IndexState > {
                 src={appImg.SEVENCHART}
                 style='width:39rpx;height:27rpx'
               />
-              <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前15天价格曲线</Text>
+              <Text style='font-size:24rpx;color:#FEFFFF;margin-left:7rpx'>前7天价格曲线</Text>
             </View>
             <View className="calc">
               {
@@ -445,7 +444,9 @@ class Index extends Component<IndexProps,IndexState > {
                       type: 'value',
                       // show:true,
                       // min : 1000,
-                      max : Math.floor(Math.max(...buyData,...sellData,...groupData)+ 1000) ,
+                      show:false,
+                      max : Math.floor(Math.max(...buyData,...sellData,...groupData)) ,
+                      min:Math.floor(Math.min(...buyData,...sellData,...groupData))
                     },
                     
                     series: [
@@ -494,7 +495,6 @@ class Index extends Component<IndexProps,IndexState > {
                     {
                       data: groupData,
                       type: 'line',
-                      areaStyle: {},
                       itemStyle: {
                         normal: {
                           color: "#FF8A00",
