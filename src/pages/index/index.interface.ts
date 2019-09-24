@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-22 17:04:31
+ * @LastEditTime: 2019-09-23 13:54:44
  */
 /**
  * index.state 参数类型
@@ -35,6 +35,8 @@ export interface IndexState {
     scrollY:any,
     dargState:any
     isRender:boolean,
+    noMore: any,
+    hasMore: any
 }
 
 /**

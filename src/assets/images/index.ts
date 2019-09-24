@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-20 11:45:15
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-23 11:23:24
+ * @LastEditTime: 2019-09-24 10:56:38
  */
 const HOST = "http://139.9.1.139:8090/images/"
 
@@ -21,7 +21,7 @@ const PRICEBG =HOST +  'priceBg.png'
 const DOWNLOAD =HOST +  'download.png'
 const LOGO = HOST + 'logo.png'
 // 
-const BTINFO =HOST +  'loading/bt_info.png'
+// const BTINFO =HOST +  'loading/bt_info.png'
 const LOADICON =HOST +  'loading/load_icon.png'
 const TPLOGO =HOST +  'loading/tp_logo.png'
 
@@ -42,6 +42,7 @@ const TPLOGO =HOST +  'loading/tp_logo.png'
 // import TPLOGO from './loading/tp_logo.png'
 import UP from './up.png'
 import FIFTEENCHART from  './fifteenChart.png'
+import BTINFO from './info.png'
 export  {
     SUBACTIVE,
     SUBNOACTIVE,

@@ -32,15 +32,14 @@ class Loading extends Component<IndexProps,IndexState > {
   }
 
    async componentDidMount() {
-    
 
     let res = await Taro.login();
     if(res){
      setTimeout(()=>{
-      Taro.navigateTo({
+      Taro.reLaunch({
         url:'/pages/index/index'
       })
-     },1000)
+     },2000)
     }
   }
 

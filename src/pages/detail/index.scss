@@ -46,17 +46,20 @@ $FC_DB:#26DDB1;
   width: 100%;
   background: $BACKGROUNG;
   position: absolute;
+  bottom: 0;
 }
 .detail_moutai{
   height: 79rpx;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-left: 27rpx;
-  padding-right:27rpx;
-  align-items: center;
-  border-top: 1px solid gray;
-  border-bottom:1px solid gray;
+  flex-direction: column;
+  color: #fff;
+  overflow: hidden;
+  // justify-content: space-between;
+  // padding-left: 27rpx;
+  // padding-right:27rpx;
+  // align-items: center;
+  // border-top: 1px solid gray;
+  // border-bottom:1px solid gray;
 }
 .detail_moutai_price{
   padding-top: 16rpx;
@@ -126,6 +129,7 @@ $FC_DB:#26DDB1;
 .calc{
   display: flex;
   flex-direction: row;
+  // border-bottom: 1rpx solid #A0A0A0;
   border-top: 1rpx solid #A0A0A0;
   .calcList{
     display: flex;

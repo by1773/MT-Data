@@ -90,6 +90,23 @@ class Index extends Component<IndexProps, IndexState> {
                 code: res.code
               }
             })
+            // return Taro.request({
+            //   url:'',
+            //   data: { code: res.code },
+            //   success: function(res) {
+            //     if (res.statusCode == 200 && res.data.ret == 200) {
+            //       Taro.setStorage({
+            //         key: "session3rd",
+            //         data: res.data.data.session3rd
+            //       });
+            //     } else if (res.statusCode == 500) {
+            //       Taro.showToast({
+            //         title: "发生错误,请重试！",
+            //         icon: "none"
+            //       });
+            //     }
+            //   }
+            // });
           })
           .catch(err => {
             console.log(err);
@@ -99,6 +116,26 @@ class Index extends Component<IndexProps, IndexState> {
             });
           });
       });
+    // Taro.getSetting()
+    //   .then(res=>{
+    //     if(res.authSetting["scope.userInfo"]){
+    //       return true;
+    //     }else {
+    //       throw new Error('没有授权')
+    //     }
+    //   })
+    //   .then(res=>{
+    //     return Taro.getUserInfo();
+    //   })
+    //   .then(res=>{
+    //     Taro.setStorage({
+    //       key: 'userInfo',
+    //       data: res.userInfo
+    //     })
+    //   })
+    //   .catch(err=>{
+    //     console.log(err)
+    //   })
   }
 
   componentDidMount() {
@@ -106,6 +143,13 @@ class Index extends Component<IndexProps, IndexState> {
     Tips.loaded()
   }
 
+
+  tobegin = (userInfo) => {
+
+    console.log(userInfo);
+
+
+  };
   onShareAppMessage() {
     return {
       title: 'MT Data茅台经销报价工具',
@@ -113,7 +157,9 @@ class Index extends Component<IndexProps, IndexState> {
       imageUrl: 'http://mt-spirit.com/images/shareImg.jpg'
     }
   }
-
+  gotoEcharts(type) {
+    Taro.navigateTo({ url: `/pages/${type}/${type}` });
+  }
   handlerGobackClick = () => {
 
   }
@@ -382,8 +428,8 @@ class Index extends Component<IndexProps, IndexState> {
                       <Chart
                         option={{
                           grid: {
-                            left: 10,
-                            right: 10,
+                            left: 0,
+                            right: 0,
                             top: 20,
                             bottom: 0,
                             // left : '3%',
@@ -396,23 +442,15 @@ class Index extends Component<IndexProps, IndexState> {
                             type: 'category',
                             // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
                             data: dateY,
-                            splitLine:{
-                              show: true,
-                              lineStyle:{
-                                color: ['#1d2029'],
-                                width: 1,
-                                type: 'dashed'
-                            }
-                            },
+                            show: true,
                           },
                           yAxis: {
                             type: 'value',
-                            splitLine:{
-                              show: false
-                            },
+                            // show:true,
+                            // min : 1000,
                             show: true,
-                            max: Math.floor(Math.max(...buyData, ...sellData, ...groupData)+200),
-                            min: Math.floor(Math.min(...buyData, ...sellData, ...groupData)-200)
+                            max: Math.floor(Math.max(...buyData, ...sellData, ...groupData)),
+                            min: Math.floor(Math.min(...buyData, ...sellData, ...groupData))
                           },
                           dataZoom: [
                             {
@@ -475,10 +513,6 @@ class Index extends Component<IndexProps, IndexState> {
                             {
                               data: groupData,
                               type: 'line',
-                              areaStyle:{
-                                shadowColor:'#FF8A00',
-                                opacity:0.3,
-                              },
                               itemStyle: {
                                 normal: {
                                   color: "#FF8A00",

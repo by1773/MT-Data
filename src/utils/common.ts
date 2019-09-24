@@ -4,7 +4,7 @@
  * @Author: by1773
  * @Date: 2019-09-17 13:54:16
  * @LastEditors: by1773
- * @LastEditTime: 2019-09-22 19:56:45
+ * @LastEditTime: 2019-09-24 08:42:51
  */
 /** 
  * 共用函数
@@ -53,7 +53,7 @@ export const DateFormat = (date) =>{
     }
     else if (day == 3) {
       week = "星期三";
-      weekAlias='WES'
+      weekAlias='WED'
     }
     else if (day == 4) {
       week = "星期四";
@@ -69,7 +69,7 @@ export const DateFormat = (date) =>{
     }
 
     return {
-      week,year,mouth,weekAlias,toDay
+      week,year,mouth,weekAlias,toDay,fullDay:`${mouth}/${toDay}`
     }
 }
 
